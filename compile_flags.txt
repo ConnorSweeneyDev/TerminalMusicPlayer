@@ -1,2 +1,3 @@
+-Iprog/include
 -lwinmm
 -obin/MusicPlayer.exe
