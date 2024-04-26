@@ -17,6 +17,10 @@ namespace discord
             return;
         }
 
-        config_file << "[Identifiers]\nClientID=1233543047732662354\n\n[State]\nState=" << song_name << "\nDetails=" << current_song << "/" << total_songs << " | " << session_songs << " songs this session." << "\nStartTimestamp=\nEndTimestamp=\n\n[Images]\nLargeImage=\"\"\nLargeImageTooltip=\nSmallImage=\"\"\nSmallImageTooltip=";
+        std::string optional_s = "";
+        if (session_songs != 1)
+            optional_s = "s";
+
+        config_file << "[Identifiers]\nClientID=1233543047732662354\n\n[State]\nState=" << song_name << "\nDetails=" << current_song << "/" << total_songs << " | " << session_songs << " song" << optional_s << " this session." << "\nStartTimestamp=\nEndTimestamp=\n\n[Images]\nLargeImage=\"\"\nLargeImageTooltip=\nSmallImage=\"\"\nSmallImageTooltip=";
     }
 }
