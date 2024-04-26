@@ -34,6 +34,12 @@ void open_song(const std::string& path)
     }
 }
 
+void display_song_info(const std::string& song, int current_song, int random_index, int total_songs)
+{
+    std::string song_name = song.substr(0, song.length() - 4);
+    std::cout << " " << current_song << " | " << random_index + 1 << "/" << total_songs << " | " << song_name << std::endl;
+}
+
 void play_song(const std::string& path)
 {
     std::string command = "play mp3";

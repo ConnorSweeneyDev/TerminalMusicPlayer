@@ -32,9 +32,7 @@ int main()
         open_song(path);
         set_volume(volume);
         play_song(path);
-
-        std::string song_name = song.substr(0, song.length() - 4);
-        std::cout << " " << current_song << " | " << random_index + 1 << "/" << files.size() << " | " << song_name << std::endl;
+        display_song_info(song, current_song, random_index, files.size());
 
         std::string command;
         bool is_paused = false;
