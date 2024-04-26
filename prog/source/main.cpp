@@ -61,7 +61,7 @@ int main()
 {
     disable_visual_input();
 
-    std::string directory = "C:\\Users\\conno\\Documents\\Programming\\C++\\MusicPlayer\\Songs";
+    std::string directory = "C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\Songs";
     std::vector<std::string> files = get_files_in_directory(directory);
     if (files.empty())
     {
@@ -70,11 +70,11 @@ int main()
     }
 
     int volume = 100;
-    std::ifstream file_check("C:\\Users\\conno\\Documents\\Programming\\C++\\MusicPlayer\\volume.txt");
+    std::ifstream file_check("C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\volume.txt");
     bool file_exists = file_check.good();
     if (!file_exists)
     {
-        std::ofstream volume_file("C:\\Users\\conno\\Documents\\Programming\\C++\\MusicPlayer\\volume.txt");
+        std::ofstream volume_file("C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\volume.txt");
         if (!volume_file.is_open())
         {
             std::cout << "Failed to open volume file" << std::endl;
@@ -86,7 +86,7 @@ int main()
     }
     else
     {
-        std::ifstream volume_file("C:\\Users\\conno\\Documents\\Programming\\C++\\MusicPlayer\\volume.txt");
+        std::ifstream volume_file("C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\volume.txt");
         if (!volume_file.is_open())
         {
             std::cout << "Failed to open volume file" << std::endl;
@@ -179,7 +179,7 @@ int main()
                     command = "setaudio mp3 volume to " + std::to_string(volume);
                     mciSendString(command.c_str(), NULL, 0, NULL);
 
-                    std::ofstream volume_file("C:\\Users\\conno\\Documents\\Programming\\C++\\MusicPlayer\\volume.txt");
+                    std::ofstream volume_file("C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\volume.txt");
                     if (!volume_file.is_open())
                     {
                         std::cout << "Failed to open volume file" << std::endl;
@@ -199,7 +199,7 @@ int main()
                     command = "setaudio mp3 volume to " + std::to_string(volume);
                     mciSendString(command.c_str(), NULL, 0, NULL);
 
-                    std::ofstream volume_file("C:\\Users\\conno\\Documents\\Programming\\C++\\MusicPlayer\\volume.txt");
+                    std::ofstream volume_file("C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\volume.txt");
                     if (!volume_file.is_open())
                     {
                         std::cout << "Failed to open volume file" << std::endl;
