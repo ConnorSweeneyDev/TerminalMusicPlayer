@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <random>
+#include <regex>
 
 #include <windows.h>
 #include <mmsystem.h>
@@ -38,7 +39,10 @@ namespace song
 
     void display_song_info(const std::string& song, int current_song, int random_index, int total_songs)
     {
-        std::string song_name = song.substr(0, song.length() - 4);
+        std::string song_name = song;
+        if (song.find("---") != std::string::npos)
+            song_name = std::regex_replace(song_name, std::regex("---"), "|");
+        song_name = std::regex_replace(song_name, std::regex(".mp3"), "");
         std::cout << " " << current_song << " | " << random_index + 1 << "/" << total_songs << " | " << song_name << std::endl;
     }
 
