@@ -4,8 +4,13 @@ A fast and simple music player for the terminal. 'p' to pause, 'n' to go next, '
 
 ## Dependencies
 For C++:
+- PowerShell (pwsh.exe)
 - Windows
 - MinGW 64-bit
 
 For Python script:
 - Mutagen
+
+For discord integration:
+- EasyRP
+- A discord bot setup

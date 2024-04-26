@@ -11,6 +11,7 @@
 int main()
 {
     init::setup_console();
+    init::setup_discord();
 
     std::string directory = "C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\Songs";
     std::vector<std::string> files = init::initialize_song_list(directory);

@@ -22,6 +22,12 @@ namespace init
         SetConsoleMode(hStdin, mode);
     }
 
+    void setup_discord()
+    {
+        std::string command = "pwsh -Command \"wt --window 0 -d \"C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\" -p \"EasyRP\" pwsh -Command \"C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\easyrp.exe\"\"";
+        system(command.c_str());
+    }
+
     std::vector<std::string> get_files_in_directory(const std::string& directory)
     {
         std::vector<std::string> files;

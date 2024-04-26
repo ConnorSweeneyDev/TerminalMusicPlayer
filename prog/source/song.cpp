@@ -9,6 +9,7 @@
 #include <mmsystem.h>
 
 #include "song.hpp"
+#include "discord.hpp"
 
 namespace song
 {
@@ -44,6 +45,8 @@ namespace song
             song_name = std::regex_replace(song_name, std::regex("---"), "|");
         song_name = std::regex_replace(song_name, std::regex(".mp3"), "");
         std::cout << " " << current_song << " | " << random_index + 1 << "/" << total_songs << " | " << song_name << std::endl;
+
+        discord::update_presence(song_name, random_index, total_songs, current_song);
     }
 
     void play_song(const std::string& path)
