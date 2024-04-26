@@ -42,17 +42,11 @@ int main()
             {
                 char key = _getch();
                 if (key == 'p')
-                {
                     song::pause_or_play(is_paused);
-                }
                 else if (key == 'u')
-                {
                     song::increase_volume(volume);
-                }
                 else if (key == 'd')
-                {
                     song::decrease_volume(volume);
-                }
                 else if (key == 'n')
                     break;
                 else if (key == 'q')
