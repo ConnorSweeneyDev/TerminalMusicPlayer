@@ -48,7 +48,7 @@ namespace discord
         config_file << presence;
     }
 
-    void close_discord()
+    void close()
     {
         system("pwsh -Command \"Stop-Process -Name \"easyrp\" -Force\"");
     }
