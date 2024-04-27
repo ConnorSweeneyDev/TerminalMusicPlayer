@@ -39,10 +39,14 @@ int main()
         song::play(path);
         std::string length = song::display_info(song, current_song, random_index, files.size(), cwd);
 
+        int wait_time = 100;
+        int total_wait_time = 0;
         bool is_paused = false;
         std::string command;
         while (!song::ended())
         {
+            total_wait_time += wait_time;
+
             if (_kbhit())
             {
                 char key = _getch();
@@ -67,8 +71,14 @@ int main()
                 }
             }
 
-            song::display_progress(length);
-            Sleep(100);
+            int progress = song::display_progress(length);
+            if (total_wait_time == 5000)
+            {
+                discord::update_progress_status(std::to_string(progress), cwd);
+                total_wait_time = 0;
+            }
+
+            Sleep(wait_time);
         }
         song::progress_cleanup();
         song::close(path);

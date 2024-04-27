@@ -72,7 +72,7 @@ namespace song
     }
 
     int bar_width = 100;
-    void display_progress(const std::string& length)
+    int display_progress(const std::string& length)
     {
         size_t colon_pos = length.find(':');
         int minutes = std::stoi(length.substr(0, colon_pos));
@@ -92,6 +92,8 @@ namespace song
         }
         std::cout << "] " << int((double)progress / time * 100.0) << "%\r";
         std::cout.flush();
+
+        return int((double)progress / time * 100.0);
     }
 
     void progress_cleanup()

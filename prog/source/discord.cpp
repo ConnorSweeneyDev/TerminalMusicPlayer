@@ -39,7 +39,7 @@ namespace discord
 
         id_file.close();
 
-        presence = "[Identifiers]\nClientID=" + client_id + "\n\n[State]\nState=" + std::to_string(current_song) + "/" + std::to_string(total_songs) + " | " + std::to_string(session_songs) + " song" + optional_s + " this session | Playing" + "\nDetails=" + song_name + "\nStartTimestamp=\nEndTimestamp=\n\n[Images]\nLargeImage=\"\"\nLargeImageTooltip=\nSmallImage=\"\"\nSmallImageTooltip=";
+        presence = "[Identifiers]\nClientID=" + client_id + "\n\n[State]\nState=" + std::to_string(current_song) + "/" + std::to_string(total_songs) + " | " + std::to_string(session_songs) + " song" + optional_s + " this session | Playing | 0%" + "\nDetails=" + song_name + "\nStartTimestamp=\nEndTimestamp=\n\n[Images]\nLargeImage=\"\"\nLargeImageTooltip=\nSmallImage=\"\"\nSmallImageTooltip=";
 
         config_file << presence;
         config_file.close();
@@ -62,6 +62,28 @@ namespace discord
             presence = std::regex_replace(presence, std::regex("Paused"), "Playing");
 
         config_file << presence;
+        config_file.close();
+    }
+
+    void update_progress_status(const std::string& progress, const std::string& cwd)
+    {
+        std::string config_path = cwd + "\\config.ini";
+
+        std::ofstream config_file(config_path);
+        if (!config_file.is_open())
+        {
+            std::cout << "Failed to open config file" << std::endl;
+            return;
+        }
+
+        size_t percent_pos = presence.find("%");
+        size_t space_pos = presence.rfind(" ", percent_pos);
+
+        std::string old_progress = presence.substr(space_pos + 1, percent_pos - space_pos - 1);
+        presence = std::regex_replace(presence, std::regex(old_progress + "%"), progress + "%");
+
+        config_file << presence;
+        config_file.close();
     }
 
     void close()
