@@ -8,8 +8,8 @@ windows only and mp3 only, and if any of the files have any of the newest IDvX t
 windows functions. The only tags that are required on the mp3 files are `title` and `artist`, the rest are unused.
 
 To run this successfully, put a folder called `Songs` in the root of the project, then run `update_song_names` and make sure there
-are no error messages, this will rename all the files to the correct format. Then rename `config_template.ini` to `config.ini` and
-build and run the C++ code.
+are no error messages, this will rename all the files to the correct format. Then open `config_template.ini` and follow the comments.
+After that you can build and run the C++ code.
 
 ## Dependencies
 - Windows

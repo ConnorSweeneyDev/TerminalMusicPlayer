@@ -24,9 +24,25 @@ namespace discord
         if (session_songs != 1)
             optional_s = "s";
 
-        presence = "[Identifiers]\nClientID=1233543047732662354\n\n[State]\nState=" + std::to_string(current_song) + "/" + std::to_string(total_songs) + " | " + std::to_string(session_songs) + " song" + optional_s + " this session | Playing" + "\nDetails=" + song_name + "\nStartTimestamp=\nEndTimestamp=\n\n[Images]\nLargeImage=\"\"\nLargeImageTooltip=\nSmallImage=\"\"\nSmallImageTooltip=";
+        std::string client_id = "";
+        std::string id_path = cwd + "\\client_id.txt";
+        std::ifstream id_file(id_path);
+        if (!id_file.is_open())
+        {
+            std::cout << "Failed to open client ID file" << std::endl;
+            return;
+        }
+
+        std::string line;
+        std::getline(id_file, line);
+        client_id = line;
+
+        id_file.close();
+
+        presence = "[Identifiers]\nClientID=" + client_id + "\n\n[State]\nState=" + std::to_string(current_song) + "/" + std::to_string(total_songs) + " | " + std::to_string(session_songs) + " song" + optional_s + " this session | Playing" + "\nDetails=" + song_name + "\nStartTimestamp=\nEndTimestamp=\n\n[Images]\nLargeImage=\"\"\nLargeImageTooltip=\nSmallImage=\"\"\nSmallImageTooltip=";
 
         config_file << presence;
+        config_file.close();
     }
 
     void update_pause_status(const bool& is_paused, const std::string& cwd)

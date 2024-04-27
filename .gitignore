@@ -1,4 +1,5 @@
 *.exe
 Songs
+client_id.txt
 config.ini
 volume.txt
