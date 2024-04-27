@@ -16,5 +16,4 @@ After that you can build and run the C++ code.
 - PowerShell (pwsh.exe)
 - MinGW 64-bit
 - Mutagen
-- EasyRP
 - A discord bot set up on the developer portal
