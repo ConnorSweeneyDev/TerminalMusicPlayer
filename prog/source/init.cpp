@@ -127,6 +127,7 @@ namespace init
 
             std::string line;
             std::getline(volume_file, line);
+            volume_file.close();
             return std::stoi(line);
         }
     }

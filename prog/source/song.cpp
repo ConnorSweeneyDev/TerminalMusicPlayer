@@ -177,6 +177,7 @@ namespace song
         }
 
         volume_file << volume;
+        volume_file.close();
     }
 
     void decrease_volume(int& volume, const std::string& cwd)
@@ -197,6 +198,7 @@ namespace song
         }
 
         volume_file << volume;
+        volume_file.close();
     }
 
     void close(const std::string& path)
