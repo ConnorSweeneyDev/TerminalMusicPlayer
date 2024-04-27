@@ -1,4 +1,5 @@
 import os
+import math
 from mutagen.mp3 import MP3
 
 directory = "C:/Users/conno/Documents/Programming/C++/TerminalMusicPlayer/Songs"
@@ -10,6 +11,8 @@ for filename in os.listdir(directory):
         audio = MP3(file_path)
         title = audio["TIT2"][0]
         artist = audio["TPE1"][0]
+        duration = audio.info.length
+        duration = str(math.trunc(duration // 60)) + "___" + str(math.trunc(duration % 60)).zfill(2)
 
         characters = ["<", ">", ":", "\"", "/", "\\", "|", "?", "*"]
         for character in characters:
@@ -25,7 +28,7 @@ for filename in os.listdir(directory):
             if space in artist:
                 artist = artist.replace(space, " ")
 
-        new_filename = title + " --- " + artist + ".mp3"
+        new_filename = title + " --- " + artist + " --- " + duration + ".mp3"
         new_file_path = os.path.join(directory, new_filename)
         os.rename(file_path, new_file_path)
 

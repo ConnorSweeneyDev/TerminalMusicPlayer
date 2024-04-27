@@ -43,6 +43,8 @@ namespace song
         std::string song_name = song;
         if (song.find("---") != std::string::npos)
             song_name = std::regex_replace(song_name, std::regex("---"), "|");
+        if (song.find("___") != std::string::npos)
+            song_name = std::regex_replace(song_name, std::regex("___"), ":");
         song_name = std::regex_replace(song_name, std::regex(".mp3"), "");
         std::cout << " " << current_song << " | " << random_index + 1 << "/" << total_songs << " | " << song_name << std::endl;
 
