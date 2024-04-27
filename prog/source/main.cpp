@@ -7,6 +7,7 @@
 
 #include "init.hpp"
 #include "song.hpp"
+#include "discord.hpp"
 
 int main()
 {
@@ -16,7 +17,10 @@ int main()
     std::string directory = "C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\Songs";
     std::vector<std::string> files = init::initialize_song_list(directory);
     if (files.empty())
+    {
+        discord::close_discord();
         return 1;
+    }
 
     int volume = init::initialize_volume();
 
@@ -52,6 +56,7 @@ int main()
                 else if (key == 'q')
                 {
                     song::close_song(path);
+                    discord::close_discord();
                     return 0;
                 }
             }
@@ -59,5 +64,6 @@ int main()
         }
         song::close_song(path);
     }
+    discord::close_discord();
     return 0;
 }

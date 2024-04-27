@@ -1,9 +1,11 @@
 #include <iostream>
 #include <fstream>
+#include <processthreadsapi.h>
 #include <string>
 #include <vector>
 
 #include <windows.h>
+#include <tchar.h>
 #include <mmsystem.h>
 #include <conio.h>
 
@@ -24,8 +26,19 @@ namespace init
 
     void setup_discord()
     {
-        std::string command = "pwsh -Command \"wt --window 0 -d \"C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\" -p \"EasyRP\" pwsh -Command \"C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\easyrp.exe\"\"";
-        system(command.c_str());
+        STARTUPINFO si;
+        PROCESS_INFORMATION pi;
+
+        ZeroMemory(&si, sizeof(si));
+        si.cb = sizeof(si);
+        ZeroMemory(&pi, sizeof(pi));
+
+        TCHAR cmdLine[] = _T("pwsh -ExecutionPolicy Bypass -Command Start-Process -d \"C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\" -FilePath \"C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\easyrp.exe\" -Confirm:$false -WindowStyle Hidden");
+        if (!CreateProcess(NULL, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
+        {
+            printf("CreateProcess failed (%d).\n", GetLastError());
+            exit(1);
+        }
     }
 
     std::vector<std::string> get_files_in_directory(const std::string& directory)
