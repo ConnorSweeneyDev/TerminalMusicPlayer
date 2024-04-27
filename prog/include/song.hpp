@@ -11,7 +11,7 @@ namespace song
     void open(const std::string& path);
     std::string display_info(const std::string& song, int current_song, int random_index, int total_songs, const std::string& cwd);
     DWORD get_progress();
-    int display_progress(const std::string& length);
+    int display_status_bar(const std::string& length, int volume);
     void progress_cleanup();
     void play(const std::string& path);
     void pause_or_play(bool& is_paused, const std::string& cwd);

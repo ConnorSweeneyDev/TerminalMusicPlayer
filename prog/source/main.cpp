@@ -71,7 +71,7 @@ int main()
                 }
             }
 
-            int progress = song::display_progress(length);
+            int progress = song::display_status_bar(length, volume);
             if (total_wait_time == 5000)
             {
                 discord::update_progress_status(std::to_string(progress), cwd);
