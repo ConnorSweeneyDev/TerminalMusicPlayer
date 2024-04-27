@@ -34,8 +34,8 @@ int main()
         song::play_song(path);
         song::display_song_info(song, current_song, random_index, files.size());
 
-        std::string command;
         bool is_paused = false;
+        std::string command;
         while (!song::song_ended())
         {
             if (_kbhit())

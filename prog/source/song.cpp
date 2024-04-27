@@ -81,6 +81,8 @@ namespace song
             std::cout << "Error pausing or resuming: " << error_message << std::endl;
             exit(1);
         }
+
+        discord::update_pause_status(is_paused);
     }
 
     void set_volume(int volume)
