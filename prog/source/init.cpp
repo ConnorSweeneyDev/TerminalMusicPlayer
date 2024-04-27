@@ -2,18 +2,18 @@
 #include <fstream>
 #include <processthreadsapi.h>
 #include <string>
-#include <vector>
 
 #include <windows.h>
 #include <tchar.h>
 #include <mmsystem.h>
 #include <conio.h>
+#include <direct.h>
 
 #include "init.hpp"
 
 namespace init
 {
-    void setup_console()
+    std::string setup_console()
     {
         system("cls");
 
@@ -22,9 +22,17 @@ namespace init
         GetConsoleMode(hStdin, &mode);
         mode &= ~ENABLE_LINE_INPUT;
         SetConsoleMode(hStdin, mode);
+
+        char cwd[FILENAME_MAX];
+        if (_getcwd(cwd, sizeof(cwd)) == NULL) {
+            std::cerr << "Error getting current working directory" << std::endl;
+            exit(1);
+        }
+
+        return std::string(cwd);
     }
 
-    void setup_discord()
+    void setup_discord(const std::string& cwd)
     {
         STARTUPINFO si;
         PROCESS_INFORMATION pi;
@@ -33,8 +41,16 @@ namespace init
         si.cb = sizeof(si);
         ZeroMemory(&pi, sizeof(pi));
 
-        TCHAR cmdLine[] = _T("pwsh -ExecutionPolicy Bypass -Command Start-Process -d \"C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\" -FilePath \"C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\easyrp.exe\" -Confirm:$false -WindowStyle Hidden");
-        if (!CreateProcess(NULL, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
+        std::string cmd_line = "pwsh -ExecutionPolicy Bypass -Command Start-Process -d \"" + cwd + "\" -FilePath \"" + cwd + "\\easyrp.exe\" -Confirm:$false -WindowStyle Hidden";
+
+        TCHAR cmd_line_tchar[MAX_PATH];
+        #ifdef UNICODE
+            _tcscpy_s(cmd_line_tchar, cmd_line.c_str());
+        #else
+            strcpy_s(cmd_line_tchar, cmd_line.c_str());
+        #endif
+
+        if (!CreateProcess(NULL, cmd_line_tchar, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
         {
             printf("CreateProcess failed (%d).\n", GetLastError());
             exit(1);
@@ -76,13 +92,13 @@ namespace init
         return files;
     }
 
-    int initialize_volume()
+    int initialize_volume(const std::string& cwd)
     {
-        std::ifstream file_check("C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\volume.txt");
+        std::ifstream file_check(cwd + "\\volume.txt");
         bool file_exists = file_check.good();
         if (!file_exists)
         {
-            std::ofstream volume_file("C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\volume.txt");
+            std::ofstream volume_file(cwd + "\\volume.txt");
             if (!volume_file.is_open())
             {
                 std::cout << "Failed to open volume file" << std::endl;
@@ -95,7 +111,7 @@ namespace init
         }
         else
         {
-            std::ifstream volume_file("C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\volume.txt");
+            std::ifstream volume_file(cwd + "\\volume.txt");
             if (!volume_file.is_open())
             {
                 std::cout << "Failed to open volume file" << std::endl;

@@ -11,10 +11,10 @@
 
 int main()
 {
-    init::setup_console();
-    init::setup_discord();
+    std::string cwd = init::setup_console();
+    init::setup_discord(cwd);
 
-    std::string directory = "C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\Songs";
+    std::string directory = cwd + "\\Songs";
     std::vector<std::string> files = init::initialize_song_list(directory);
     if (files.empty())
     {
@@ -22,7 +22,7 @@ int main()
         return 1;
     }
 
-    int volume = init::initialize_volume();
+    int volume = init::initialize_volume(cwd);
 
     int current_song = 0;
     while (true)
@@ -36,7 +36,7 @@ int main()
         song::open_song(path);
         song::set_volume(volume);
         song::play_song(path);
-        song::display_song_info(song, current_song, random_index, files.size());
+        song::display_song_info(song, current_song, random_index, files.size(), cwd);
 
         bool is_paused = false;
         std::string command;
@@ -46,11 +46,11 @@ int main()
             {
                 char key = _getch();
                 if (key == 'p')
-                    song::pause_or_play(is_paused);
+                    song::pause_or_play(is_paused, cwd);
                 else if (key == 'u')
-                    song::increase_volume(volume);
+                    song::increase_volume(volume, cwd);
                 else if (key == 'd')
-                    song::decrease_volume(volume);
+                    song::decrease_volume(volume, cwd);
                 else if (key == 'n')
                     break;
                 else if (key == 'q')

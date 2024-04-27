@@ -9,9 +9,9 @@ namespace discord
 {
     std::string presence;
 
-    void update_presence(const std::string& song_name, const int& current_song, const int& total_songs, const int& session_songs)
+    void update_presence(const std::string& song_name, const int& current_song, const int& total_songs, const int& session_songs, const std::string& cwd)
     {
-        std::string config_path = "C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\config.ini";
+        std::string config_path = cwd + "\\config.ini";
 
         std::ofstream config_file(config_path);
         if (!config_file.is_open())
@@ -29,9 +29,9 @@ namespace discord
         config_file << presence;
     }
 
-    void update_pause_status(const bool& is_paused)
+    void update_pause_status(const bool& is_paused, const std::string& cwd)
     {
-        std::string config_path = "C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\config.ini";
+        std::string config_path = cwd + "\\config.ini";
 
         std::ofstream config_file(config_path);
         if (!config_file.is_open())

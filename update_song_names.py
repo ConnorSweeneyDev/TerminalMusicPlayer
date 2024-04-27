@@ -2,7 +2,7 @@ import os
 import math
 from mutagen.mp3 import MP3
 
-directory = "C:/Users/conno/Documents/Programming/C++/TerminalMusicPlayer/Songs"
+directory = "Songs"
 
 for filename in os.listdir(directory):
     file_path = os.path.join(directory, filename)

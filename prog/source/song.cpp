@@ -38,7 +38,7 @@ namespace song
         }
     }
 
-    void display_song_info(const std::string& song, int current_song, int random_index, int total_songs)
+    void display_song_info(const std::string& song, int current_song, int random_index, int total_songs, const std::string& cwd)
     {
         std::string song_name = song;
         if (song.find("---") != std::string::npos)
@@ -48,7 +48,7 @@ namespace song
         song_name = std::regex_replace(song_name, std::regex(".mp3"), "");
         std::cout << " " << current_song << " | " << random_index + 1 << "/" << total_songs << " | " << song_name << std::endl;
 
-        discord::update_presence(song_name, random_index, total_songs, current_song);
+        discord::update_presence(song_name, random_index, total_songs, current_song, cwd);
     }
 
     void play_song(const std::string& path)
@@ -66,7 +66,7 @@ namespace song
         }
     }
 
-    void pause_or_play(bool& is_paused)
+    void pause_or_play(bool& is_paused, const std::string& cwd)
     {
         std::string command;
         if (is_paused)
@@ -84,7 +84,7 @@ namespace song
             exit(1);
         }
 
-        discord::update_pause_status(is_paused);
+        discord::update_pause_status(is_paused, cwd);
     }
 
     void set_volume(int volume)
@@ -102,7 +102,7 @@ namespace song
         }
     }
 
-    void increase_volume(int& volume)
+    void increase_volume(int& volume, const std::string& cwd)
     {
         volume += 50;
         if (volume > 1000)
@@ -112,7 +112,7 @@ namespace song
 
         set_volume(volume);
 
-        std::ofstream volume_file("C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\volume.txt");
+        std::ofstream volume_file(cwd + "\\volume.txt");
         if (!volume_file.is_open())
         {
             std::cout << "Failed to open volume file" << std::endl;
@@ -122,7 +122,7 @@ namespace song
         volume_file << volume;
     }
 
-    void decrease_volume(int& volume)
+    void decrease_volume(int& volume, const std::string& cwd)
     {
         volume -= 50;
         if (volume > 1000)
@@ -132,7 +132,7 @@ namespace song
 
         set_volume(volume);
 
-        std::ofstream volume_file("C:\\Users\\conno\\Documents\\Programming\\C++\\TerminalMusicPlayer\\volume.txt");
+        std::ofstream volume_file(cwd + "\\volume.txt");
         if (!volume_file.is_open())
         {
             std::cout << "Failed to open volume file" << std::endl;
