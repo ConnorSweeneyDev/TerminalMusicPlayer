@@ -21,6 +21,13 @@ for filename in os.listdir(directory):
             if character in artist:
                 artist = artist.replace(character, "")
 
+        unsupported_quotes = ["‘", "’", "“", "”"]
+        for quote in unsupported_quotes:
+            if quote in title:
+                title = title.replace(quote, "'")
+            if quote in artist:
+                artist = artist.replace(quote, "'")
+
         spaces = ["  ", "   ", "    "]
         for space in spaces:
             if space in title:
