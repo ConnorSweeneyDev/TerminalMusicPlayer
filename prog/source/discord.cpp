@@ -24,7 +24,7 @@ namespace discord
         if (session_songs != 1)
             optional_s = "s";
 
-        presence = "[Identifiers]\nClientID=1233543047732662354\n\n[State]\nState=" + song_name + "\nDetails=" + std::to_string(current_song) + "/" + std::to_string(total_songs) + " | " + std::to_string(session_songs) + " song" + optional_s + " this session. | Playing." + "\nStartTimestamp=\nEndTimestamp=\n\n[Images]\nLargeImage=\"\"\nLargeImageTooltip=\nSmallImage=\"\"\nSmallImageTooltip=";
+        presence = "[Identifiers]\nClientID=1233543047732662354\n\n[State]\nState=" + std::to_string(current_song) + "/" + std::to_string(total_songs) + " | " + std::to_string(session_songs) + " song" + optional_s + " this session | Playing" + "\nDetails=" + song_name + "\nStartTimestamp=\nEndTimestamp=\n\n[Images]\nLargeImage=\"\"\nLargeImageTooltip=\nSmallImage=\"\"\nSmallImageTooltip=";
 
         config_file << presence;
     }

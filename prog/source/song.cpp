@@ -13,7 +13,7 @@
 
 namespace song
 {
-    std::string generate_song(const std::vector<std::string>& files, int& random_index)
+    std::string generate(const std::vector<std::string>& files, int& random_index)
     {
         std::random_device rd;
         std::mt19937 gen(rd());
@@ -23,7 +23,7 @@ namespace song
         return files[random_index];
     }
 
-    void open_song(const std::string& path)
+    void open(const std::string& path)
     {
         std::string command = "open " + path + " type mpegvideo alias mp3";
         MCIERROR error = mciSendString(command.c_str(), NULL, 0, NULL);
@@ -38,7 +38,7 @@ namespace song
         }
     }
 
-    void display_song_info(const std::string& song, int current_song, int random_index, int total_songs, const std::string& cwd)
+    std::string display_info(const std::string& song, int current_song, int random_index, int total_songs, const std::string& cwd)
     {
         std::string song_name = song;
         if (song.find("---") != std::string::npos)
@@ -49,9 +49,61 @@ namespace song
         std::cout << " " << current_song << " | " << random_index + 1 << "/" << total_songs << " | " << song_name << std::endl;
 
         discord::update_presence(song_name, random_index, total_songs, current_song, cwd);
+
+        std::string length;
+        auto it = std::find(song_name.rbegin(), song_name.rend(), ' ');
+        if (it != song_name.rend())
+        {
+            ++it;
+            std::string result(it.base(), song_name.end());
+            length = result;
+        }
+
+        return length;
     }
 
-    void play_song(const std::string& path)
+    DWORD get_progress()
+    {
+        MCI_STATUS_PARMS status;
+        status.dwItem = MCI_STATUS_POSITION;
+
+        mciSendCommand(mciGetDeviceID("mp3"), MCI_STATUS, MCI_WAIT | MCI_STATUS_ITEM, reinterpret_cast<DWORD_PTR>(&status));
+        return status.dwReturn;
+    }
+
+    int bar_width = 100;
+    void display_progress(const std::string& length)
+    {
+        size_t colon_pos = length.find(':');
+        int minutes = std::stoi(length.substr(0, colon_pos));
+        int seconds = std::stoi(length.substr(colon_pos + 1));
+        int time = minutes * 60 + seconds;
+
+        DWORD progress = song::get_progress();
+        progress = progress / 1000;
+
+        int pos = (double)progress / time * bar_width;
+        std::cout << "\r [";
+        for (int i = 0; i < bar_width; ++i)
+        {
+            if (i < pos) std::cout << "=";
+            else if (i == pos) std::cout << ">";
+            else std::cout << ".";
+        }
+        std::cout << "] " << int((double)progress / time * 100.0) << "%\r";
+        std::cout.flush();
+    }
+
+    void progress_cleanup()
+    {
+        std::cout << "\r";
+        for (int i = 0; i < bar_width + 10; ++i)
+            std::cout << " ";
+        std::cout << "\r";
+        std::cout.flush();
+    }
+
+    void play(const std::string& path)
     {
         std::string command = "play mp3";
         MCIERROR error = mciSendString(command.c_str(), NULL, 0, NULL);
@@ -68,6 +120,11 @@ namespace song
 
     void pause_or_play(bool& is_paused, const std::string& cwd)
     {
+        if (is_paused)
+            system("color 09");
+        else
+            system("color 04");
+
         std::string command;
         if (is_paused)
             command = "play mp3";
@@ -142,7 +199,7 @@ namespace song
         volume_file << volume;
     }
 
-    void close_song(const std::string& path)
+    void close(const std::string& path)
     {
         std::string command = "close mp3";
         MCIERROR error = mciSendString(command.c_str(), NULL, 0, NULL);
@@ -155,7 +212,7 @@ namespace song
         }
     }
 
-    bool song_ended()
+    bool ended()
     {
         MCI_STATUS_PARMS status;
         status.dwItem = MCI_STATUS_MODE;

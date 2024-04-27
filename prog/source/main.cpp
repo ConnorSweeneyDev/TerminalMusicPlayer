@@ -11,18 +11,19 @@
 
 int main()
 {
-    std::string cwd = init::setup_console();
-    init::setup_discord(cwd);
+    std::string cwd = init::console();
+    init::discord(cwd);
 
     std::string directory = cwd + "\\Songs";
-    std::vector<std::string> files = init::initialize_song_list(directory);
+    std::vector<std::string> files = init::song_list(directory);
     if (files.empty())
     {
         discord::close();
+        system("color 07");
         return 1;
     }
 
-    int volume = init::initialize_volume(cwd);
+    int volume = init::volume(cwd);
 
     int current_song = 0;
     while (true)
@@ -30,17 +31,17 @@ int main()
         current_song++;
 
         int random_index;
-        std::string song = song::generate_song(files, random_index);
+        std::string song = song::generate(files, random_index);
         std::string path = "\"" + directory + "\\" + song + "\"";
 
-        song::open_song(path);
+        song::open(path);
         song::set_volume(volume);
-        song::play_song(path);
-        song::display_song_info(song, current_song, random_index, files.size(), cwd);
+        song::play(path);
+        std::string length = song::display_info(song, current_song, random_index, files.size(), cwd);
 
         bool is_paused = false;
         std::string command;
-        while (!song::song_ended())
+        while (!song::ended())
         {
             if (_kbhit())
             {
@@ -52,18 +53,27 @@ int main()
                 else if (key == 'd')
                     song::decrease_volume(volume, cwd);
                 else if (key == 'n')
+                {
+                    if (is_paused) song::pause_or_play(is_paused, cwd);
                     break;
+                }
                 else if (key == 'q')
                 {
-                    song::close_song(path);
+                    song::close(path);
                     discord::close();
+                    song::progress_cleanup();
+                    system("color 07");
                     return 0;
                 }
             }
+
+            song::display_progress(length);
             Sleep(100);
         }
-        song::close_song(path);
+        song::progress_cleanup();
+        song::close(path);
     }
     discord::close();
+    system("color 07");
     return 0;
 }

@@ -13,9 +13,16 @@
 
 namespace init
 {
-    std::string setup_console()
+    std::string console()
     {
         system("cls");
+        system("color 09");
+
+        HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
+        CONSOLE_CURSOR_INFO cursorInfo;
+        GetConsoleCursorInfo(out, &cursorInfo);
+        cursorInfo.bVisible = false;
+        SetConsoleCursorInfo(out, &cursorInfo);
 
         HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
         DWORD mode;
@@ -32,7 +39,7 @@ namespace init
         return std::string(cwd);
     }
 
-    void setup_discord(const std::string& cwd)
+    void discord(const std::string& cwd)
     {
         STARTUPINFO si;
         PROCESS_INFORMATION pi;
@@ -80,7 +87,7 @@ namespace init
         return files;
     }
 
-    std::vector<std::string> initialize_song_list(const std::string& directory)
+    std::vector<std::string> song_list(const std::string& directory)
     {
         std::vector<std::string> files = get_files_in_directory(directory);
         if (files.empty())
@@ -92,7 +99,7 @@ namespace init
         return files;
     }
 
-    int initialize_volume(const std::string& cwd)
+    int volume(const std::string& cwd)
     {
         std::ifstream file_check(cwd + "\\volume.txt");
         bool file_exists = file_check.good();
