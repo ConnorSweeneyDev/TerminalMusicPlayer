@@ -59,7 +59,7 @@ namespace init
 
         if (!CreateProcess(NULL, cmd_line_tchar, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
         {
-            printf("CreateProcess failed (%d).\n", GetLastError());
+            std::cout << "CreateProcess failed: " << GetLastError() << ".\n";
             exit(1);
         }
     }
