@@ -1,4 +1,4 @@
 @ECHO OFF
 
 IF NOT EXIST bin ( MKDIR bin)
-start pwsh -NoExit -Command "g++ prog/source/*.cpp -Iprog/include -lwinmm -o bin/TerminalMusicPlayer.exe"
+start pwsh -NoExit -Command "g++ -g -Wall -Wextra -Wpedantic -Iprog/include prog/source/*.cpp -lwinmm -o bin/TerminalMusicPlayer.exe"
