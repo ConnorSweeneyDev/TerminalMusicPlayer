@@ -14,19 +14,44 @@ for filename in os.listdir(directory):
         duration = audio.info.length
         duration = str(math.trunc(duration // 60)) + "___" + str(math.trunc(duration % 60)).zfill(2)
 
-        characters = ["<", ">", ":", "\"", "/", "\\", "|", "?", "*"]
+        characters = ["<", ">", ":", "/", "\\", "|", "?", "*"]
         for character in characters:
             if character in title:
                 title = title.replace(character, "")
             if character in artist:
                 artist = artist.replace(character, "")
 
-        unsupported_quotes = ["‘", "’", "“", "”"]
+        unsupported_quotes = ["‘", "’", "“", "”", "\""]
         for quote in unsupported_quotes:
             if quote in title:
                 title = title.replace(quote, "'")
             if quote in artist:
                 artist = artist.replace(quote, "'")
+
+        if "á" in title:
+            title = title.replace("á", "a")
+        if "á" in artist:
+            artist = artist.replace("á", "a")
+        if "é" in title:
+            title = title.replace("é", "e")
+        if "é" in artist:
+            artist = artist.replace("é", "e")
+        if "í" in title:
+            title = title.replace("í", "i")
+        if "í" in artist:
+            artist = artist.replace("í", "i")
+        if "ó" in title:
+            title = title.replace("ó", "o")
+        if "ó" in artist:
+            artist = artist.replace("ó", "o")
+        if "ú" in title:
+            title = title.replace("ú", "u")
+        if "ú" in artist:
+            artist = artist.replace("ú", "u")
+        if "ñ" in title:
+            title = title.replace("ñ", "n")
+        if "ñ" in artist:
+            artist = artist.replace("ñ", "n")
 
         spaces = ["  ", "   ", "    "]
         for space in spaces:
