@@ -4,7 +4,7 @@ A fast and simple music player for the terminal. 'p' to pause, 'n' to go next, '
 Also has discord integration, showing information about the song being played, the current session and the status of the player.
 
 ![image](https://github.com/ConnorSweeneyDev/TerminalMusicPlayer/assets/75945279/b1cc768b-5376-4db1-8f00-8752c50f053e)
-*Showcase: song history, progress bar, volume indicator, blue signifies unpaused, red signifies paused*
+*Showcase: song history, progress bar, volume indicator, blue signifies unpaused, red signifies paused.*
 
 I made this because it was annoying to have to use a mouse to control my music, however this does have some limitations - it is
 windows only and mp3 only, and if any of the files have any of the newest IDvX tags the program will crash due to using some old 
