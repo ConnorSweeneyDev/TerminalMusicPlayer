@@ -67,6 +67,7 @@ int main()
                     discord::close();
                     song::progress_cleanup();
                     system("color 07");
+                    system("cls");
                     return 0;
                 }
             }
@@ -85,5 +86,6 @@ int main()
     }
     discord::close();
     system("color 07");
+    system("cls");
     return 0;
 }
