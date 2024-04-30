@@ -20,6 +20,7 @@ int main()
     {
         discord::close();
         system("color 07");
+        init::cursor_visible(true);
         return 1;
     }
 
@@ -68,6 +69,7 @@ int main()
                     song::progress_cleanup();
                     system("color 07");
                     system("cls");
+                    init::cursor_visible(true);
                     return 0;
                 }
             }
@@ -84,8 +86,6 @@ int main()
         song::progress_cleanup();
         song::close(path);
     }
-    discord::close();
-    system("color 07");
-    system("cls");
+
     return 0;
 }

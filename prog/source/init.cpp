@@ -13,16 +13,21 @@
 
 namespace init
 {
+    void cursor_visible(bool is_visible)
+    {
+        HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
+        CONSOLE_CURSOR_INFO cursor_info;
+        GetConsoleCursorInfo(out, &cursor_info);
+        cursor_info.bVisible = is_visible;
+        SetConsoleCursorInfo(out, &cursor_info);
+    }
+
     std::string console()
     {
         system("cls");
         system("color 09");
 
-        HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
-        CONSOLE_CURSOR_INFO cursorInfo;
-        GetConsoleCursorInfo(out, &cursorInfo);
-        cursorInfo.bVisible = false;
-        SetConsoleCursorInfo(out, &cursorInfo);
+        cursor_visible(false);
 
         HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
         DWORD mode;

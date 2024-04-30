@@ -5,6 +5,7 @@
 
 namespace init
 {
+    void cursor_visible(bool is_visible);
     std::string console();
     void discord(const std::string& cwd);
     std::vector<std::string> get_files_in_directory(const std::string& directory);
