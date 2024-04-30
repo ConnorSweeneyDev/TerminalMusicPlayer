@@ -48,7 +48,7 @@ namespace song
         song_name = std::regex_replace(song_name, std::regex(".mp3"), "");
         std::cout << " " << current_song << " | " << random_index + 1 << "/" << total_songs << " | " << song_name << std::endl;
 
-        discord::update_presence(song_name, random_index, total_songs, current_song, cwd);
+        discord::update_presence(song_name, current_song, cwd);
 
         std::string length;
         auto it = std::find(song_name.rbegin(), song_name.rend(), ' ');

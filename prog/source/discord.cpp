@@ -9,7 +9,7 @@ namespace discord
 {
     std::string presence;
 
-    void update_presence(const std::string& song_name, const int& current_song, const int& total_songs, const int& session_songs, const std::string& cwd)
+    void update_presence(const std::string& song_name, const int& session_songs, const std::string& cwd)
     {
         std::string config_path = cwd + "\\config.ini";
 
@@ -39,7 +39,7 @@ namespace discord
 
         id_file.close();
 
-        presence = "[Identifiers]\nClientID=" + client_id + "\n\n[State]\nState=" + std::to_string(current_song) + "/" + std::to_string(total_songs) + " | " + std::to_string(session_songs) + " song" + optional_s + " this session | Playing | 0%" + "\nDetails=" + song_name + "\nStartTimestamp=\nEndTimestamp=\n\n[Images]\nLargeImage=\"\"\nLargeImageTooltip=\nSmallImage=\"\"\nSmallImageTooltip=";
+        presence = "[Identifiers]\nClientID=" + client_id + "\n\n[State]\nState=" + std::to_string(session_songs) + " song" + optional_s + " this session | Playing | 0%" + "\nDetails=" + song_name + "\nStartTimestamp=\nEndTimestamp=\n\n[Images]\nLargeImage=\"\"\nLargeImageTooltip=\nSmallImage=\"\"\nSmallImageTooltip=";
 
         config_file << presence;
         config_file.close();
