@@ -1,4 +1,4 @@
 @ECHO OFF
 
-IF NOT EXIST bin ( MKDIR bin)
-start pwsh -NoExit -Command "g++ -s -O3 -std=c++20 -DNDEBUG -Iprog/include prog/source/*.cpp -lwinmm -o bin/TerminalMusicPlayer.exe"
+IF NOT EXIST binary ( MKDIR binary)
+start pwsh -NoExit -Command "g++ -s -O3 -std=c++20 -DNDEBUG -Iprogram/include program/source/*.cpp -lwinmm -o binary/TerminalMusicPlayer.exe"

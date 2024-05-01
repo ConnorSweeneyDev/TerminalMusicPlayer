@@ -1,3 +1,3 @@
 @ECHO OFF
 
-start pwsh -Command "gdb bin/TerminalMusicPlayer.exe"
+start pwsh -Command "gdb binary/TerminalMusicPlayer.exe"
