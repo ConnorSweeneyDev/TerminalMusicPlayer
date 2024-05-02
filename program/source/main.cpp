@@ -40,8 +40,11 @@ int main()
         song::play(path);
         std::string length = song::display_info(song, current_song, random_index, files.size(), cwd);
 
+        CONSOLE_SCREEN_BUFFER_INFO csbi;
         int wait_time = 100;
         int total_wait_time = 0;
+        int bar_width = 0;
+        int bar_height = 0;
         bool is_paused = false;
         std::string command;
         while (!song::ended())
@@ -66,7 +69,7 @@ int main()
                 {
                     song::close(path);
                     discord::close();
-                    song::progress_cleanup();
+                    song::progress_cleanup(bar_width, bar_height, current_song);
                     system("color 07");
                     system("cls");
                     init::cursor_visible(true);
@@ -74,7 +77,13 @@ int main()
                 }
             }
 
-            int progress = song::display_status_bar(length, volume);
+            if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi))
+            {
+                bar_width = csbi.srWindow.Right - csbi.srWindow.Left - 19;
+                bar_height = csbi.srWindow.Bottom - csbi.srWindow.Top - 1;
+            }
+
+            int progress = song::display_status_bar(length, volume, bar_width, bar_height, current_song);
             if (total_wait_time == 5000)
             {
                 discord::update_progress_status(std::to_string(progress), cwd);
@@ -83,7 +92,7 @@ int main()
 
             Sleep(wait_time);
         }
-        song::progress_cleanup();
+        song::progress_cleanup(bar_width, bar_height, current_song);
         song::close(path);
     }
 

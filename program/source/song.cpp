@@ -71,9 +71,10 @@ namespace song
         return status.dwReturn;
     }
 
-    int bar_width = 100;
-    int display_status_bar(const std::string& length, int volume)
+    int display_status_bar(const std::string& length, int volume, int bar_width, int bar_height, int current_song)
     {
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0, static_cast<short>(current_song) });
+
         size_t colon_pos = length.find(':');
         int minutes = std::stoi(length.substr(0, colon_pos));
         int seconds = std::stoi(length.substr(colon_pos + 1));
@@ -98,8 +99,12 @@ namespace song
         else if (volume_percent < 100 && volume_percent >= 10) volume_blank_space = " ";
         else volume_blank_space = "";
 
+        std::string new_lines;
+        for (int i = 0; i < bar_height - current_song + 1; ++i)
+            new_lines += "\n";
+
         int pos = (double)progress / time * bar_width;
-        std::cout << "\r [";
+        std::cout << "\r" + new_lines + " [";
         for (int i = 0; i < bar_width; ++i)
         {
             if (i < pos) std::cout << "=";
@@ -112,8 +117,10 @@ namespace song
         return progress_percent;
     }
 
-    void progress_cleanup()
+    void progress_cleanup(int bar_width, int bar_height, int current_song)
     {
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0, static_cast<short>(current_song) });
+
         std::cout << "\r";
         for (int i = 0; i < bar_width + 20; ++i)
             std::cout << " ";
