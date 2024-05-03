@@ -186,7 +186,7 @@ namespace song
 
     void increase_volume(int& volume, const std::string& cwd)
     {
-        volume += 50;
+        volume += 20;
         if (volume > 1000)
             volume = 1000;
         else if (volume < 0)
@@ -207,7 +207,7 @@ namespace song
 
     void decrease_volume(int& volume, const std::string& cwd)
     {
-        volume -= 50;
+        volume -= 20;
         if (volume > 1000)
             volume = 1000;
         else if (volume < 0)
