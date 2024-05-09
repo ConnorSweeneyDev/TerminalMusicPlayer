@@ -83,25 +83,27 @@ namespace song
         DWORD progress = song::get_progress();
         progress = progress / 1000;
         int progress_percent = int((double)progress / time * 100.0);
-
-        std::string progress_blank_space;
-        if (progress_percent < 10) progress_blank_space = "     ";
-        else if (progress_percent < 100 && progress_percent >= 10) progress_blank_space = "    ";
-        else progress_blank_space = "   ";
+        std::string progress_percent_blank_space;
+        if (progress_percent < 10) progress_percent_blank_space = "     ";
+        else if (progress_percent < 100 && progress_percent >= 10) progress_percent_blank_space = "    ";
+        else progress_percent_blank_space = "   ";
 
         int volume_percent;
         if (volume == 0) volume_percent = 0;
         else if (volume == 50) volume_percent = 5;
         else volume_percent = volume / 10;
+        std::string volume_percent_blank_space;
+        if (volume_percent < 10) volume_percent_blank_space = "  ";
+        else if (volume_percent < 100 && volume_percent >= 10) volume_percent_blank_space = " ";
+        else volume_percent_blank_space = "";
 
-        std::string volume_blank_space;
-        if (volume_percent < 10) volume_blank_space = "  ";
-        else if (volume_percent < 100 && volume_percent >= 10) volume_blank_space = " ";
-        else volume_blank_space = "";
-
+        std::string new_lines_blank_space;
+        for (int i = 0; i < bar_width; ++i)
+            new_lines_blank_space += " ";
         std::string new_lines;
-        for (int i = 0; i < bar_height - current_song + 1; ++i)
-            new_lines += "\n";
+        for (int i = 0; i < bar_height - current_song; ++i)
+            new_lines += "\n" + new_lines_blank_space;
+        if (bar_height - current_song + 1 > 0) new_lines += "\n";
 
         int pos = (double)progress / time * bar_width;
         std::cout << "\r" + new_lines + " [";
@@ -111,7 +113,7 @@ namespace song
             else if (i == pos) std::cout << ">";
             else std::cout << ".";
         }
-        std::cout << "] " << progress_percent << "%" << progress_blank_space << "Vol: " << volume_percent << "%" << volume_blank_space << "\r";
+        std::cout << "] " << progress_percent << "%" << progress_percent_blank_space << "Vol: " << volume_percent << "%" << volume_percent_blank_space << "\r";
         std::cout.flush();
 
         return progress_percent;
