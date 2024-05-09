@@ -3,7 +3,7 @@
 A fast and simple music player for the terminal. 'p' to pause, 'n' to go next, 'u' and 'd' for volume up and down, 'q' to quit.
 Also has discord integration, showing information about the song being played, the current session, the status of the player and song progress.
 
-![image](https://github.com/ConnorSweeneyDev/TerminalMusicPlayer/assets/75945279/b1cc768b-5376-4db1-8f00-8752c50f053e)
+https://github.com/ConnorSweeneyDev/TerminalMusicPlayer/assets/75945279/b7938d48-44ef-4a59-89cb-1d8d1b0544ed
 *Showcase: song history, progress bar, volume indicator, blue signifies unpaused, red signifies paused.*
 
 I made this because it was annoying to have to use a mouse to control my music, however this does have some limitations - it is
