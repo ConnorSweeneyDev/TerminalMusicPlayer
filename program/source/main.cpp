@@ -53,6 +53,25 @@ int main()
 
             if (GetAsyncKeyState(VK_MEDIA_PLAY_PAUSE))
                 song::pause_or_play(is_paused, cwd);
+            else if (GetAsyncKeyState(VK_VOLUME_UP))
+                song::increase_volume(volume, cwd);
+            else if (GetAsyncKeyState(VK_VOLUME_DOWN))
+                song::decrease_volume(volume, cwd);
+            else if (GetAsyncKeyState(VK_MEDIA_NEXT_TRACK))
+            {
+                if (is_paused) song::pause_or_play(is_paused, cwd);
+                break;
+            }
+            else if (GetAsyncKeyState(VK_MEDIA_STOP))
+            {
+                song::close(path);
+                discord::close();
+                song::progress_cleanup(bar_width, bar_height, current_song);
+                system("color 07");
+                system("cls");
+                init::cursor_visible(true);
+                return 0;
+            }
 
             if (_kbhit())
             {
