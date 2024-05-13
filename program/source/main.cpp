@@ -51,6 +51,9 @@ int main()
         {
             total_wait_time += wait_time;
 
+            if (GetAsyncKeyState(VK_MEDIA_PLAY_PAUSE))
+                song::pause_or_play(is_paused, cwd);
+
             if (_kbhit())
             {
                 char key = _getch();
