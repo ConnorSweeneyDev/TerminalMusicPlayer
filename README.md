@@ -1,6 +1,6 @@
 # TerminalMusicPlayer
 
-A fast and simple music player for the terminal. 'p' to pause, 'n' to go next, 'u' and 'd' for volume up and down, 'q' to quit. Alternatively, all external media controls work too.
+A fast and simple music player for the terminal. 'p' to pause, 'n' to go next, 'u' and 'd' for volume up and down, 'q' to quit. Alternatively, media controls for pause and skip work too.
 Also has discord integration, showing information about the song being played, the current session, the status of the player and song progress.
 
 https://github.com/ConnorSweeneyDev/TerminalMusicPlayer/assets/75945279/b4bbb381-3121-4223-ac8b-b01c84be278a

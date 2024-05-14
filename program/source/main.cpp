@@ -53,10 +53,6 @@ int main()
 
             if (GetAsyncKeyState(VK_MEDIA_PLAY_PAUSE))
                 song::pause_or_play(is_paused, cwd);
-            else if (GetAsyncKeyState(VK_VOLUME_UP))
-                song::increase_volume(volume, cwd);
-            else if (GetAsyncKeyState(VK_VOLUME_DOWN))
-                song::decrease_volume(volume, cwd);
             else if (GetAsyncKeyState(VK_MEDIA_NEXT_TRACK))
             {
                 if (is_paused) song::pause_or_play(is_paused, cwd);
