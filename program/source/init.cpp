@@ -53,7 +53,7 @@ namespace init
         si.cb = sizeof(si);
         ZeroMemory(&pi, sizeof(pi));
 
-        std::string cmd_line = "pwsh -ExecutionPolicy Bypass -Command Start-Process -d \"" + cwd + "\" -FilePath \"" + cwd + "\\easyrp.exe\" -Confirm:$false -WindowStyle Hidden";
+        std::string cmd_line = "pwsh -ExecutionPolicy Bypass -Command Start-Process -d \"" + cwd + "\" -FilePath \"" + cwd + "\\binary\\easyrp.exe\" -Confirm:$false -WindowStyle Hidden";
 
         TCHAR cmd_line_tchar[MAX_PATH];
         #ifdef UNICODE
