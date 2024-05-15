@@ -21,8 +21,10 @@ windows functions. The only tags that are required on the mp3 files are `title` 
 - A discord app set up on the [developer portal](https://discord.com/developers/applications). Add a new application and enable rich presence
   for it, and make note of the application id.
 
-To run this successfully, put a folder called `Songs` in the root of the project, then run `update_song_names` and make sure there
-are no error messages, this will rename all the files to the correct format. Then open `config_template.ini` and follow the comments.
+To run this successfully, put a folder called `Songs` in the root of the project, then run `update_song_names.py` and make sure there
+are no error messages, this will rename all the files to the correct format. Create two files in the root of the project:
+- `client_id.txt` &rightarrow; Put the application id from the discord developer portal in here.
+- `config.ini` &rightarrow; Nothing needs to be filled in here, but it must exist.
 After that you can build and run the C++ code.
 
 ## Known Issues
