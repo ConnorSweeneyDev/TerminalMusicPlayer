@@ -196,7 +196,7 @@ namespace song
 
         set_volume(volume);
 
-        std::ofstream volume_file(cwd + "\\volume.txt");
+        std::ofstream volume_file(cwd + "\\user\\volume.txt");
         if (!volume_file.is_open())
         {
             std::cout << "Failed to open volume file" << std::endl;
@@ -217,7 +217,7 @@ namespace song
 
         set_volume(volume);
 
-        std::ofstream volume_file(cwd + "\\volume.txt");
+        std::ofstream volume_file(cwd + "\\user\\volume.txt");
         if (!volume_file.is_open())
         {
             std::cout << "Failed to open volume file" << std::endl;

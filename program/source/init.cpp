@@ -46,6 +46,18 @@ namespace init
 
     void discord(const std::string& cwd)
     {
+        std::ifstream file_check(cwd + "\\config.ini");
+        bool file_exists = file_check.good();
+        if (!file_exists)
+        {
+            std::ofstream config_file(cwd + "\\config.ini");
+            if (!config_file.is_open())
+                std::cout << "Failed to open config file" << std::endl;
+
+            config_file << "";
+            config_file.close();
+        }
+
         STARTUPINFO si;
         PROCESS_INFORMATION pi;
 
@@ -106,15 +118,15 @@ namespace init
 
     int volume(const std::string& cwd)
     {
-        std::ifstream file_check(cwd + "\\volume.txt");
+        std::ifstream file_check(cwd + "\\user\\volume.txt");
         bool file_exists = file_check.good();
         if (!file_exists)
         {
-            std::ofstream volume_file(cwd + "\\volume.txt");
+            std::ofstream volume_file(cwd + "\\user\\volume.txt");
             if (!volume_file.is_open())
             {
                 std::cout << "Failed to open volume file" << std::endl;
-                return 1;
+                return -1;
             }
 
             volume_file << 100;
@@ -123,11 +135,11 @@ namespace init
         }
         else
         {
-            std::ifstream volume_file(cwd + "\\volume.txt");
+            std::ifstream volume_file(cwd + "\\user\\volume.txt");
             if (!volume_file.is_open())
             {
                 std::cout << "Failed to open volume file" << std::endl;
-                return 1;
+                return -1;
             }
 
             std::string line;

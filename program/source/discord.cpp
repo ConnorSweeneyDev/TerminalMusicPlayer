@@ -25,7 +25,7 @@ namespace discord
             optional_s = "s";
 
         std::string client_id = "";
-        std::string id_path = cwd + "\\client_id.txt";
+        std::string id_path = cwd + "\\user\\client_id.txt";
         std::ifstream id_file(id_path);
         if (!id_file.is_open())
         {
@@ -39,7 +39,7 @@ namespace discord
 
         id_file.close();
 
-        presence = "[Identifiers]\nClientID=" + client_id + "\n\n[State]\nState=" + std::to_string(session_songs) + " song" + optional_s + " this session | Playing | 0%" + "\nDetails=" + song_name + "\nStartTimestamp=\nEndTimestamp=\n\n[Images]\nLargeImage=\"\"\nLargeImageTooltip=\nSmallImage=\"\"\nSmallImageTooltip=";
+        presence = "[Identifiers]\nClientID=" + client_id + "\n\n[State]\nState=" + std::to_string(session_songs) + " Song" + optional_s + " This Session | Playing | 0%" + "\nDetails=" + song_name + "\nStartTimestamp=\nEndTimestamp=\n\n[Images]\nLargeImage=\"\"\nLargeImageTooltip=\nSmallImage=\"\"\nSmallImageTooltip=";
 
         config_file << presence;
         config_file.close();

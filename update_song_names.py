@@ -32,6 +32,10 @@ for filename in os.listdir(directory):
             title = title.replace("á", "a")
         if "á" in artist:
             artist = artist.replace("á", "a")
+        if "å" in title:
+            title = title.replace("å", "a")
+        if "å" in artist:
+            artist = artist.replace("å", "a")
         if "é" in title:
             title = title.replace("é", "e")
         if "é" in artist:
