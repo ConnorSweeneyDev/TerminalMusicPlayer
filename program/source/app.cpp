@@ -97,6 +97,16 @@ namespace tmp
 
     void App::read_input()
     {
+        if (GetAsyncKeyState(VK_MEDIA_PLAY_PAUSE))
+            resume_or_pause();
+        else if (GetAsyncKeyState(VK_MEDIA_NEXT_TRACK))
+            close_song();
+        else if (GetAsyncKeyState(VK_MEDIA_STOP))
+        {
+            Player::song_playing = false;
+            running = false;
+        }
+
         if (_kbhit())
         {
             char key = _getch();
