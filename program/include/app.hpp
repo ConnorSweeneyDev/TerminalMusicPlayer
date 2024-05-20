@@ -48,7 +48,7 @@ namespace tmp
             int bar_width;
             int bar_height;
 
-            int wait_time = 100;
+            DWORD wait_time = 100;
     };
     extern App app;
 }

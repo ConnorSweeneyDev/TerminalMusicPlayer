@@ -124,6 +124,6 @@ namespace tmp
         status.dwItem = MCI_STATUS_POSITION;
 
         mciSendCommand(mciGetDeviceID("mp3"), MCI_STATUS, MCI_WAIT | MCI_STATUS_ITEM, reinterpret_cast<DWORD_PTR>(&status));
-        return status.dwReturn;
+        return (DWORD)status.dwReturn;
     }
 }

@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <windows.h>
 #include <iostream>
 #include <fstream>
@@ -109,7 +110,7 @@ namespace tmp
 
         if (_kbhit())
         {
-            char key = _getch();
+            char key = (char)_getch();
 
             if (key == 'p')
                 resume_or_pause();
@@ -169,7 +170,7 @@ namespace tmp
             new_lines += "\n" + new_lines_blank_space;
         if (bar_height - current_song + 1 > 0) new_lines += "\n";
 
-        int pos = (double)progress / time * bar_width;
+        int pos = (int)((double)progress / time * bar_width);
         std::cout << "\r" + new_lines + " [";
         for (int i = 0; i < bar_width; ++i)
         {
@@ -269,16 +270,16 @@ namespace tmp
     {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(0, files.size() - 1);
+        std::uniform_int_distribution<> dis(0, (int)files.size() - 1);
         current_song_index = dis(gen);
 
-        current_song_name = files[current_song_index];
+        current_song_name = files[(size_t)current_song_index];
         current_song_path = "\"" + songs_directory + "\\" + current_song_name + "\"";
     }
 
     void App::display_song()
     {
-        int total_songs = files.size();
+        int total_songs = (int)files.size();
 
         if (current_song_name.find("---") != std::string::npos)
             current_song_name = std::regex_replace(current_song_name, std::regex("---"), "|");
@@ -287,11 +288,11 @@ namespace tmp
         current_song_name = std::regex_replace(current_song_name, std::regex(".mp3"), "");
         std::string info = " " + std::to_string(current_song) + " | " + std::to_string(current_song_index + 1) + "/" + std::to_string(total_songs) + " | " + current_song_name;
 
-        int screen_width;
+        int screen_width = 0;
         if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &current_song_buffer_info))
             screen_width = current_song_buffer_info.srWindow.Right - current_song_buffer_info.srWindow.Left + 1;
         std::string blank_space;
-        for (int i = 0; i < screen_width - info.size(); ++i)
+        for (int i = 0; i < screen_width - (int)info.size(); ++i)
             blank_space += " ";
 
         std::cout << info << blank_space << std::endl;

@@ -49,7 +49,7 @@ namespace tmp
         HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
         DWORD mode;
         GetConsoleMode(hStdin, &mode);
-        mode &= ~ENABLE_LINE_INPUT;
+        mode &= (DWORD)~ENABLE_LINE_INPUT;
         SetConsoleMode(hStdin, mode);
     }
 
