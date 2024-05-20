@@ -50,7 +50,7 @@ namespace tmp
             system("color 04");
             current_song_paused = true;
         }
-        discord.update_pause(current_song_paused);
+        Discord::update_pause(current_song_paused);
     }
 
     void App::increase_volume()
@@ -184,15 +184,15 @@ namespace tmp
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0, static_cast<short>(current_song) });
 
         current_song_progress = progress_percent;
-        discord.update_progress(current_song_progress);
+        Discord::update_progress(current_song_progress);
     }
 
     void App::init()
     {
-        platform.init();
-        discord.init();
+        Platform::init();
+        Discord::init();
 
-        songs_directory = platform.working_directory + "\\Songs";
+        songs_directory = Platform::working_directory + "\\Songs";
         load_files();
         if (files.empty())
         {
@@ -200,7 +200,7 @@ namespace tmp
             exit(1);
         }
 
-        volume_path = platform.working_directory + "\\user\\volume.txt";
+        volume_path = Platform::working_directory + "\\user\\volume.txt";
         init_volume();
     }
 
@@ -208,8 +208,8 @@ namespace tmp
     {
         Player::close();
 
-        platform.cleanup();
-        discord.cleanup();
+        Platform::cleanup();
+        Discord::cleanup();
     }
 
     void App::load_files()
@@ -296,7 +296,7 @@ namespace tmp
 
         std::cout << info << blank_space << std::endl;
 
-        discord.update_presence(current_song_name);
+        Discord::update_presence(current_song_name);
 
         std::string length;
         auto it = std::find(current_song_name.rbegin(), current_song_name.rend(), ' ');

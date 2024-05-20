@@ -10,6 +10,7 @@ namespace tmp
 
         public:
             static bool song_ended();
+
             static bool song_playing;
 
         private:

@@ -6,7 +6,7 @@
 
 namespace tmp
 {
-    Platform platform;
+    std::string Platform::working_directory;
 
     void Platform::init()
     {

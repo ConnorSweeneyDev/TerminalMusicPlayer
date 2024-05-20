@@ -7,17 +7,16 @@ namespace tmp
     class Platform
     {
         public:
-            void init();
-            void cleanup();
+            static void init();
+            static void cleanup();
 
-            std::string working_directory;
+            static std::string working_directory;
 
         private:
-            void screen_setup();
-            void screen_shutdown();
-            void cursor_visible(bool is_visible);
-            void input_setup();
-            std::string get_working_directory();
+            static void screen_setup();
+            static void screen_shutdown();
+            static void cursor_visible(bool is_visible);
+            static void input_setup();
+            static std::string get_working_directory();
     };
-    extern Platform platform;
 }

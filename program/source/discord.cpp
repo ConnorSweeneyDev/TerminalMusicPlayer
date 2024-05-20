@@ -9,7 +9,10 @@
 
 namespace tmp
 {
-    Discord discord;
+    std::string Discord::config_path;
+    std::string Discord::id_path;
+
+    std::string Discord::presence;
 
     void Discord::update_presence(std::string song_name)
     {
@@ -83,8 +86,8 @@ namespace tmp
 
     void Discord::init()
     {
-        config_path = platform.working_directory + "\\config.ini";
-        id_path = platform.working_directory + "\\user\\client_id.txt";
+        config_path = Platform::working_directory + "\\config.ini";
+        id_path = Platform::working_directory + "\\user\\client_id.txt";
 
         check_for_config();
         start_connection();
@@ -119,7 +122,7 @@ namespace tmp
         si.cb = sizeof(si);
         ZeroMemory(&pi, sizeof(pi));
 
-        std::string cmd_line = "pwsh -ExecutionPolicy Bypass -Command Start-Process -d \"" + platform.working_directory + "\" -FilePath \"" + platform.working_directory + "\\binary\\easyrp.exe\" -Confirm:$false -WindowStyle Hidden";
+        std::string cmd_line = "pwsh -ExecutionPolicy Bypass -Command Start-Process -d \"" + Platform::working_directory + "\" -FilePath \"" + Platform::working_directory + "\\binary\\easyrp.exe\" -Confirm:$false -WindowStyle Hidden";
 
         TCHAR cmd_line_tchar[MAX_PATH];
         #ifdef UNICODE
