@@ -1,35 +1,34 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <regex>
+#include <windows.h>
 
 #include "discord.hpp"
+#include "platform.hpp"
+#include "app.hpp"
 
-namespace discord
+namespace tmp
 {
-    std::string presence;
+    Discord discord;
 
-    void update_presence(const std::string& song_name, const int& session_songs, const std::string& cwd)
+    void Discord::update_presence(std::string song_name)
     {
-        std::string config_path = cwd + "\\config.ini";
-
         std::ofstream config_file(config_path);
         if (!config_file.is_open())
         {
-            std::cout << "Failed to open config file" << std::endl;
+            std::cout << "Failed to open config file!" << std::endl;
             return;
         }
 
         std::string optional_s = "";
-        if (session_songs != 1)
+        if (app.current_song != 1)
             optional_s = "s";
 
         std::string client_id = "";
-        std::string id_path = cwd + "\\user\\client_id.txt";
         std::ifstream id_file(id_path);
         if (!id_file.is_open())
         {
-            std::cout << "Failed to open client ID file" << std::endl;
+            std::cout << "Failed to open client ID file!" << std::endl;
             return;
         }
 
@@ -39,36 +38,14 @@ namespace discord
 
         id_file.close();
 
-        presence = "[Identifiers]\nClientID=" + client_id + "\n\n[State]\nState=" + std::to_string(session_songs) + " Song" + optional_s + " This Session | Playing | 0%" + "\nDetails=" + song_name + "\nStartTimestamp=\nEndTimestamp=\n\n[Images]\nLargeImage=\"\"\nLargeImageTooltip=\nSmallImage=\"\"\nSmallImageTooltip=";
+        presence = "[Identifiers]\nClientID=" + client_id + "\n\n[State]\nState=" + std::to_string(app.current_song) + " Song" + optional_s + " This Session | Playing | 0%" + "\nDetails=" + song_name + "\nStartTimestamp=\nEndTimestamp=\n\n[Images]\nLargeImage=\"\"\nLargeImageTooltip=\nSmallImage=\"\"\nSmallImageTooltip=";
 
         config_file << presence;
         config_file.close();
     }
 
-    void update_pause_status(const bool& is_paused, const std::string& cwd)
+    void Discord::update_progress(int progress)
     {
-        std::string config_path = cwd + "\\config.ini";
-
-        std::ofstream config_file(config_path);
-        if (!config_file.is_open())
-        {
-            std::cout << "Failed to open config file" << std::endl;
-            return;
-        }
-
-        if (is_paused)
-            presence = std::regex_replace(presence, std::regex("Playing"), "Paused");
-        else
-            presence = std::regex_replace(presence, std::regex("Paused"), "Playing");
-
-        config_file << presence;
-        config_file.close();
-    }
-
-    void update_progress_status(const std::string& progress, const std::string& cwd)
-    {
-        std::string config_path = cwd + "\\config.ini";
-
         std::ofstream config_file(config_path);
         if (!config_file.is_open())
         {
@@ -80,14 +57,81 @@ namespace discord
         size_t space_pos = presence.rfind(" ", percent_pos);
 
         std::string old_progress = presence.substr(space_pos + 1, percent_pos - space_pos - 1);
-        presence = std::regex_replace(presence, std::regex(old_progress + "%"), progress + "%");
+        presence = std::regex_replace(presence, std::regex(old_progress + "%"), std::to_string(progress) + "%");
 
         config_file << presence;
         config_file.close();
     }
 
-    void close()
+    void Discord::update_pause(bool current_song_paused)
+    {
+        std::ofstream config_file(config_path);
+        if (!config_file.is_open())
+        {
+            std::cout << "Failed to open config file" << std::endl;
+            return;
+        }
+
+        if (current_song_paused)
+            presence = std::regex_replace(presence, std::regex("Playing"), "Paused");
+        else
+            presence = std::regex_replace(presence, std::regex("Paused"), "Playing");
+
+        config_file << presence;
+        config_file.close();
+    }
+
+    void Discord::init()
+    {
+        config_path = platform.working_directory + "\\config.ini";
+        id_path = platform.working_directory + "\\user\\client_id.txt";
+
+        check_for_config();
+        start_connection();
+    }
+
+    void Discord::cleanup()
     {
         system("pwsh -Command \"Stop-Process -Name \"easyrp\" -Force\"");
+    }
+
+    void Discord::check_for_config()
+    {
+        std::ifstream file_check(config_path);
+        bool file_exists = file_check.good();
+        if (!file_exists)
+        {
+            std::ofstream config_file(config_path);
+            if (!config_file.is_open())
+                std::cout << "Failed to open config file!" << std::endl;
+
+            config_file << "";
+            config_file.close();
+        }
+    }
+
+    void Discord::start_connection()
+    {
+        STARTUPINFO si;
+        PROCESS_INFORMATION pi;
+
+        ZeroMemory(&si, sizeof(si));
+        si.cb = sizeof(si);
+        ZeroMemory(&pi, sizeof(pi));
+
+        std::string cmd_line = "pwsh -ExecutionPolicy Bypass -Command Start-Process -d \"" + platform.working_directory + "\" -FilePath \"" + platform.working_directory + "\\binary\\easyrp.exe\" -Confirm:$false -WindowStyle Hidden";
+
+        TCHAR cmd_line_tchar[MAX_PATH];
+        #ifdef UNICODE
+            _tcscpy_s(cmd_line_tchar, cmd_line.c_str());
+        #else
+            strcpy_s(cmd_line_tchar, cmd_line.c_str());
+        #endif
+
+        if (!CreateProcess(NULL, cmd_line_tchar, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
+        {
+            std::cout << "CreateProcess failed: " << GetLastError() << ".\n";
+            exit(1);
+        }
     }
 }
