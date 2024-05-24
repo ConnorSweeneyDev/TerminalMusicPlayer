@@ -28,15 +28,6 @@ namespace tmp
         current_song_paused = false;
     }
 
-    void App::close_song()
-    {
-        if (current_song_paused)
-            resume_or_pause();
-
-        Player::close();
-        Player::song_playing = false;
-    }
-
     void App::resume_or_pause()
     {
         if (current_song_paused)
@@ -96,6 +87,21 @@ namespace tmp
         volume_file.close();
     }
 
+    void App::close_song()
+    {
+        if (current_song_paused)
+            resume_or_pause();
+
+        Player::close();
+        Player::song_playing = false;
+    }
+
+    void App::quit_app()
+    {
+        Player::song_playing = false;
+        running = false;
+    }
+
     void App::read_input()
     {
         if (GetAsyncKeyState(VK_MEDIA_PLAY_PAUSE))
@@ -103,10 +109,7 @@ namespace tmp
         else if (GetAsyncKeyState(VK_MEDIA_NEXT_TRACK))
             close_song();
         else if (GetAsyncKeyState(VK_MEDIA_STOP))
-        {
-            Player::song_playing = false;
-            running = false;
-        }
+            quit_app();
 
         if (_kbhit())
         {
@@ -121,10 +124,8 @@ namespace tmp
             else if (key == 'n')
                 close_song();
             else if (key == 'q')
-            {
-                Player::song_playing = false;
-                running = false;
-            }
+                quit_app();
+            else if (key == '
         }
 
         Sleep(wait_time);
@@ -208,7 +209,6 @@ namespace tmp
     void App::cleanup()
     {
         Player::close();
-
         Platform::cleanup();
         Discord::cleanup();
     }

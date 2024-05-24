@@ -4,58 +4,79 @@ from mutagen.mp3 import MP3
 
 directory = "Songs"
 
+replace_chars = {
+    "<": "",
+    ">": "",
+    ":": "",
+    "/": "",
+    "\\": "",
+    "|": "",
+    "?": "",
+    "*": "",
+    "‘": "'",
+    "’": "'",
+    "“": "'",
+    "”": "'",
+    "\"": "'",
+
+    "á": "a",
+    "å": "a",
+    "é": "e",
+    "í": "i",
+    "ó": "o",
+    "Ö": "O",
+    "ú": "u",
+    "ñ": "n",
+    "ç": "c",
+    "ä": "a",
+    "ë": "e",
+    "ï": "i",
+    "ö": "o",
+    "ü": "u",
+    "Á": "A",
+    "É": "E",
+    "Í": "I",
+    "Ó": "O",
+    "Ú": "U",
+    "Ñ": "N",
+    "Ç": "C",
+    "Ä": "A",
+    "Ë": "E",
+    "Ï": "I",
+    "Ü": "U",
+    "ß": "B",
+    "ø": "o",
+    "Ø": "O",
+    "æ": "ae",
+    "Æ": "AE",
+    "œ": "oe",
+    "Œ": "OE",
+    "Å": "A",
+    "Þ": "D",
+    "þ": "b",
+    "ð": "d",
+    "Ý": "Y",
+    "ý": "y",
+    "ÿ": "y",
+    "Ÿ": "Y",
+    "Š": "S",
+    "š": "s",
+    "Ž": "Z",
+    "ž": "z",
+}
+
 for filename in os.listdir(directory):
     file_path = os.path.join(directory, filename)
 
     try:
         audio = MP3(file_path)
-        title = audio["TIT2"][0]
-        artist = audio["TPE1"][0]
+        title = audio["TIT2"][0] if "TIT2" in audio else "Unknown Title"
+        artist = audio["TPE1"][0] if "TPE1" in audio else "Unknown Artist"
         duration = audio.info.length
         duration = str(math.trunc(duration // 60)) + "___" + str(math.trunc(duration % 60)).zfill(2)
 
-        characters = ["<", ">", ":", "/", "\\", "|", "?", "*"]
-        for character in characters:
-            if character in title:
-                title = title.replace(character, "")
-            if character in artist:
-                artist = artist.replace(character, "")
-
-        unsupported_quotes = ["‘", "’", "“", "”", "\""]
-        for quote in unsupported_quotes:
-            if quote in title:
-                title = title.replace(quote, "'")
-            if quote in artist:
-                artist = artist.replace(quote, "'")
-
-        if "á" in title:
-            title = title.replace("á", "a")
-        if "á" in artist:
-            artist = artist.replace("á", "a")
-        if "å" in title:
-            title = title.replace("å", "a")
-        if "å" in artist:
-            artist = artist.replace("å", "a")
-        if "é" in title:
-            title = title.replace("é", "e")
-        if "é" in artist:
-            artist = artist.replace("é", "e")
-        if "í" in title:
-            title = title.replace("í", "i")
-        if "í" in artist:
-            artist = artist.replace("í", "i")
-        if "ó" in title:
-            title = title.replace("ó", "o")
-        if "ó" in artist:
-            artist = artist.replace("ó", "o")
-        if "ú" in title:
-            title = title.replace("ú", "u")
-        if "ú" in artist:
-            artist = artist.replace("ú", "u")
-        if "ñ" in title:
-            title = title.replace("ñ", "n")
-        if "ñ" in artist:
-            artist = artist.replace("ñ", "n")
+        title = ''.join(replace_chars.get(char, char) for char in title)
+        artist = ''.join(replace_chars.get(char, char) for char in artist)
 
         spaces = ["  ", "   ", "    "]
         for space in spaces:

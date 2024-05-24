@@ -12,9 +12,8 @@ namespace tmp
 
         public:
             void play_song();
-            void close_song();
-            void resume_or_pause();
             void read_input();
+            void close_song();
             void display_info();
 
             void init();
@@ -29,8 +28,10 @@ namespace tmp
 
             void choose_random_song();
             void display_song();
+            void resume_or_pause();
             void increase_volume();
             void decrease_volume();
+            void quit_app();
 
             std::string songs_directory;
             std::string volume_path;
