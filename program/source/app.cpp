@@ -125,7 +125,6 @@ namespace tmp
                 close_song();
             else if (key == 'q')
                 quit_app();
-            else if (key == '
         }
 
         Sleep(wait_time);
