@@ -1,6 +1,5 @@
 RM = rm -r
 CXX = g++
-CC = gcc
 
 # RELEASE FLAGS:
 CXXFLAGS = -s -O3 -std=c++20 -DNDEBUG -D_FORTIFY_SOURCE=2 -fstack-protector-strong
