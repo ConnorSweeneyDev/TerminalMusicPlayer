@@ -193,7 +193,7 @@ namespace tmp
         Platform::init();
         Discord::init();
 
-        songs_directory = Platform::working_directory + "\\Songs";
+        songs_directory = Platform::working_directory + "\\user\\songs";
         load_files();
         if (files.empty())
         {

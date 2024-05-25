@@ -2,7 +2,7 @@ import os
 import math
 from mutagen.mp3 import MP3
 
-directory = "Songs"
+directory = "user\\songs"
 
 replace_chars = {
     "<": "",
