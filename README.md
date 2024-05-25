@@ -15,7 +15,7 @@ windows functions. The only tags that are required on the mp3 files are `title` 
 ## Dependencies
 - Windows.
 - PowerShell (pwsh.exe) &rightarrow; Run `winget install --id Microsoft.WindowsTerminal`.
-- MinGW 64-bit &rightarrow; Download from [here](winlibs.com) and put the contents in C:\MinGW.
+- MinGW 64-bit &rightarrow; My [version](https://github.com/brechtsanders/winlibs_mingw/releases/download/13.2.0posix-17.0.6-11.0.1-ucrt-r5/winlibs-x86_64-posix-seh-gcc-13.2.0-llvm-17.0.6-mingw-w64ucrt-11.0.1-r5.zip) of MinGW or replace the dlls in `binary/` with your own.
 - Python &rightarrow; Run `winget install --id Python.Python.3.11`.
 - Mutagen &rightarrow; Run `pip install mutagen`.
 - A discord app set up on the [developer portal](https://discord.com/developers/applications). Add a new application and enable rich presence
