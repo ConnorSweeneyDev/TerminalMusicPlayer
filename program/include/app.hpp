@@ -22,7 +22,7 @@ namespace tmp
             std::string current_song_path;
 
         private:
-            void load_files();
+            void init_files();
             void init_volume();
 
             void choose_random_song();
@@ -44,8 +44,8 @@ namespace tmp
             int current_song_progress;
 
             CONSOLE_SCREEN_BUFFER_INFO current_song_buffer_info;
-            int bar_width;
-            int bar_height;
+            int current_song_bar_width;
+            int current_song_bar_height;
 
             DWORD wait_time = 100;
     };

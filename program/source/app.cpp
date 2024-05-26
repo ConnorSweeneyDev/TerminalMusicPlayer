@@ -134,8 +134,8 @@ namespace tmp
     {
         if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &current_song_buffer_info))
         {
-            bar_width = current_song_buffer_info.srWindow.Right - current_song_buffer_info.srWindow.Left - 19;
-            bar_height = current_song_buffer_info.srWindow.Bottom - current_song_buffer_info.srWindow.Top - 1;
+            current_song_bar_width = current_song_buffer_info.srWindow.Right - current_song_buffer_info.srWindow.Left - 19;
+            current_song_bar_height = current_song_buffer_info.srWindow.Bottom - current_song_buffer_info.srWindow.Top - 1;
         }
 
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0, static_cast<short>(current_song) });
@@ -163,16 +163,16 @@ namespace tmp
         else volume_percent_blank_space = "";
 
         std::string new_lines_blank_space;
-        for (int i = 0; i < bar_width; ++i)
+        for (int i = 0; i < current_song_bar_width; ++i)
             new_lines_blank_space += " ";
         std::string new_lines;
-        for (int i = 0; i < bar_height - current_song; ++i)
+        for (int i = 0; i < current_song_bar_height - current_song; ++i)
             new_lines += "\n" + new_lines_blank_space;
-        if (bar_height - current_song + 1 > 0) new_lines += "\n";
+        if (current_song_bar_height - current_song + 1 > 0) new_lines += "\n";
 
-        int pos = (int)((double)progress / time * bar_width);
+        int pos = (int)((double)progress / time * current_song_bar_width);
         std::cout << "\r" + new_lines + " [";
-        for (int i = 0; i < bar_width; ++i)
+        for (int i = 0; i < current_song_bar_width; ++i)
         {
             if (i < pos) std::cout << "=";
             else if (i == pos) std::cout << ">";
@@ -194,7 +194,7 @@ namespace tmp
         tmp::discord::init();
 
         songs_directory = tmp::platform::working_directory + "\\user\\songs";
-        load_files();
+        init_files();
         if (files.empty())
         {
             cleanup();
@@ -212,7 +212,7 @@ namespace tmp
         tmp::discord::cleanup();
     }
 
-    void App::load_files()
+    void App::init_files()
     {
         std::string search_term = songs_directory + "\\*.mp3";
 
