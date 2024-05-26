@@ -5,9 +5,9 @@ void app_loop()
 {
     tmp::app.play_song();
 
-    while (tmp::Player::song_playing)
+    while (tmp::player::song_playing)
     {
-        if (tmp::Player::song_ended())
+        if (tmp::player::song_ended())
             tmp::app.close_song();
 
         tmp::app.read_input();

@@ -5,11 +5,11 @@
 #include "player.hpp"
 #include "app.hpp"
 
-namespace tmp
+namespace tmp::player
 {
-    bool Player::song_playing = false;
+    bool song_playing = false;
 
-    bool Player::song_ended()
+    bool song_ended()
     {
         MCI_STATUS_PARMS status;
         status.dwItem = MCI_STATUS_MODE;
@@ -26,7 +26,7 @@ namespace tmp
         return status.dwReturn == MCI_MODE_STOP;
     }
 
-    void Player::open()
+    void open()
     {
         std::string command = "open " + app.current_song_path + " type mpegvideo alias mp3";
         MCIERROR error = mciSendString(command.c_str(), NULL, 0, NULL);
@@ -43,7 +43,7 @@ namespace tmp
         }
     }
 
-    void Player::set_volume(int volume)
+    void set_volume(int volume)
     {
         std::string command = "setaudio mp3 volume to " + std::to_string(volume);
         MCIERROR error = mciSendString(command.c_str(), NULL, 0, NULL);
@@ -60,7 +60,7 @@ namespace tmp
         }
     }
 
-    void Player::play()
+    void play()
     {
         std::string command = "play mp3";
         MCIERROR error = mciSendString(command.c_str(), NULL, 0, NULL);
@@ -77,7 +77,7 @@ namespace tmp
         }
     }
 
-    void Player::close()
+    void close()
     {
         std::string command = "close mp3";
         MCIERROR error = mciSendString(command.c_str(), NULL, 0, NULL);
@@ -92,7 +92,7 @@ namespace tmp
         }
     }
 
-    void Player::resume()
+    void resume()
     {
         std::string command = "play mp3";
         MCIERROR error = mciSendString(command.c_str(), NULL, 0, NULL);
@@ -105,7 +105,7 @@ namespace tmp
         }
     }
 
-    void Player::pause()
+    void pause()
     {
         std::string command = "pause mp3";
         MCIERROR error = mciSendString(command.c_str(), NULL, 0, NULL);
@@ -118,7 +118,7 @@ namespace tmp
         }
     }
 
-    DWORD Player::get_progress()
+    DWORD get_progress()
     {
         MCI_STATUS_PARMS status;
         status.dwItem = MCI_STATUS_POSITION;

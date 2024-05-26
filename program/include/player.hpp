@@ -2,24 +2,16 @@
 
 #include <minwindef.h>
 
-namespace tmp
+namespace tmp::player
 {
-    class Player
-    {
-        friend class App;
+    bool song_ended();
+    void open();
+    void set_volume(int volume);
+    void play();
+    void close();
+    void resume();
+    void pause();
+    DWORD get_progress();
 
-        public:
-            static bool song_ended();
-
-            static bool song_playing;
-
-        private:
-            static void open();
-            static void set_volume(int volume);
-            static void play();
-            static void close();
-            static void resume();
-            static void pause();
-            static DWORD get_progress();
-    };
+    extern bool song_playing;
 }

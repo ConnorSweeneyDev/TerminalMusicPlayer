@@ -21,10 +21,10 @@ namespace tmp
         choose_random_song();
         display_song();
 
-        Player::open();
-        Player::set_volume(volume);
-        Player::play();
-        Player::song_playing = true;
+        tmp::player::open();
+        tmp::player::set_volume(volume);
+        tmp::player::play();
+        tmp::player::song_playing = true;
         current_song_paused = false;
     }
 
@@ -32,17 +32,17 @@ namespace tmp
     {
         if (current_song_paused)
         {
-            Player::resume();
+            tmp::player::resume();
             system("color 09");
             current_song_paused = false;
         }
         else
         {
-            Player::pause();
+            tmp::player::pause();
             system("color 04");
             current_song_paused = true;
         }
-        Discord::update_pause(current_song_paused);
+        tmp::discord::update_pause(current_song_paused);
     }
 
     void App::increase_volume()
@@ -53,7 +53,7 @@ namespace tmp
         else if (volume < 0)
             volume = 0;
 
-        Player::set_volume(volume);
+        tmp::player::set_volume(volume);
 
         std::ofstream volume_file(volume_path);
         if (!volume_file.is_open())
@@ -74,7 +74,7 @@ namespace tmp
         else if (volume < 0)
             volume = 0;
 
-        Player::set_volume(volume);
+        tmp::player::set_volume(volume);
 
         std::ofstream volume_file(volume_path);
         if (!volume_file.is_open())
@@ -92,13 +92,13 @@ namespace tmp
         if (current_song_paused)
             resume_or_pause();
 
-        Player::close();
-        Player::song_playing = false;
+        tmp::player::close();
+        tmp::player::song_playing = false;
     }
 
     void App::quit_app()
     {
-        Player::song_playing = false;
+        tmp::player::song_playing = false;
         running = false;
     }
 
@@ -145,7 +145,7 @@ namespace tmp
         int seconds = std::stoi(current_song_display_length.substr(colon_pos + 1));
         int time = minutes * 60 + seconds;
 
-        DWORD progress = Player::get_progress();
+        DWORD progress = tmp::player::get_progress();
         progress = progress / 1000;
         int progress_percent = int((double)progress / time * 100.0);
         std::string progress_percent_blank_space;
@@ -185,15 +185,15 @@ namespace tmp
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0, static_cast<short>(current_song) });
 
         current_song_progress = progress_percent;
-        Discord::update_progress(current_song_progress);
+        tmp::discord::update_progress(current_song_progress);
     }
 
     void App::init()
     {
-        Platform::init();
-        Discord::init();
+        tmp::platform::init();
+        tmp::discord::init();
 
-        songs_directory = Platform::working_directory + "\\user\\songs";
+        songs_directory = tmp::platform::working_directory + "\\user\\songs";
         load_files();
         if (files.empty())
         {
@@ -201,15 +201,15 @@ namespace tmp
             exit(1);
         }
 
-        volume_path = Platform::working_directory + "\\user\\volume.txt";
+        volume_path = tmp::platform::working_directory + "\\user\\volume.txt";
         init_volume();
     }
 
     void App::cleanup()
     {
-        Player::close();
-        Platform::cleanup();
-        Discord::cleanup();
+        tmp::player::close();
+        tmp::platform::cleanup();
+        tmp::discord::cleanup();
     }
 
     void App::load_files()
@@ -296,7 +296,7 @@ namespace tmp
 
         std::cout << info << blank_space << std::endl;
 
-        Discord::update_presence(current_song_name);
+        tmp::discord::update_presence(current_song_name);
 
         std::string length;
         auto it = std::find(current_song_name.rbegin(), current_song_name.rend(), ' ');

@@ -8,8 +8,6 @@ namespace tmp
 {
     class App
     {
-        friend class Player;
-
         public:
             void play_song();
             void read_input();
@@ -21,6 +19,7 @@ namespace tmp
 
             bool running = true;
             int current_song = 0;
+            std::string current_song_path;
 
         private:
             void load_files();
@@ -40,7 +39,6 @@ namespace tmp
 
             int current_song_index;
             std::string current_song_name;
-            std::string current_song_path;
             std::string current_song_display_length;
             bool current_song_paused;
             int current_song_progress;

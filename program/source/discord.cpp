@@ -7,14 +7,16 @@
 #include "platform.hpp"
 #include "app.hpp"
 
-namespace tmp
+namespace tmp::discord
 {
-    std::string Discord::config_path;
-    std::string Discord::id_path;
+    void check_for_config();
+    void start_connection();
 
-    std::string Discord::presence;
+    std::string config_path;
+    std::string id_path;
+    std::string presence;
 
-    void Discord::update_presence(std::string song_name)
+    void update_presence(std::string song_name)
     {
         std::ofstream config_file(config_path);
         if (!config_file.is_open())
@@ -47,7 +49,7 @@ namespace tmp
         config_file.close();
     }
 
-    void Discord::update_progress(int progress)
+    void update_progress(int progress)
     {
         std::ofstream config_file(config_path);
         if (!config_file.is_open())
@@ -66,7 +68,7 @@ namespace tmp
         config_file.close();
     }
 
-    void Discord::update_pause(bool current_song_paused)
+    void update_pause(bool current_song_paused)
     {
         std::ofstream config_file(config_path);
         if (!config_file.is_open())
@@ -84,21 +86,21 @@ namespace tmp
         config_file.close();
     }
 
-    void Discord::init()
+    void init()
     {
-        config_path = Platform::working_directory + "\\config.ini";
-        id_path = Platform::working_directory + "\\user\\client_id.txt";
+        config_path = tmp::platform::working_directory + "\\config.ini";
+        id_path = tmp::platform::working_directory + "\\user\\client_id.txt";
 
         check_for_config();
         start_connection();
     }
 
-    void Discord::cleanup()
+    void cleanup()
     {
         system("pwsh -Command \"Stop-Process -Name \"easyrp\" -Force\"");
     }
 
-    void Discord::check_for_config()
+    void check_for_config()
     {
         std::ifstream file_check(config_path);
         bool file_exists = file_check.good();
@@ -113,7 +115,7 @@ namespace tmp
         }
     }
 
-    void Discord::start_connection()
+    void start_connection()
     {
         STARTUPINFO si;
         PROCESS_INFORMATION pi;
@@ -122,7 +124,7 @@ namespace tmp
         si.cb = sizeof(si);
         ZeroMemory(&pi, sizeof(pi));
 
-        std::string cmd_line = "pwsh -ExecutionPolicy Bypass -Command Start-Process -d \"" + Platform::working_directory + "\" -FilePath \"" + Platform::working_directory + "\\binary\\easyrp.exe\" -Confirm:$false -WindowStyle Hidden";
+        std::string cmd_line = "pwsh -ExecutionPolicy Bypass -Command Start-Process -d \"" + tmp::platform::working_directory + "\" -FilePath \"" + tmp::platform::working_directory + "\\binary\\easyrp.exe\" -Confirm:$false -WindowStyle Hidden";
 
         TCHAR cmd_line_tchar[MAX_PATH];
         #ifdef UNICODE
