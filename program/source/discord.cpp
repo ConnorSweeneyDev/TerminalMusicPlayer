@@ -97,7 +97,7 @@ namespace tmp::discord
 
     void cleanup()
     {
-        system("pwsh -Command \"Stop-Process -Name \"easyrp\" -Force\"");
+        system("pwsh -Command \"if ((Get-Process -Name 'easyrp' -ErrorAction SilentlyContinue) -eq $null) { } else { Stop-Process -Name 'easyrp' -Force }");
     }
 
     void check_for_config()
@@ -117,6 +117,8 @@ namespace tmp::discord
 
     void start_connection()
     {
+        cleanup();
+
         STARTUPINFO si;
         PROCESS_INFORMATION pi;
 
@@ -124,7 +126,7 @@ namespace tmp::discord
         si.cb = sizeof(si);
         ZeroMemory(&pi, sizeof(pi));
 
-        std::string cmd_line = "pwsh -ExecutionPolicy Bypass -Command Start-Process -d \"" + tmp::platform::working_directory + "\" -FilePath \"" + tmp::platform::working_directory + "\\binary\\easyrp.exe\" -Confirm:$false -WindowStyle Hidden";
+        std::string cmd_line = "pwsh -ExecutionPolicy Bypass -Command \"Start-Process -d \"" + tmp::platform::working_directory + "\" -FilePath \"" + tmp::platform::working_directory + "\\binary\\easyrp.exe\" -Confirm:$false -WindowStyle Hidden\"";
 
         TCHAR cmd_line_tchar[MAX_PATH];
         #ifdef UNICODE
