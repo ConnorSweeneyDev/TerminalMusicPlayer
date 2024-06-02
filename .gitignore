@@ -6,7 +6,8 @@
 *.lo
 *.o
 *.obj
-compile_flags.txt
+.cache
+compile_commands.json
 
 # Precompiled Headers
 *.gch

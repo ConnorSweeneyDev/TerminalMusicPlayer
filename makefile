@@ -14,21 +14,20 @@ CPP_SOURCES = $(wildcard program/source/*.cpp)
 OUTPUT = binary/TerminalMusicPlayer.exe
 
 OBJECTS_DIR = object
-FLAGS_DIR = compile_flags.txt
+COMMANDS_DIR = compile_commands.json
 
 $(shell if [ ! -d "$(OBJECTS_DIR)" ]; then mkdir -p $(OBJECTS_DIR); fi)
 OBJECTS = $(patsubst program/source/%.cpp,$(OBJECTS_DIR)/%.o,$(CPP_SOURCES))
 
-all: compile_flags $(OUTPUT)
+all: compile_commands $(OUTPUT)
 
-compile_flags:
-	@echo -n > $(FLAGS_DIR)
-	@for flag in $(CXXFLAGS); do echo $$flag; done >> $(FLAGS_DIR)
-	@for flag in $(WARNINGS); do echo $$flag; done >> $(FLAGS_DIR)
-	@for flag in $(INCLUDES); do echo $$flag; done >> $(FLAGS_DIR)
-	@for flag in $(LIBRARIES); do echo $$flag; done >> $(FLAGS_DIR)
-	@echo -o$(OUTPUT) >> $(FLAGS_DIR)
-	@echo "$(FLAGS_DIR) updated."
+compile_commands:
+	@echo -n > $(COMMANDS_DIR)
+	@echo "[" >> $(COMMANDS_DIR)
+	@for source in $(CPP_SOURCES); do echo "    { \"directory\": \"$(CURDIR)\", \"command\": \"$(CXX) $(CXXFLAGS) $(WARNINGS) $(INCLUDES) $(LIBRARIES) -c $$source -o $(OBJECTS_DIR)/$$(basename $$source .cpp).o\", \"file\": \"$$source\" },"; done >> $(COMMANDS_DIR)
+	@sed -i "$$ s/,$$//" $(COMMANDS_DIR)
+	@echo "]" >> $(COMMANDS_DIR)
+	@echo "$(COMMANDS_DIR) updated."
 
 $(OUTPUT): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $(WARNINGS) $(INCLUDES) $(OBJECTS) $(LIBRARIES) -o $(OUTPUT)
