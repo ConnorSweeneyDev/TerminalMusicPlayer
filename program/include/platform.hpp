@@ -4,8 +4,8 @@
 
 namespace tmp::platform
 {
-    void init();
-    void cleanup();
+  void init();
+  void cleanup();
 
-    extern std::string working_directory;
+  extern std::string working_directory;
 }

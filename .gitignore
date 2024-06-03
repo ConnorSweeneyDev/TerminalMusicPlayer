@@ -6,8 +6,11 @@
 *.lo
 *.o
 *.obj
-.cache
+
+# Generated clangd files
 compile_commands.json
+.clang-format
+.cache
 
 # Precompiled Headers
 *.gch
