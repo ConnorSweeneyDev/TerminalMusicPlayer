@@ -46,6 +46,7 @@ clang-format:
 	@echo "AllowShortIfStatementsOnASingleLine: true" >> $(FORMAT_DIR)
 	@echo "AllowShortLoopsOnASingleLine: true" >> $(FORMAT_DIR)
 	@echo "AllowShortCaseLabelsOnASingleLine: true" >> $(FORMAT_DIR)
+	@echo "IndentPPDirectives: BeforeHash" >> $(FORMAT_DIR)
 	@echo "NamespaceIndentation: All" >> $(FORMAT_DIR)
 	@echo "FixNamespaceComments: false" >> $(FORMAT_DIR)
 	@echo "AlwaysBreakTemplateDeclarations: false" >> $(FORMAT_DIR)
