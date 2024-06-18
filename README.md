@@ -23,7 +23,7 @@ windows only and mp3 only, also the only tags the mp3 files should have are `tit
 
 To run this successfully, put a folder called `user/songs/` in the root of the project, then run `python update_song_names.py` using your installed
 python version and make sure there are no error messages, this will rename all the files to the correct format. Create `user/client_id.txt` and
-put the application id from the portal in it. After that you can build and run the C++ code using the batch files in `system/`.
+put the application id from the portal in it. After that you can build and run the C++ code using the batch files in `script/`.
 
 ## Known Issues
 - The program will crash if any of the mp3 files have any of the newest IDvX tags.
