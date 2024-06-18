@@ -4,6 +4,8 @@
 
 namespace tmp::platform
 {
+  void cursor_visible(bool is_visible);
+
   void init();
   void cleanup();
 

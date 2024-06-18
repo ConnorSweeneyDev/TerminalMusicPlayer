@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <conio.h>
 #include <cstddef>
 #include <fstream>
@@ -15,10 +16,31 @@ namespace tmp
 {
   App app;
 
-  void App::play_song()
+  void App::verify_arguments(int argc, char *argv[])
+  {
+    for (int index = 1; index < argc; index++)
+    {
+      if (!(std::find(files.begin(), files.end(), argv[index]) != files.end()))
+      {
+        std::cout << "File not found: " << argv[index] << std::endl;
+
+        system("color 07");
+        tmp::platform::cursor_visible(true);
+        tmp::discord::cleanup();
+        exit(1);
+      }
+    }
+  }
+
+  void App::play_song(int argc, char *argv[])
   {
     current_song++;
-    choose_random_song();
+
+    if (argc == 1 || current_song >= argc)
+      choose_random_song();
+    else
+      choose_song(argv[current_song]);
+
     display_song();
 
     tmp::player::open();
@@ -285,6 +307,21 @@ namespace tmp
     current_song_index = dis(gen);
 
     current_song_name = files[(size_t)current_song_index];
+    current_song_path = "\"" + songs_directory + "\\" + current_song_name + "\"";
+  }
+
+  void App::choose_song(char *arg)
+  {
+    current_song_index = 0;
+    for (std::string file : files)
+    {
+      if (arg == file)
+        break;
+      else
+        current_song_index++;
+    }
+
+    current_song_name = arg;
     current_song_path = "\"" + songs_directory + "\\" + current_song_name + "\"";
   }
 

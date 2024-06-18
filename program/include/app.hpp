@@ -9,7 +9,9 @@ namespace tmp
   class App
   {
   public:
-    void play_song();
+    void verify_arguments(int argc, char *argv[]);
+
+    void play_song(int argc, char *argv[]);
     void read_input();
     void close_song();
     void display_info();
@@ -26,6 +28,7 @@ namespace tmp
     void init_volume();
 
     void choose_random_song();
+    void choose_song(char *arg);
     void display_song();
     void resume_or_pause();
     void increase_volume();

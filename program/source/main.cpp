@@ -1,9 +1,9 @@
 #include "app.hpp"
 #include "player.hpp"
 
-void app_loop()
+void app_loop(int argc, char *argv[])
 {
-  tmp::app.play_song();
+  tmp::app.play_song(argc, argv);
 
   while (tmp::player::song_playing)
   {
@@ -14,11 +14,12 @@ void app_loop()
   }
 }
 
-int main()
+int main(int argc, char *argv[])
 {
   tmp::app.init();
+  if (argc > 1) tmp::app.verify_arguments(argc, argv);
 
-  while (tmp::app.running) app_loop();
+  while (tmp::app.running) app_loop(argc, argv);
 
   tmp::app.cleanup();
   return 0;
