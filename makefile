@@ -49,6 +49,7 @@ clang-format:
 	@echo "IndentPPDirectives: BeforeHash" >> $(FORMAT_DIR)
 	@echo "NamespaceIndentation: All" >> $(FORMAT_DIR)
 	@echo "FixNamespaceComments: false" >> $(FORMAT_DIR)
+	@echo "IndentCaseLabels: true" >> $(FORMAT_DIR)
 	@echo "AlwaysBreakTemplateDeclarations: false" >> $(FORMAT_DIR)
 	@echo "..." >> $(FORMAT_DIR)
 	@clang-format -i program/**/*
