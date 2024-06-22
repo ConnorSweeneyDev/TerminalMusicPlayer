@@ -23,5 +23,4 @@ put the path to your songs folder in it. Then you can build and run the C++ code
 mp3 files from the selected folder as arguments to the program to put them at the top of the play queue.
 
 ## Known Issues
-- Title and artist get cut off if they are longer than 30 characters.
 - The screen can be made bigger (not smaller) before the song list starts scrolling, but after that any more resizing causes glitchy output.
