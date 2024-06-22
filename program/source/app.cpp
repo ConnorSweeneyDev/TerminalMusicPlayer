@@ -1,5 +1,3 @@
-#define MP3_ID3_TAGS_IMPLEMENTATION
-
 #include <algorithm>
 #include <conio.h>
 #include <cstddef>
