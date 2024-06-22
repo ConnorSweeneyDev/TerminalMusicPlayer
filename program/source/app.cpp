@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <random>
 #include <string>
 #include <vector>
@@ -20,6 +21,15 @@
 namespace tmp
 {
   App app;
+
+  std::map<std::string, std::string> replace_chars = {
+    {"“", "\""}, {"”", "\""}, {"“", "\""}, {"”", "\""}, {"á", "a"},  {"å", "a"},  {"é", "e"},
+    {"í", "i"},  {"ó", "o"},  {"Ö", "O"},  {"ú", "u"},  {"ñ", "n"},  {"ç", "c"},  {"ä", "a"},
+    {"ë", "e"},  {"ï", "i"},  {"ö", "o"},  {"ü", "u"},  {"Á", "A"},  {"É", "E"},  {"Í", "I"},
+    {"Ó", "O"},  {"Ú", "U"},  {"Ñ", "N"},  {"Ç", "C"},  {"Ä", "A"},  {"Ë", "E"},  {"Ï", "I"},
+    {"Ü", "U"},  {"ß", "B"},  {"ø", "o"},  {"Ø", "O"},  {"æ", "ae"}, {"Æ", "AE"}, {"œ", "oe"},
+    {"Œ", "CE"}, {"Å", "A"},  {"Þ", "D"},  {"þ", "b"},  {"ð", "d"},  {"Ý", "Y"},  {"ý", "y"},
+    {"ÿ", "y"},  {"Ÿ", "Y"},  {"Š", "S"},  {"š", "s"},  {"Ž", "Z"},  {"ž", "z"}};
 
   void App::verify_arguments(int argc, char *argv[])
   {
@@ -214,9 +224,21 @@ namespace tmp
     TagLib::FileRef file(current_song_path.c_str());
 
     TagLib::String title_tag = file.tag()->title();
-    TagLib::String artist_tag = file.tag()->artist();
     std::string title_str = title_tag.to8Bit(true);
+    for (auto &pair : replace_chars)
+    {
+      size_t pos = 0;
+      while ((pos = title_str.find(pair.first)) != std::string::npos)
+        title_str.replace(pos, pair.first.length(), pair.second);
+    }
+    TagLib::String artist_tag = file.tag()->artist();
     std::string artist_str = artist_tag.to8Bit(true);
+    for (auto &pair : replace_chars)
+    {
+      size_t pos = 0;
+      while ((pos = artist_str.find(pair.first)) != std::string::npos)
+        artist_str.replace(pos, pair.first.length(), pair.second);
+    }
     double duration = player::get_duration();
     std::string seconds_str;
     if (((int)duration % 60) < 10)
@@ -415,4 +437,4 @@ namespace tmp
     Mix_Quit();
     SDL_Quit();
   }
-}
+} // namespace tmp
