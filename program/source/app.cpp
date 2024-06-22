@@ -12,7 +12,7 @@
 
 #include <SDL.h>
 #include <SDL_mixer.h>
-#include <mp3_id3_tags.h>
+#include <fileref.h>
 
 #include "app.hpp"
 #include "discord.hpp"
@@ -213,13 +213,12 @@ namespace tmp
   void App::display_song()
   {
     int total_songs = (int)files.size();
+    TagLib::FileRef file(current_song_path.c_str());
 
-    char *title = mp3_id3_read_tag(current_song_path.c_str(), TITLE);
-    std::string title_str(title);
-    free(title);
-    char *artist = mp3_id3_read_tag(current_song_path.c_str(), ARTIST);
-    std::string artist_str(artist);
-    free(artist);
+    TagLib::String title_tag = file.tag()->title();
+    TagLib::String artist_tag = file.tag()->artist();
+    std::string title_str = title_tag.to8Bit(true);
+    std::string artist_str = artist_tag.to8Bit(true);
     double duration = player::get_duration();
     std::string seconds_str;
     if (((int)duration % 60) < 10)

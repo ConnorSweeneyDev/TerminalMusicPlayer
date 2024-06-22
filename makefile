@@ -8,9 +8,9 @@ CXXFLAGS = -s -O3 -std=c++20 -DNDEBUG -D_FORTIFY_SOURCE=2 -fstack-protector-stro
 # CXXFLAGS = -g -O2 -std=c++20 -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2 -fstack-protector-strong
 
 WARNINGS = -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Wcast-qual -Wcast-align -Wfloat-equal -Wlogical-op -Wduplicated-cond -Wshift-overflow=2 -Wformat=2
-SYS_INCLUDES = -isystemexternal/include -isystemexternal/include/sdl2 -isystemexternal/include/mp3tags
-INCLUDES = -Iprogram/include -Iexternal/include -Iexternal/include/sdl2 -Iexternal/include/mp3tags
-LIBRARIES = -Lexternal/library/sdl2 -lwinmm -lmingw32 -lSDL2main -lSDL2 -lSDL2_mixer
+SYS_INCLUDES = -isystemexternal/include -isystemexternal/include/sdl2 -isystemexternal/include/taglib
+INCLUDES = -Iprogram/include -Iexternal/include -Iexternal/include/sdl2 -Iexternal/include/taglib
+LIBRARIES = -Lexternal/library/sdl2 -Lexternal/library/taglib -lwinmm -lmingw32 -lSDL2main -lSDL2 -lSDL2_mixer -ltag
 CPP_SOURCES = $(wildcard program/source/*.cpp)
 OUTPUT = binary/TerminalMusicPlayer.exe
 
