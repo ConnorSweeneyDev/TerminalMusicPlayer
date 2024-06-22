@@ -7,6 +7,9 @@
 #include <regex>
 #include <windows.h>
 
+#include <SDL.h>
+#include <SDL_mixer.h>
+
 #include "app.hpp"
 #include "discord.hpp"
 #include "platform.hpp"
@@ -48,79 +51,6 @@ namespace tmp
     tmp::player::play();
     tmp::player::song_playing = true;
     current_song_paused = false;
-  }
-
-  void App::resume_or_pause()
-  {
-    if (current_song_paused)
-    {
-      tmp::player::resume();
-      system("color 09");
-      current_song_paused = false;
-    }
-    else
-    {
-      tmp::player::pause();
-      system("color 04");
-      current_song_paused = true;
-    }
-    tmp::discord::update_pause(current_song_paused);
-  }
-
-  void App::increase_volume()
-  {
-    volume += 20;
-    if (volume > 1000)
-      volume = 1000;
-    else if (volume < 0)
-      volume = 0;
-
-    tmp::player::set_volume(volume);
-
-    std::ofstream volume_file(volume_path);
-    if (!volume_file.is_open())
-    {
-      std::cout << "Failed to open volume file!" << std::endl;
-      exit(1);
-    }
-
-    volume_file << volume;
-    volume_file.close();
-  }
-
-  void App::decrease_volume()
-  {
-    volume -= 20;
-    if (volume > 1000)
-      volume = 1000;
-    else if (volume < 0)
-      volume = 0;
-
-    tmp::player::set_volume(volume);
-
-    std::ofstream volume_file(volume_path);
-    if (!volume_file.is_open())
-    {
-      std::cout << "Failed to open volume file!" << std::endl;
-      exit(1);
-    }
-
-    volume_file << volume;
-    volume_file.close();
-  }
-
-  void App::close_song()
-  {
-    if (current_song_paused) resume_or_pause();
-
-    tmp::player::close();
-    tmp::player::song_playing = false;
-  }
-
-  void App::quit_app()
-  {
-    tmp::player::song_playing = false;
-    running = false;
   }
 
   void App::read_input()
@@ -169,9 +99,8 @@ namespace tmp
     int seconds = std::stoi(current_song_display_length.substr(colon_pos + 1));
     int time = minutes * 60 + seconds;
 
-    DWORD progress = tmp::player::get_progress();
-    progress = progress / 1000;
-    int progress_percent = int((double)progress / time * 100.0);
+    double progress = tmp::player::get_progress();
+    int progress_percent = int(progress / time * 100.0);
     std::string progress_percent_blank_space;
     if (progress_percent < 10)
       progress_percent_blank_space = "     ";
@@ -180,17 +109,10 @@ namespace tmp
     else
       progress_percent_blank_space = "   ";
 
-    int volume_percent;
-    if (volume == 0)
-      volume_percent = 0;
-    else if (volume == 50)
-      volume_percent = 5;
-    else
-      volume_percent = volume / 10;
     std::string volume_percent_blank_space;
-    if (volume_percent < 10)
+    if (volume < 10)
       volume_percent_blank_space = "  ";
-    else if (volume_percent < 100 && volume_percent >= 10)
+    else if (volume < 100 && volume >= 10)
       volume_percent_blank_space = " ";
     else
       volume_percent_blank_space = "";
@@ -202,7 +124,7 @@ namespace tmp
       new_lines += "\n" + new_lines_blank_space;
     if (current_song_bar_height - current_song + 1 > 0) new_lines += "\n";
 
-    int pos = (int)((double)progress / time * current_song_bar_width);
+    int pos = (int)(progress / time * current_song_bar_width);
     std::cout << "\r" + new_lines + " [";
     for (int i = 0; i < current_song_bar_width; ++i)
     {
@@ -215,7 +137,7 @@ namespace tmp
     }
     if (progress_percent > 100) progress_percent = 100;
     std::cout << "] " << progress_percent << "%" << progress_percent_blank_space
-              << "Vol: " << volume_percent << "%" << volume_percent_blank_space << "\r";
+              << "Vol: " << volume << "%" << volume_percent_blank_space << "\r";
     std::cout.flush();
 
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),
@@ -225,10 +147,19 @@ namespace tmp
     tmp::discord::update_progress(current_song_progress);
   }
 
+  void App::close_song()
+  {
+    if (current_song_paused) resume_or_pause();
+
+    tmp::player::close();
+    tmp::player::song_playing = false;
+  }
+
   void App::init()
   {
     tmp::platform::init();
     tmp::discord::init();
+    init_sdl();
 
     songs_directory = tmp::platform::working_directory + "\\user\\songs";
     init_files();
@@ -247,56 +178,7 @@ namespace tmp
     tmp::player::close();
     tmp::platform::cleanup();
     tmp::discord::cleanup();
-  }
-
-  void App::init_files()
-  {
-    std::string search_term = songs_directory + "\\*.mp3";
-
-    WIN32_FIND_DATA find_data;
-    HANDLE find_handle = FindFirstFile(search_term.c_str(), &find_data);
-    if (find_handle == INVALID_HANDLE_VALUE) files = std::vector<std::string>();
-
-    do {
-      if (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
-
-      files.push_back(find_data.cFileName);
-    } while (FindNextFile(find_handle, &find_data) != 0);
-
-    FindClose(find_handle);
-  }
-
-  void App::init_volume()
-  {
-    std::ifstream file_check(volume_path);
-    bool file_exists = file_check.good();
-    if (!file_exists)
-    {
-      std::ofstream volume_file(volume_path);
-      if (!volume_file.is_open())
-      {
-        std::cout << "Failed to open volume file!" << std::endl;
-        volume = 100;
-      }
-
-      volume_file << 100;
-      volume_file.close();
-      volume = 100;
-    }
-    else
-    {
-      std::ifstream volume_file(volume_path);
-      if (!volume_file.is_open())
-      {
-        std::cout << "Failed to open volume file!" << std::endl;
-        volume = 100;
-      }
-
-      std::string line;
-      std::getline(volume_file, line);
-      volume_file.close();
-      volume = std::stoi(line);
-    }
+    cleanup_sdl();
   }
 
   void App::choose_random_song()
@@ -307,7 +189,7 @@ namespace tmp
     current_song_index = dis(gen);
 
     current_song_name = files[(size_t)current_song_index];
-    current_song_path = "\"" + songs_directory + "\\" + current_song_name + "\"";
+    current_song_path = songs_directory + "\\" + current_song_name;
   }
 
   void App::choose_song(char *arg)
@@ -322,7 +204,7 @@ namespace tmp
     }
 
     current_song_name = arg;
-    current_song_path = "\"" + songs_directory + "\\" + current_song_name + "\"";
+    current_song_path = songs_directory + "\\" + current_song_name;
   }
 
   void App::display_song()
@@ -359,5 +241,142 @@ namespace tmp
     }
 
     current_song_display_length = length;
+  }
+
+  void App::resume_or_pause()
+  {
+    if (current_song_paused)
+    {
+      tmp::player::resume();
+      system("color 09");
+      current_song_paused = false;
+    }
+    else
+    {
+      tmp::player::pause();
+      system("color 04");
+      current_song_paused = true;
+    }
+    tmp::discord::update_pause(current_song_paused);
+  }
+
+  void App::increase_volume()
+  {
+    volume += 2;
+    if (volume > 100)
+      volume = 100;
+    else if (volume < 0)
+      volume = 0;
+
+    tmp::player::set_volume(volume);
+
+    std::ofstream volume_file(volume_path);
+    if (!volume_file.is_open())
+    {
+      std::cout << "Failed to open volume file!" << std::endl;
+      exit(1);
+    }
+
+    volume_file << volume;
+    volume_file.close();
+  }
+
+  void App::decrease_volume()
+  {
+    volume -= 2;
+    if (volume > 100)
+      volume = 100;
+    else if (volume < 0)
+      volume = 0;
+
+    tmp::player::set_volume(volume);
+
+    std::ofstream volume_file(volume_path);
+    if (!volume_file.is_open())
+    {
+      std::cout << "Failed to open volume file!" << std::endl;
+      exit(1);
+    }
+
+    volume_file << volume;
+    volume_file.close();
+  }
+
+  void App::quit_app()
+  {
+    tmp::player::song_playing = false;
+    running = false;
+  }
+
+  void App::init_files()
+  {
+    std::string search_term = songs_directory + "\\*.mp3";
+
+    WIN32_FIND_DATA find_data;
+    HANDLE find_handle = FindFirstFile(search_term.c_str(), &find_data);
+    if (find_handle == INVALID_HANDLE_VALUE) files = std::vector<std::string>();
+
+    do {
+      if (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
+
+      files.push_back(find_data.cFileName);
+    } while (FindNextFile(find_handle, &find_data) != 0);
+
+    FindClose(find_handle);
+  }
+
+  void App::init_volume()
+  {
+    std::ifstream file_check(volume_path);
+    bool file_exists = file_check.good();
+    if (!file_exists)
+    {
+      std::ofstream volume_file(volume_path);
+      if (!volume_file.is_open())
+      {
+        std::cout << "Failed to open volume file!" << std::endl;
+        volume = 10;
+      }
+
+      volume_file << 10;
+      volume_file.close();
+      volume = 10;
+    }
+    else
+    {
+      std::ifstream volume_file(volume_path);
+      if (!volume_file.is_open())
+      {
+        std::cout << "Failed to open volume file!" << std::endl;
+        volume = 10;
+      }
+
+      std::string line;
+      std::getline(volume_file, line);
+      volume_file.close();
+      volume = std::stoi(line);
+    }
+  }
+
+  void App::init_sdl()
+  {
+    if (SDL_Init(SDL_INIT_AUDIO) != 0)
+    {
+      std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
+      exit(1);
+    }
+
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    {
+      std::cout << "Mix_OpenAudio Error: " << Mix_GetError() << std::endl;
+      exit(1);
+    }
+  }
+
+  void App::cleanup_sdl()
+  {
+    Mix_CloseAudio();
+    Mix_Quit();
+    SDL_Quit();
   }
 }

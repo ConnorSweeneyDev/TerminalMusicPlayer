@@ -2,14 +2,15 @@ RM = rm -r
 CXX = g++
 
 # RELEASE FLAGS:
-CXXFLAGS = -s -O3 -std=c++20 -DNDEBUG -D_FORTIFY_SOURCE=2 -fstack-protector-strong
+# CXXFLAGS = -s -O3 -std=c++20 -DNDEBUG -D_FORTIFY_SOURCE=2 -fstack-protector-strong
 
 # DEBUG FLAGS:
-# CXXFLAGS = -g -O2 -std=c++20 -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2 -fstack-protector-strong
+CXXFLAGS = -g -O2 -std=c++20 -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2 -fstack-protector-strong
 
 WARNINGS = -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Wcast-qual -Wcast-align -Wfloat-equal -Wlogical-op -Wduplicated-cond -Wshift-overflow=2 -Wformat=2
-INCLUDES = -Iprogram/include
-LIBRARIES = -lwinmm 
+SYS_INCLUDES = -isystemexternal/include/sdl2
+INCLUDES = -Iprogram/include -Iexternal/include/sdl2
+LIBRARIES = -Lexternal/library/sdl2 -lwinmm -lmingw32 -lSDL2main -lSDL2 -lSDL2_mixer
 CPP_SOURCES = $(wildcard program/source/*.cpp)
 OUTPUT = binary/TerminalMusicPlayer.exe
 
@@ -25,7 +26,7 @@ all: compile_commands clang-format $(OUTPUT)
 compile_commands:
 	@echo -n > $(COMMANDS_DIR)
 	@echo "[" >> $(COMMANDS_DIR)
-	@for source in $(CPP_SOURCES); do echo "    { \"directory\": \"$(CURDIR)\", \"command\": \"$(CXX) $(CXXFLAGS) $(WARNINGS) $(INCLUDES) $(LIBRARIES) -c $$source -o $(OBJECTS_DIR)/$$(basename $$source .cpp).o\", \"file\": \"$$source\" },"; done >> $(COMMANDS_DIR)
+	@for source in $(CPP_SOURCES); do echo "    { \"directory\": \"$(CURDIR)\", \"command\": \"$(CXX) $(CXXFLAGS) $(WARNINGS) $(INCLUDES) $(SYS_INCLUDES) $(LIBRARIES) -c $$source -o $(OBJECTS_DIR)/$$(basename $$source .cpp).o\", \"file\": \"$$source\" },"; done >> $(COMMANDS_DIR)
 	@sed -i "$$ s/,$$//" $(COMMANDS_DIR)
 	@echo "]" >> $(COMMANDS_DIR)
 	@echo "$(COMMANDS_DIR) updated."
@@ -56,9 +57,9 @@ clang-format:
 	@echo "$(FORMAT_DIR) updated."
 
 $(OUTPUT): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) $(WARNINGS) $(INCLUDES) $(OBJECTS) $(LIBRARIES) -o $(OUTPUT)
+	$(CXX) $(CXXFLAGS) $(WARNINGS) $(INCLUDES) $(SYS_INCLUDES) $(OBJECTS) $(LIBRARIES) -o $(OUTPUT)
 $(OBJECTS_DIR)/%.o: program/source/%.cpp
-	$(CXX) $(CXXFLAGS) $(WARNINGS) $(INCLUDES) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(WARNINGS) $(INCLUDES) $(SYS_INCLUDES) -c $< -o $@
 
 clean:
 	@if [ -d "$(OBJECTS_DIR)" ]; then $(RM) $(OBJECTS_DIR); fi

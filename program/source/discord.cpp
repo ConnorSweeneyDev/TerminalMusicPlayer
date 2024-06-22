@@ -9,12 +9,12 @@
 
 namespace tmp::discord
 {
-  void check_for_config();
-  void start_connection();
-
   std::string config_path;
   std::string id_path;
   std::string presence;
+
+  void check_for_config();
+  void start_connection();
 
   void update_presence(std::string song_name)
   {

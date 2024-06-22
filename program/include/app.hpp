@@ -13,8 +13,8 @@ namespace tmp
 
     void play_song(int argc, char *argv[]);
     void read_input();
-    void close_song();
     void display_info();
+    void close_song();
 
     void init();
     void cleanup();
@@ -24,9 +24,6 @@ namespace tmp
     std::string current_song_path;
 
   private:
-    void init_files();
-    void init_volume();
-
     void choose_random_song();
     void choose_song(char *arg);
     void display_song();
@@ -34,6 +31,11 @@ namespace tmp
     void increase_volume();
     void decrease_volume();
     void quit_app();
+
+    void init_files();
+    void init_volume();
+    void init_sdl();
+    void cleanup_sdl();
 
     std::string songs_directory;
     std::string volume_path;

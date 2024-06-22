@@ -6,13 +6,21 @@
 
 namespace tmp::platform
 {
+  std::string working_directory;
+
   void screen_setup();
   void screen_shutdown();
-  void cursor_visible(bool is_visible);
   void input_setup();
   std::string get_working_directory();
 
-  std::string working_directory;
+  void cursor_visible(bool is_visible)
+  {
+    HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cursor_info;
+    GetConsoleCursorInfo(out, &cursor_info);
+    cursor_info.bVisible = is_visible;
+    SetConsoleCursorInfo(out, &cursor_info);
+  }
 
   void init()
   {
@@ -39,15 +47,6 @@ namespace tmp::platform
   {
     system("cls");
     system("color 07");
-  }
-
-  void cursor_visible(bool is_visible)
-  {
-    HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_CURSOR_INFO cursor_info;
-    GetConsoleCursorInfo(out, &cursor_info);
-    cursor_info.bVisible = is_visible;
-    SetConsoleCursorInfo(out, &cursor_info);
   }
 
   void input_setup()
