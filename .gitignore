@@ -30,7 +30,6 @@ compile_commands.json
 *.app
 
 # User files
-songs
 client_id.txt
 songs_directory.txt
 volume.txt
