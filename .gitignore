@@ -32,5 +32,6 @@ compile_commands.json
 # User files
 songs
 client_id.txt
+songs_directory.txt
 volume.txt
 config.ini

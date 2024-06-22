@@ -32,6 +32,7 @@ namespace tmp
     void decrease_volume();
     void quit_app();
 
+    std::string init_songs_directory();
     void init_files();
     void init_volume();
     void init_sdl();

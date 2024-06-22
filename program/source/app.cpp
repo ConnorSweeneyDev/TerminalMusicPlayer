@@ -1,14 +1,18 @@
+#define MP3_ID3_TAGS_IMPLEMENTATION
+
 #include <algorithm>
 #include <conio.h>
 #include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <random>
-#include <regex>
+#include <string>
+#include <vector>
 #include <windows.h>
 
 #include <SDL.h>
 #include <SDL_mixer.h>
+#include <mp3_id3_tags.h>
 
 #include "app.hpp"
 #include "discord.hpp"
@@ -44,11 +48,10 @@ namespace tmp
     else
       choose_song(argv[current_song]);
 
-    display_song();
-
     tmp::player::open();
     tmp::player::set_volume(volume);
     tmp::player::play();
+    display_song();
     tmp::player::song_playing = true;
     current_song_paused = false;
   }
@@ -161,7 +164,7 @@ namespace tmp
     tmp::discord::init();
     init_sdl();
 
-    songs_directory = tmp::platform::working_directory + "\\user\\songs";
+    songs_directory = init_songs_directory();
     init_files();
     if (files.empty())
     {
@@ -211,11 +214,21 @@ namespace tmp
   {
     int total_songs = (int)files.size();
 
-    if (current_song_name.find("---") != std::string::npos)
-      current_song_name = std::regex_replace(current_song_name, std::regex("---"), "|");
-    if (current_song_name.find("___") != std::string::npos)
-      current_song_name = std::regex_replace(current_song_name, std::regex("___"), ":");
-    current_song_name = std::regex_replace(current_song_name, std::regex(".mp3"), "");
+    char *title = mp3_id3_read_tag(current_song_path.c_str(), TITLE);
+    std::string title_str(title);
+    free(title);
+    char *artist = mp3_id3_read_tag(current_song_path.c_str(), ARTIST);
+    std::string artist_str(artist);
+    free(artist);
+    double duration = player::get_duration();
+    std::string seconds_str;
+    if (((int)duration % 60) < 10)
+      seconds_str = "0" + std::to_string((int)duration % 60);
+    else
+      seconds_str = std::to_string((int)duration % 60);
+    std::string duration_str = std::to_string((int)duration / 60) + ":" + seconds_str;
+
+    current_song_name = title_str + " | " + artist_str + " | " + duration_str;
     std::string info = " " + std::to_string(current_song) + " | " +
                        std::to_string(current_song_index + 1) + "/" + std::to_string(total_songs) +
                        " | " + current_song_name;
@@ -308,6 +321,31 @@ namespace tmp
     running = false;
   }
 
+  std::string App::init_songs_directory()
+  {
+    std::string songs_directory_path =
+      tmp::platform::working_directory + "\\user\\songs_directory.txt";
+    std::ifstream file_check(songs_directory_path);
+    bool file_exists = file_check.good();
+
+    if (!file_exists)
+    {
+      std::cout << "Must have a user\\songs.txt containing the path to your songs!" << std::endl;
+      return "";
+    }
+    else
+    {
+      std::ifstream songs_directory_file(songs_directory_path);
+      if (!songs_directory_file.is_open())
+        std::cout << "Failed to open songs_directory file!" << std::endl;
+
+      std::string line;
+      std::getline(songs_directory_file, line);
+      songs_directory_file.close();
+      return line;
+    }
+  }
+
   void App::init_files()
   {
     std::string search_term = songs_directory + "\\*.mp3";
@@ -329,6 +367,7 @@ namespace tmp
   {
     std::ifstream file_check(volume_path);
     bool file_exists = file_check.good();
+
     if (!file_exists)
     {
       std::ofstream volume_file(volume_path);

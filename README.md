@@ -8,24 +8,20 @@ https://github.com/ConnorSweeneyDev/TerminalMusicPlayer/assets/75945279/b4bbb381
 
 *Showcase: song history, progress bar, volume indicator, blue signifies unpaused, red signifies paused.*
 
-I made this because it was annoying to have to use a mouse to control my music, however this does have some limitations - it is
-windows only and mp3 only, also the only tags the mp3 files should have are `title` and `artist`, the rest are unused - I recommend using
-[Mp3tag](https://www.mp3tag.de/en/download.html) to edit the tags en masse.
+I made this because it was annoying to have to use a mouse to control my music, however this does have the limitation of being windows and mp3 only. 
 
 ## Dependencies
 - Windows.
 - PowerShell (pwsh.exe) &rightarrow; Run `winget install --id Microsoft.WindowsTerminal`.
 - MinGW 64-bit &rightarrow; Use my [version](https://github.com/brechtsanders/winlibs_mingw/releases/download/13.2.0posix-17.0.6-11.0.1-ucrt-r5/winlibs-x86_64-posix-seh-gcc-13.2.0-llvm-17.0.6-mingw-w64ucrt-11.0.1-r5.zip) of MinGW or replace the dlls in `binary/` with your own.
-- Python &rightarrow; Run `winget install --id Python.Python.3.11`.
-- Mutagen &rightarrow; Run `pip install mutagen`.
 - A discord app set up on the [developer portal](https://discord.com/developers/applications). Add a new application and enable rich presence
   for it, and make note of the application id.
+- A folder anywhere on your computer with mp3 files in it.
 
-To run this successfully, put a folder called `user/songs/` in the root of the project, then run `python update_song_names.py` using your installed
-python version and make sure there are no error messages, this will rename all the files to the correct format. Create `user/client_id.txt` and
-put the application id from the portal in it. After that you can build and run the C++ code using the batch files in `script/`. Optionally, you can
-supply specific mp3 files from `user/songs/` as arguments to the program to put them at the top of the play queue.
+To run this successfully, create `user/client_id.txt` and put the application id from the portal in it. After that create `user/songs_directory.txt` and
+put the path to your songs folder in it. Then you can build and run the C++ code using the batch files in `script/`. Optionally, you can supply specific
+mp3 files from the selected folder as arguments to the program to put them at the top of the play queue.
 
 ## Known Issues
-- The program will crash if any of the mp3 files have any of the newest IDvX tags.
-- The screen can be made bigger (not smaller) when the program first starts, but after the first song any more resizing causes glitchy output.
+- Title and artist get cut off if they are longer than 30 characters.
+- The screen can be made bigger (not smaller) before the song list starts scrolling, but after that any more resizing causes glitchy output.

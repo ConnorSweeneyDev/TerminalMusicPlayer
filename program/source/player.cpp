@@ -17,6 +17,7 @@ namespace tmp::player
   void resume() { Mix_ResumeMusic(); }
   void set_volume(int volume) { Mix_VolumeMusic(volume); }
   double get_progress() { return Mix_GetMusicPosition(music); }
+  double get_duration() { return Mix_MusicDuration(music); }
   bool song_ended() { return Mix_PlayingMusic() == 0; }
 
   void open()

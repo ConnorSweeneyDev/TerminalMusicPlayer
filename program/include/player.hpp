@@ -9,6 +9,7 @@ namespace tmp::player
   void resume();
   void set_volume(int volume);
   double get_progress();
+  double get_duration();
   bool song_ended();
 
   void open();
