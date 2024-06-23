@@ -1,0 +1,3 @@
+sdl2: 2.30.4, x86_64-w64-mingw32
+sdl2_mixer: 2.8.0, x86_64-w64-mingw32
+taglib: 2.0.1
