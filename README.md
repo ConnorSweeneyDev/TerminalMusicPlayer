@@ -33,9 +33,9 @@ the play queue.
   any more resizing causes glitchy output.
 
 ## Updating SDL
-On top of the having the dependencies installed, go to the releases page and download the file
-ending `mingw.zip`. Extract this and go to `x86_64-w64-mingw32` and you will have access to three
-important folders:
+On top of the having the previous dependencies installed, go to the releases page and download the
+file ending `mingw.zip`. Extract this and go to `x86_64-w64-mingw32` and you will have access to
+three important folders:
 - `bin` which contains the file that can replace the one in `binary` folder of this project.
 - `include/SDL2` which contains files that can replace the contents of the `external/include/sdl2`
   folder of this project.
@@ -43,8 +43,8 @@ important folders:
   `external/library/sdl2` folder of this project.
 
 ## Updating TagLib
-On top of having the dependencies installed, you will need to `winget install --id Kitware.CMake`.
-Then follow the steps below to build TagLib:
+On top of having the previous dependencies installed, you will need to `winget install --id
+Kitware.CMake`. Then follow the steps below to build TagLib:
 - Run `git clone https://github.com/taglib/taglib.git`. 
 - Run `cd taglib`.
 - Run `git submodule update --init`.
