@@ -43,3 +43,17 @@ important folders:
   `external/library/sdl2` folder of this project.
 
 ## Updating TagLib
+On top of having the dependencies installed, you will need to `winget install --id Kitware.CMake`.
+Then follow the steps below to build TagLib:
+- Run `git clone https://github.com/taglib/taglib.git`. 
+- Run `cd taglib`.
+- Run `git submodule update --init`.
+- Run `cmake -B . -DBUILD_SHARED_LIBS=ON -DVISIBILITY_HIDDEN=ON -DBUILD_EXAMPLES=ON
+  -DBUILD_BINDINGS=ON -DWITH_ZLIB=OFF -DCMAKE_BUILD_TYPE=Release -G 'MinGW Makefiles'`.
+- Run `cmake --build . --config Release`.
+
+After this, you can replace `libtag.dll` in the `binary` folder of this project with the one in
+`taglib/taglib`. You can also replace `libtag.dll.a` in the `external/library/taglib` folder of this
+project with the one in `taglib/taglib`. Finally, replace the contents of the
+`external/include/taglib` folder with every `.h` and `.tcc` file in the `taglib/taglib` folder and
+all subfolders.
