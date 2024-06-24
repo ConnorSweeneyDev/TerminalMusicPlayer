@@ -18,6 +18,7 @@ have the limitation of being windows and mp3 only.
 - MinGW 64-bit &rightarrow; Use my version of [MinGW](https://winlibs.com/) (look at
   `external/mingw_version_info.txt` or replace `libgcc_s_seh-1.dll` and `libstdc++-6.dll` in the
   `binary` folder with your own, as long as they are 64-bit.
+- Make &rightarrow; Run `winget install make --source winget`.
 - A discord app set up on the [developer portal](https://discord.com/developers/applications). Add a
   new application and enable rich presence for it, and make note of the application id.
 - A folder anywhere on your computer with mp3 files in it.
