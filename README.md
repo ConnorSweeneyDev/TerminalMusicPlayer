@@ -33,6 +33,7 @@ top of the play queue.
 ## Known Issues
 - The screen can be made bigger (not smaller) before the song list starts scrolling, but after that
   any more resizing causes glitchy output.
+- Holding down the skip key for too long causes the player to crash.
 
 ## Updating SDL
 On top of the having the previous dependencies installed, go to the releases page and download the
