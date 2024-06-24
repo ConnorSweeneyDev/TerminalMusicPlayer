@@ -17,17 +17,18 @@ have the limitation of being windows and mp3 only.
 - PowerShell (pwsh.exe) &rightarrow; Run `winget install --id Microsoft.WindowsTerminal`.
 - MinGW 64-bit &rightarrow; Use my version of [MinGW](https://winlibs.com/) (look at
   `external/mingw_version_info.txt` or replace `libgcc_s_seh-1.dll` and `libstdc++-6.dll` in the
-  `binary` folder with your own, as long as they are 64-bit.
+  `binary` folder with your own, as long as they are 64-bit and have llvm/clang support.
 - Make &rightarrow; Run `winget install make --source winget`.
 - A discord app set up on the [developer portal](https://discord.com/developers/applications). Add a
   new application and enable rich presence for it, and make note of the application id.
 - A folder anywhere on your computer with mp3 files in it.
 
-To run this successfully, create `user/client_id.txt` and put the application id from the portal in
-it. After that create `user/songs_directory.txt` and put the path to your songs folder in it. Then
-you can build and run the C++ code using the batch files in `script/`. Optionally, you can supply
-specific mp3 files from the selected folder as arguments to the program to put them at the top of
-the play queue.
+## Building and Running
+To build and run this successfully, create `user/client_id.txt` and put the application id from the
+portal in it. After that create `user/songs_directory.txt` and put the path to your songs folder in
+it. Then you can build and run the C++ code using the batch files in `script/`. Optionally, you can
+supply specific mp3 files from the selected folder as arguments to the program to put them at the
+top of the play queue.
 
 ## Known Issues
 - The screen can be made bigger (not smaller) before the song list starts scrolling, but after that
