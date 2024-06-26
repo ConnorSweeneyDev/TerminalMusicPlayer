@@ -14,7 +14,7 @@ have the limitation of being windows and mp3 only.
 
 ## Dependencies
 - Windows.
-- PowerShell (pwsh.exe) &rightarrow; Run `winget install --id Microsoft.WindowsTerminal`.
+- PowerShell (pwsh.exe) &rightarrow; Run `winget install --id Microsoft.Powershell --source winget`.
 - MinGW 64-bit &rightarrow; Use my version of [MinGW](https://winlibs.com/) (look at
   `external/mingw_version_info.txt` or replace `libgcc_s_seh-1.dll` and `libstdc++-6.dll` in the
   `binary` folder with your own, as long as they are 64-bit and have llvm/clang support.
