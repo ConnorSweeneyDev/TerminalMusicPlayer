@@ -33,4 +33,6 @@ compile_commands.json
 client_id.txt
 songs_directory.txt
 volume.txt
+ffmpeg.txt
+decibels.txt
 config.ini

@@ -200,7 +200,7 @@ namespace tmp
     current_song_index = dis(gen);
 
     current_song_name = files[(size_t)current_song_index];
-    current_song_path = songs_directory + "\\" + current_song_name;
+    current_song_path = songs_directory + "/" + current_song_name;
   }
 
   void App::choose_song(char *arg)
@@ -215,7 +215,7 @@ namespace tmp
     }
 
     current_song_name = arg;
-    current_song_path = songs_directory + "\\" + current_song_name;
+    current_song_path = songs_directory + "/" + current_song_name;
   }
 
   void App::display_song()

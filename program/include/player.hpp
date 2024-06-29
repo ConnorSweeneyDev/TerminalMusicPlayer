@@ -4,12 +4,14 @@
 
 namespace tmp::player
 {
+  double get_progress();
+  double get_duration();
+  float get_decibels();
+  void set_volume(int volume);
+
   void play();
   void pause();
   void resume();
-  void set_volume(int volume);
-  double get_progress();
-  double get_duration();
   bool song_ended();
 
   void open();

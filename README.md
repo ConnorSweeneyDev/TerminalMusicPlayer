@@ -2,7 +2,8 @@
 A fast and simple music player for the terminal. 'p' to pause, 'n' to go next, 'u' and 'd' for
 volume up and down, 'q' to quit. Alternatively, media controls for pause, skip and stop work too.
 Also has discord integration, showing information about the song being played, the current session,
-the status of the player and song progress.
+the status of the player and song progress. Additionally, it uses ffmpeg to retrieve the mean
+decibel level of the current song and normalizes around -14dB when calculating the volume level.
 
 https://github.com/ConnorSweeneyDev/TerminalMusicPlayer/assets/75945279/b4bbb381-3121-4223-ac8b-b01c84be278a
 
@@ -19,6 +20,7 @@ have the limitation of being windows and mp3 only.
   `external/mingw_version_info.txt` or replace `libgcc_s_seh-1.dll` and `libstdc++-6.dll` in the
   `binary` folder with your own, as long as they are 64-bit and have llvm/clang support.
 - Make &rightarrow; Run `winget install make --source winget`.
+- ffmpeg &rightarrow; Run `winget install --id Gyan.FFmpeg`.
 - A discord app set up on the [developer portal](https://discord.com/developers/applications). Add a
   new application and enable rich presence for it, and make note of the application id.
 - A folder anywhere on your computer with mp3 files in it.
@@ -33,7 +35,8 @@ top of the play queue.
 ## Known Issues
 - The screen can be made bigger (not smaller) before the song list starts scrolling, but after that
   any more resizing causes glitchy output.
-- Holding down the skip key for too long causes the player to crash.
+- Skipping songs too fast in a row will cause the program to crash due to lots of reading and
+  writing of files upon initializing a new song.
 
 ## Updating SDL
 On top of the having the previous dependencies installed, go to the releases page and download the
