@@ -38,8 +38,8 @@ namespace tmp::player
 
     std::regex decibels_regex("-?[0-9]+.[0-9]+");
     std::smatch match;
-    std::regex_search(line, match, decibels_regex);
-    float decibels = std::stof(match[0]);
+    float decibels = -14.0f;
+    if (std::regex_search(line, match, decibels_regex)) decibels = std::stof(match[0]);
 
     return decibels;
   }
@@ -47,8 +47,10 @@ namespace tmp::player
   {
     float real_volume = static_cast<float>(volume);
     real_volume = real_volume * (current_song_decibels / -14.0f);
-    if (real_volume > MIX_MAX_VOLUME) real_volume = 128;
-    if (real_volume < 0) real_volume = 0;
+    if (real_volume > MIX_MAX_VOLUME)
+      real_volume = 128;
+    else if (real_volume < 0)
+      real_volume = 0;
 
     Mix_VolumeMusic((int)real_volume);
   }
