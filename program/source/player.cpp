@@ -1,5 +1,5 @@
-#include <fstream>
 #include <iostream>
+#include <memory>
 #include <regex>
 #include <string>
 #include <windows.h>
@@ -19,27 +19,30 @@ namespace tmp::player
   double get_duration() { return Mix_MusicDuration(music); }
   float get_decibels()
   {
-    system(("pwsh -Command \"ffmpeg -i '" + app.current_song_path +
-            "' -af volumedetect -f null / 2>user\\ffmpeg.txt\"")
-             .c_str());
-    system("pwsh -Command \"Select-String -Path user\\ffmpeg.txt -Pattern 'mean_volume: "
-           "-?[0-9]+.[0-9]+' -AllMatches | ForEach-Object { $_.Matches.Value } | Set-Content -Path "
-           "user\\decibels.txt\"");
+    float decibels = -14.0f;
 
-    std::ifstream decibels_file("user\\decibels.txt");
-    if (!decibels_file.is_open())
+    std::string command =
+      "pwsh -Command \"ffmpeg -i '" + app.current_song_path + "' -af volumedetect -f null / 2>&1\"";
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(command.c_str(), "r"), pclose);
+    if (!pipe)
     {
-      std::cout << "Failed to open decibels file!" << std::endl;
-      return 0;
+      std::cout << "Failed to open pipe!" << std::endl;
+      exit(1);
     }
-    std::string line;
-    std::getline(decibels_file, line);
-    decibels_file.close();
+    std::string ffmpeg_output;
+    char buffer[128];
+    while (fgets(buffer, sizeof(buffer), pipe.get()) != nullptr) ffmpeg_output += buffer;
+    pipe.reset();
+
+    std::regex ffmpeg_regex("mean_volume: -?[0-9]+.[0-9]+");
+    std::smatch ffmpeg_match;
+    if (!std::regex_search(ffmpeg_output, ffmpeg_match, ffmpeg_regex)) return decibels;
+    ffmpeg_output = ffmpeg_match[0];
 
     std::regex decibels_regex("-?[0-9]+.[0-9]+");
-    std::smatch match;
-    float decibels = -14.0f;
-    if (std::regex_search(line, match, decibels_regex)) decibels = std::stof(match[0]);
+    std::smatch decibels_match;
+    if (std::regex_search(ffmpeg_output, decibels_match, decibels_regex))
+      decibels = std::stof(decibels_match[0]);
 
     return decibels;
   }

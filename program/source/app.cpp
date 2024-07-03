@@ -180,7 +180,6 @@ namespace tmp
       exit(1);
     }
 
-    volume_path = tmp::platform::working_directory + "\\user\\volume.txt";
     init_volume();
   }
 
@@ -305,7 +304,7 @@ namespace tmp
     std::ofstream volume_file(volume_path);
     if (!volume_file.is_open())
     {
-      std::cout << "Failed to open volume file!" << std::endl;
+      cleanup();
       exit(1);
     }
 
@@ -326,7 +325,7 @@ namespace tmp
     std::ofstream volume_file(volume_path);
     if (!volume_file.is_open())
     {
-      std::cout << "Failed to open volume file!" << std::endl;
+      cleanup();
       exit(1);
     }
 
@@ -346,23 +345,23 @@ namespace tmp
       tmp::platform::working_directory + "\\user\\songs_directory.txt";
     std::ifstream file_check(songs_directory_path);
     bool file_exists = file_check.good();
-
     if (!file_exists)
     {
       std::cout << "Must have a user\\songs.txt containing the path to your songs!" << std::endl;
       return "";
     }
-    else
-    {
-      std::ifstream songs_directory_file(songs_directory_path);
-      if (!songs_directory_file.is_open())
-        std::cout << "Failed to open songs_directory file!" << std::endl;
 
-      std::string line;
-      std::getline(songs_directory_file, line);
-      songs_directory_file.close();
-      return line;
+    std::ifstream songs_directory_file(songs_directory_path);
+    if (!songs_directory_file.is_open())
+    {
+      cleanup();
+      exit(1);
     }
+
+    std::string line;
+    std::getline(songs_directory_file, line);
+    songs_directory_file.close();
+    return line;
   }
 
   void App::init_files()
@@ -384,36 +383,27 @@ namespace tmp
 
   void App::init_volume()
   {
+    volume_path = tmp::platform::working_directory + "\\user\\volume.txt";
     std::ifstream file_check(volume_path);
     bool file_exists = file_check.good();
-
     if (!file_exists)
     {
       std::ofstream volume_file(volume_path);
-      if (!volume_file.is_open())
-      {
-        std::cout << "Failed to open volume file!" << std::endl;
-        volume = 10;
-      }
-
       volume_file << 10;
       volume_file.close();
-      volume = 10;
     }
-    else
-    {
-      std::ifstream volume_file(volume_path);
-      if (!volume_file.is_open())
-      {
-        std::cout << "Failed to open volume file!" << std::endl;
-        volume = 10;
-      }
 
-      std::string line;
-      std::getline(volume_file, line);
-      volume_file.close();
-      volume = std::stoi(line);
+    std::ifstream volume_file(volume_path);
+    if (!volume_file.is_open())
+    {
+      volume = 10;
+      return;
     }
+
+    std::string line;
+    std::getline(volume_file, line);
+    volume_file.close();
+    volume = std::stoi(line);
   }
 
   void App::init_sdl()

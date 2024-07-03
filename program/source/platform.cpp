@@ -9,7 +9,6 @@ namespace tmp::platform
   std::string working_directory;
 
   void screen_setup();
-  void screen_shutdown();
   void input_setup();
   std::string get_working_directory();
 
@@ -25,7 +24,6 @@ namespace tmp::platform
   void init()
   {
     screen_setup();
-    cursor_visible(false);
     input_setup();
 
     working_directory = get_working_directory();
@@ -33,7 +31,8 @@ namespace tmp::platform
 
   void cleanup()
   {
-    screen_shutdown();
+    system("cls");
+    system("color 07");
     cursor_visible(true);
   }
 
@@ -41,12 +40,7 @@ namespace tmp::platform
   {
     system("cls");
     system("color 09");
-  }
-
-  void screen_shutdown()
-  {
-    system("cls");
-    system("color 07");
+    cursor_visible(false);
   }
 
   void input_setup()

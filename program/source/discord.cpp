@@ -19,22 +19,14 @@ namespace tmp::discord
   void update_presence(std::string song_name)
   {
     std::ofstream config_file(config_path);
-    if (!config_file.is_open())
-    {
-      std::cout << "Failed to open config file!" << std::endl;
-      return;
-    }
+    if (!config_file.is_open()) return;
 
     std::string optional_s = "";
     if (app.current_song != 1) optional_s = "s";
 
     std::string client_id = "";
     std::ifstream id_file(id_path);
-    if (!id_file.is_open())
-    {
-      std::cout << "Failed to open client ID file!" << std::endl;
-      return;
-    }
+    if (!id_file.is_open()) return;
 
     std::string line;
     std::getline(id_file, line);
@@ -55,11 +47,7 @@ namespace tmp::discord
   void update_progress(int progress)
   {
     std::ofstream config_file(config_path);
-    if (!config_file.is_open())
-    {
-      std::cout << "Failed to open config file" << std::endl;
-      return;
-    }
+    if (!config_file.is_open()) return;
 
     size_t percent_pos = presence.find("%");
     size_t space_pos = presence.rfind(" ", percent_pos);
@@ -75,11 +63,7 @@ namespace tmp::discord
   void update_pause(bool current_song_paused)
   {
     std::ofstream config_file(config_path);
-    if (!config_file.is_open())
-    {
-      std::cout << "Failed to open config file" << std::endl;
-      return;
-    }
+    if (!config_file.is_open()) return;
 
     if (current_song_paused)
       presence = std::regex_replace(presence, std::regex("Playing"), "Paused");
@@ -112,8 +96,6 @@ namespace tmp::discord
     if (!file_exists)
     {
       std::ofstream config_file(config_path);
-      if (!config_file.is_open()) std::cout << "Failed to open config file!" << std::endl;
-
       config_file << "";
       config_file.close();
     }
@@ -145,6 +127,7 @@ namespace tmp::discord
     if (!CreateProcess(NULL, cmd_line_tchar, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
     {
       std::cout << "CreateProcess failed: " << GetLastError() << ".\n";
+      tmp::platform::cleanup();
       exit(1);
     }
   }
