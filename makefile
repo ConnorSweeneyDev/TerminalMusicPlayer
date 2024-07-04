@@ -21,7 +21,7 @@ FORMAT_DIR = .clang-format
 $(shell if [ ! -d "$(OBJECTS_DIR)" ]; then mkdir -p $(OBJECTS_DIR); fi)
 OBJECTS = $(patsubst program/source/%.cpp,$(OBJECTS_DIR)/%.o,$(CPP_SOURCES))
 
-all: compile_commands clang-format $(OUTPUT)
+all: compile_commands clang-format object $(OUTPUT)
 
 compile_commands:
 	@echo -n > $(COMMANDS_DIR)
@@ -55,6 +55,9 @@ clang-format:
 	@echo "..." >> $(FORMAT_DIR)
 	@clang-format -i program/**/*
 	@echo "$(FORMAT_DIR) updated."
+
+object:
+	@if [ ! -d "$(OBJECTS_DIRECTORY)" ]; then mkdir -p $(OBJECTS_DIRECTORY); fi
 
 $(OUTPUT): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $(WARNINGS) $(INCLUDES) $(SYS_INCLUDES) $(OBJECTS) $(LIBRARIES) -o $(OUTPUT)
