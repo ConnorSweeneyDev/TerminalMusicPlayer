@@ -147,6 +147,7 @@ namespace tmp
         std::cout << ".";
     }
     if (progress_percent > 100) progress_percent = 100;
+    if (progress_percent < 0) progress_percent = 0;
     std::cout << "] " << progress_percent << "%" << progress_percent_blank_space
               << "Vol: " << volume << "%" << volume_percent_blank_space << "\r";
     std::cout.flush();
