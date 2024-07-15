@@ -220,9 +220,7 @@ namespace tmp
 
   void App::display_song()
   {
-    int total_songs = (int)files.size();
     TagLib::FileRef file(current_song_path.c_str());
-
     TagLib::String title_tag = file.tag()->title();
     std::string title_str = title_tag.to8Bit(true);
     for (auto &pair : replace_chars)
@@ -239,6 +237,7 @@ namespace tmp
       while ((pos = artist_str.find(pair.first)) != std::string::npos)
         artist_str.replace(pos, pair.first.length(), pair.second);
     }
+
     double duration = player::get_duration();
     std::string seconds_str;
     if (((int)duration % 60) < 10)
@@ -248,9 +247,7 @@ namespace tmp
     std::string duration_str = std::to_string((int)duration / 60) + ":" + seconds_str;
 
     current_song_name = title_str + " | " + artist_str + " | " + duration_str;
-    std::string info = " " + std::to_string(current_song) + " | " +
-                       std::to_string(current_song_index + 1) + "/" + std::to_string(total_songs) +
-                       " | " + current_song_name;
+    std::string info = " " + std::to_string(current_song) + " | " + current_song_name;
 
     int screen_width = 0;
     if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &current_song_buffer_info))
