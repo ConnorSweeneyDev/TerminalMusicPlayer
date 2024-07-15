@@ -428,4 +428,4 @@ namespace tmp
     Mix_Quit();
     SDL_Quit();
   }
-} // namespace tmp
+}
