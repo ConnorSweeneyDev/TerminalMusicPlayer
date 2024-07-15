@@ -40,7 +40,7 @@ top of the play queue.
 - Skipping songs too fast in a row will cause the program to crash due to lots of reading and
   writing of files upon initializing a new song.
 - If there are any non-utf-8 characters in the file name (title tag is fine), the program will crash
-  when trying to open the song.
+  when trying to open the song because sdl_mixer can't handle them.
 
 ## Updating SDL
 On top of the having the previous dependencies installed, go to the releases page and download the
