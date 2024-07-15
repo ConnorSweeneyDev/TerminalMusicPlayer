@@ -255,9 +255,7 @@ namespace tmp
         current_song_buffer_info.srWindow.Right - current_song_buffer_info.srWindow.Left + 1;
     std::string blank_space;
     for (int i = 0; i < screen_width - (int)info.size(); ++i) blank_space += " ";
-
     std::cout << info << blank_space << std::endl;
-
     tmp::discord::update_presence(current_song_name);
 
     std::string length;
@@ -268,7 +266,6 @@ namespace tmp
       std::string result(it.base(), current_song_name.end());
       length = result;
     }
-
     current_song_display_length = length;
   }
 
