@@ -40,22 +40,22 @@ compile_commands:
 	@for source in $(CPP_SOURCES); do echo -e "\t{ \"directory\": \"$(CURDIR)\", \"command\": \"$(CXX) $(CXXFLAGS) $(WARNINGS) $(INCLUDES) $(SYSTEM_INCLUDES) -c $$source -o $(OBJECTS_DIRECTORY)/$$(basename $$source .cpp).o\", \"file\": \"$$source\" },"; done >> $(COMMANDS_DIRECTORY)
 	@sed -i "$$ s/,$$//" $(COMMANDS_DIRECTORY)
 	@echo "]" >> $(COMMANDS_DIRECTORY)
-	@echo "Wrote    | $(COMMANDS_DIRECTORY)"
+	@echo "Write | $(COMMANDS_DIRECTORY)"
 
 clang-format:
 	@echo -e "---\n$(STYLE)\n$(TAB_WIDTH)\n$(INITIALIZER_WIDTH)\n$(CONTINUATION_WIDTH)\n$(BRACES)\n---\n$(LANGUAGE)\n$(LIMIT)\n$(BLOCKS)\n$(FUNCTIONS)\n$(IFS)\n$(LOOPS)\n$(CASE_LABELS)\n$(PP_DIRECTIVES)\n$(NAMESPACE_INDENTATION)\n$(NAMESPACE_COMMENTS)\n$(INDENT_CASE_LABELS)\n$(BREAK_TEMPLATE_DECLARATIONS)\n..." > $(FORMAT_DIRECTORY)
 	@find program -type f \( -name "*.cpp" -o -name "*.hpp" \) -print0 | xargs -0 -I{} sh -c 'clang-format -i "{}"'
-	@echo "Wrote    | $(FORMAT_DIRECTORY)"
+	@echo "Write | $(FORMAT_DIRECTORY)"
 
 object:
-	@if [ ! -d "$(OBJECTS_DIRECTORY)" ]; then mkdir -p $(OBJECTS_DIRECTORY); echo "Created  | $(OBJECTS_DIRECTORY)"; fi
+	@if [ ! -d "$(OBJECTS_DIRECTORY)" ]; then mkdir -p $(OBJECTS_DIRECTORY); echo "Write | $(OBJECTS_DIRECTORY)"; fi
 
 $(OUTPUT): $(OBJECTS)
 	@$(CXX) $(CXXFLAGS) $(WARNINGS) $(INCLUDES) $(SYSTEM_INCLUDES) $(OBJECTS) $(LIBRARIES) -o $(OUTPUT)
-	@echo "Linked   | $(OBJECTS) -> $(OUTPUT)"
+	@echo "Link  | $(OBJECTS) -> $(OUTPUT)"
 $(OBJECTS_DIRECTORY)/%.o: $(PROGRAM_SOURCE_DIRECTORY)/%.cpp
 	@$(CXX) $(CXXFLAGS) $(WARNINGS) $(INCLUDES) $(SYSTEM_INCLUDES) -c $< -o $@
-	@echo "Compiled | $< -> $@"
+	@echo "CXX   | $< -> $@"
 
 clean:
 	@if [ -d "$(OBJECTS_DIRECTORY)" ]; then rm -r $(OBJECTS_DIRECTORY); fi
