@@ -47,12 +47,10 @@ namespace tmp
     }
   }
 
-  void App::play_song(int argc, char *argv[])
+  // Call this directly before play_song to check all songs in the folder are playable
+  void App::playable_check()
   {
-    current_song++;
-
-    //Uncomment to check that all songs are playable
-    /*
+    int songs_checked = 0;
     for (auto &file : files)
     {
       choose_song(file.c_str());
@@ -63,10 +61,19 @@ namespace tmp
                   << std::endl;
         exit(1);
       }
+      std::cout << "File loaded:   " << app.current_song_path << std::endl;
+      songs_checked++;
+
       Mix_FreeMusic(music);
       music = nullptr;
     }
-    */
+    std::cout << "Songs checked: " << songs_checked << std::endl;
+    exit(1);
+  }
+
+  void App::play_song(int argc, char *argv[])
+  {
+    current_song++;
 
     if (argc == 1 || current_song >= argc)
       choose_random_song();

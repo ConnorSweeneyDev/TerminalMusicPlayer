@@ -11,6 +11,7 @@ namespace tmp
   public:
     void verify_arguments(int argc, char *argv[]);
 
+    void playable_check();
     void play_song(int argc, char *argv[]);
     void read_input();
     void display_info();
