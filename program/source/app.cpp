@@ -52,6 +52,7 @@ namespace tmp
   // Call this directly before play_song to check all songs in the folder are playable
   void App::playable_check()
   {
+    system("color 07");
     int songs_checked = 0;
     for (auto &file : files)
     {
@@ -61,6 +62,9 @@ namespace tmp
       {
         std::cout << "Error loading file: " << app.current_song_path << ": " << Mix_GetError()
                   << std::endl;
+        system("color 04");
+        tmp::platform::cursor_visible(true);
+        tmp::discord::cleanup();
         exit(1);
       }
       std::cout << "File loaded:   " << app.current_song_path << std::endl;
@@ -70,6 +74,9 @@ namespace tmp
       music = nullptr;
     }
     std::cout << "Songs checked: " << songs_checked << std::endl;
+    system("color 09");
+    tmp::platform::cursor_visible(true);
+    tmp::discord::cleanup();
     exit(1);
   }
 
