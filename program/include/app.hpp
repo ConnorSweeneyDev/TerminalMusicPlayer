@@ -25,7 +25,7 @@ namespace tmp
 
   private:
     void choose_random_song();
-    void choose_song(char *arg);
+    void choose_song(const char *arg);
     void display_song();
     void resume_or_pause();
     void increase_volume();

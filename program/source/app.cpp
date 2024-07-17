@@ -51,6 +51,23 @@ namespace tmp
   {
     current_song++;
 
+    //Uncomment to check that all songs are playable
+    /*
+    for (auto &file : files)
+    {
+      choose_song(file.c_str());
+      Mix_Music *music = Mix_LoadMUS(app.current_song_path.c_str());
+      if (music == nullptr)
+      {
+        std::cout << "Error loading file: " << app.current_song_path << ": " << Mix_GetError()
+                  << std::endl;
+        exit(1);
+      }
+      Mix_FreeMusic(music);
+      music = nullptr;
+    }
+    */
+
     if (argc == 1 || current_song >= argc)
       choose_random_song();
     else
@@ -203,7 +220,7 @@ namespace tmp
     current_song_path = songs_directory + "/" + current_song_name;
   }
 
-  void App::choose_song(char *arg)
+  void App::choose_song(const char *arg)
   {
     current_song_index = 0;
     for (std::string file : files)
