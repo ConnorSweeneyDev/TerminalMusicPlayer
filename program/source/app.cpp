@@ -33,6 +33,8 @@ namespace tmp
 
   void App::verify_arguments(int argc, char *argv[])
   {
+    if (argc == 2 && argv[1] == std::string("-c")) return;
+
     for (int index = 1; index < argc; index++)
     {
       if (!(std::find(files.begin(), files.end(), argv[index]) != files.end()))
@@ -77,6 +79,8 @@ namespace tmp
 
     if (argc == 1 || current_song >= argc)
       choose_random_song();
+    else if (argv[current_song] == std::string("-c"))
+      playable_check();
     else
       choose_song(argv[current_song]);
 

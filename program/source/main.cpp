@@ -4,11 +4,9 @@
 void app_loop(int argc, char *argv[])
 {
   tmp::app.play_song(argc, argv);
-
   while (tmp::player::song_playing)
   {
     if (tmp::player::song_ended()) tmp::app.close_song();
-
     tmp::app.read_input();
     tmp::app.display_info();
   }
