@@ -42,6 +42,7 @@ namespace tmp
     std::string songs_directory;
     std::string volume_path;
     std::vector<std::string> files;
+    std::vector<std::string> unused_files;
     int volume;
 
     int current_song_index;

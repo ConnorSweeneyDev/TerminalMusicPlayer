@@ -5,6 +5,7 @@
 #include <iostream>
 #include <map>
 #include <random>
+#include <set>
 #include <string>
 #include <vector>
 #include <windows.h>
@@ -35,8 +36,20 @@ namespace tmp
   {
     if (argc == 2 && argv[1] == std::string("-c")) return;
 
+    std::set<std::string> arguments;
     for (int index = 1; index < argc; index++)
     {
+      if (arguments.contains(argv[index]))
+      {
+        std::cout << "Duplicate file: " << argv[index] << std::endl;
+
+        system("color 07");
+        tmp::platform::cursor_visible(true);
+        tmp::discord::cleanup();
+        exit(1);
+      }
+      arguments.insert(argv[index]);
+
       if (!(std::find(files.begin(), files.end(), argv[index]) != files.end()))
       {
         std::cout << "File not found: " << argv[index] << std::endl;
@@ -229,19 +242,24 @@ namespace tmp
 
   void App::choose_random_song()
   {
+    if (unused_files.empty()) unused_files = files;
+
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, (int)files.size() - 1);
+    std::uniform_int_distribution<> dis(0, (int)unused_files.size() - 1);
     current_song_index = dis(gen);
 
-    current_song_name = files[(size_t)current_song_index];
+    current_song_name = unused_files[(size_t)current_song_index];
     current_song_path = songs_directory + "/" + current_song_name;
+    unused_files.erase(unused_files.begin() + current_song_index);
   }
 
   void App::choose_song(const char *arg)
   {
+    if (unused_files.empty()) unused_files = files;
+
     current_song_index = 0;
-    for (std::string file : files)
+    for (std::string file : unused_files)
     {
       if (arg == file)
         break;
@@ -251,6 +269,7 @@ namespace tmp
 
     current_song_name = arg;
     current_song_path = songs_directory + "/" + current_song_name;
+    unused_files.erase(unused_files.begin() + current_song_index);
   }
 
   void App::display_song()
