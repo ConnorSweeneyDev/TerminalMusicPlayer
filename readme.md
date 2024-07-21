@@ -40,10 +40,10 @@ top of the play queue. Whenever you change the path to your music folder, also d
   any more resizing causes glitchy output.
 - Skipping songs too fast in a row will cause the program to crash due to lots of reading and
   writing of files upon initializing a new song.
-- If there are any non-UTF8 characters in the file name (title tag is fine), the program will crash
-  when trying to open the song because SDL_mixer can't handle them. You can ensure every file is
-  playable by executing the binary with the flag `-c` for check which will report any files that
-  contain bad characters.
+- If there are any non-UTF8 characters in the file name (tags are fine), the program will crash when
+  trying to open the song because SDL_mixer can't handle them. You can ensure every file is playable
+  by executing the binary with the flag `-c` for check which will report any files that contain bad
+  characters.
 
 ## Updating SDL
 On top of the having the previous dependencies installed, go to the releases page and download the
