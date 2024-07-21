@@ -252,6 +252,11 @@ namespace tmp
     current_song_name = unused_files[(size_t)current_song_index];
     current_song_path = songs_directory + "/" + current_song_name;
     unused_files.erase(unused_files.begin() + current_song_index);
+
+    std::ofstream unused_files_file(tmp::platform::working_directory + "\\user\\unused_files.txt");
+    unused_files_file.clear();
+    for (std::string file : unused_files) unused_files_file << file << std::endl;
+    unused_files_file.close();
   }
 
   void App::choose_song(const char *arg)
@@ -269,7 +274,14 @@ namespace tmp
 
     current_song_name = arg;
     current_song_path = songs_directory + "/" + current_song_name;
+    if (current_song_index == (int)unused_files.size() && current_song_name != unused_files.back())
+      return;
     unused_files.erase(unused_files.begin() + current_song_index);
+
+    std::ofstream unused_files_file(tmp::platform::working_directory + "\\user\\unused_files.txt");
+    unused_files_file.clear();
+    for (std::string file : unused_files) unused_files_file << file << std::endl;
+    unused_files_file.close();
   }
 
   void App::display_song()
@@ -425,8 +437,28 @@ namespace tmp
       if (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
       files.push_back(find_data.cFileName);
     } while (FindNextFile(find_handle, &find_data) != 0);
-
     FindClose(find_handle);
+
+    std::string unused_files_path = tmp::platform::working_directory + "\\user\\unused_files.txt";
+    std::ifstream file_check(unused_files_path);
+    bool file_exists = file_check.good();
+    if (!file_exists)
+    {
+      std::ofstream unused_files_file(unused_files_path);
+      for (std::string file : files) unused_files_file << file << std::endl;
+      unused_files_file.close();
+    }
+
+    std::ifstream unused_files_file(unused_files_path);
+    if (!unused_files_file.is_open())
+    {
+      cleanup();
+      exit(1);
+    }
+
+    std::string line;
+    while (std::getline(unused_files_file, line)) unused_files.push_back(line);
+    unused_files_file.close();
   }
 
   void App::init_volume()
