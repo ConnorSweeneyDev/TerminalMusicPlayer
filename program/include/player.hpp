@@ -10,6 +10,7 @@ namespace tmp::player
   void set_volume(int volume);
 
   void play();
+  void seek(double seconds);
   void pause();
   void resume();
   bool song_ended();

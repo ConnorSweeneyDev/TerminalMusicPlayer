@@ -34,4 +34,5 @@ client_id.txt
 songs_directory.txt
 volume.txt
 unused_files.txt
+previous_session.txt
 config.ini

@@ -33,7 +33,8 @@ portal in it. After that create `user/songs_directory.txt` and put the path to y
 it. Then you can build and run the C++ code using the batch files in `script/`. Optionally, you can
 supply specific mp3 files from the selected folder as arguments to the program to put them at the
 top of the play queue. Whenever you change the path to your music folder, also delete
-`user/unused_files.txt` as it will need to be generated from scratch.
+`user/unused_files.txt` and `user/previous_session.txt` as they will need to be generated from
+scratch.
 
 ## Known Issues
 - The screen can be made bigger (not smaller) before the song list starts scrolling, but after that

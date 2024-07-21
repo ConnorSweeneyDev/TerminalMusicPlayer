@@ -59,6 +59,7 @@ namespace tmp::player
   }
 
   void play() { Mix_PlayMusic(music, 0); }
+  void seek(double seconds) { Mix_SetMusicPosition(seconds); }
   void pause() { Mix_PauseMusic(); }
   void resume() { Mix_ResumeMusic(); }
   bool song_ended() { return Mix_PlayingMusic() == 0; }
@@ -70,7 +71,6 @@ namespace tmp::player
     {
       std::cout << "Error loading file: " << app.current_song_path << ": " << Mix_GetError()
                 << std::endl;
-      app.cleanup();
       exit(1);
     }
 

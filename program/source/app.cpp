@@ -62,7 +62,6 @@ namespace tmp
     }
   }
 
-  // Call this directly before play_song to check all songs in the folder are playable
   void App::playable_check()
   {
     system("color 07");
@@ -97,16 +96,36 @@ namespace tmp
   {
     current_song++;
 
-    if (argc == 1 || current_song >= argc)
-      choose_random_song();
-    else if (argv[current_song] == std::string("-c"))
-      playable_check();
-    else
-      choose_song(argv[current_song]);
+    bool previous_session_exists = false;
+    if (current_song == 1) previous_session_exists = remember_previous_session();
 
+    if ((argc == 1 || current_song >= argc) && !previous_session_exists)
+      choose_random_song();
+    else if (argc > 1)
+    {
+      previous_session_exists = false;
+      if (argv[current_song] == std::string("-c"))
+        playable_check();
+      else
+        choose_song(argv[current_song]);
+    }
+
+    if (previous_session_exists) choose_song(previous_session_song_name.c_str());
     tmp::player::open();
     tmp::player::set_volume(volume);
     tmp::player::play();
+    if (previous_session_exists)
+    {
+      size_t colon_pos = previous_session_song_display_length.find(':');
+      int minutes = std::stoi(previous_session_song_display_length.substr(0, colon_pos));
+      int seconds = std::stoi(previous_session_song_display_length.substr(colon_pos + 1));
+      int time = minutes * 60 + seconds;
+      double previous_session_song_progress_seconds =
+        (previous_session_song_progress * time) / 100.0;
+      tmp::player::seek(previous_session_song_progress_seconds);
+      current_song_progress = previous_session_song_progress;
+      current_song_display_length = previous_session_song_display_length;
+    }
     display_song();
     tmp::player::song_playing = true;
     current_song_paused = false;
@@ -131,6 +150,9 @@ namespace tmp
         increase_volume();
       else if (key == 'd')
         decrease_volume();
+      else if (key == '0' || key == '1' || key == '2' || key == '3' || key == '4' || key == '5' ||
+               key == '6' || key == '7' || key == '8' || key == '9')
+        seek_to(key);
       else if (key == 'n')
         close_song();
       else if (key == 'q')
@@ -238,6 +260,38 @@ namespace tmp
     tmp::platform::cleanup();
     tmp::discord::cleanup();
     cleanup_sdl();
+  }
+
+  bool App::remember_previous_session()
+  {
+    std::string previous_session_path =
+      tmp::platform::working_directory + "\\user\\previous_session.txt";
+    std::ifstream file_check(previous_session_path);
+    bool file_exists = file_check.good();
+    if (!file_exists)
+    {
+      std::ofstream previous_session_file(previous_session_path);
+      previous_session_file << "";
+      previous_session_file.close();
+      return false;
+    }
+
+    std::ifstream previous_session_file(previous_session_path);
+    if (!previous_session_file.is_open())
+    {
+      cleanup();
+      exit(1);
+    }
+
+    std::string line;
+    std::getline(previous_session_file, line);
+    previous_session_song_name = line;
+    std::getline(previous_session_file, line);
+    previous_session_song_progress = std::stoi(line);
+    std::getline(previous_session_file, line);
+    previous_session_song_display_length = line;
+    previous_session_file.close();
+    return true;
   }
 
   void App::choose_random_song()
@@ -394,8 +448,36 @@ namespace tmp
     volume_file.close();
   }
 
+  void App::seek_to(char key)
+  {
+    size_t colon_pos = current_song_display_length.find(':');
+    int minutes = std::stoi(current_song_display_length.substr(0, colon_pos));
+    int seconds = std::stoi(current_song_display_length.substr(colon_pos + 1));
+    int time = minutes * 60 + seconds;
+    int number = key - '0';
+    tmp::player::seek((((number * 10.0) * time) / 100.0));
+    current_song_progress = number * 10;
+  }
+
   void App::quit_app()
   {
+    std::string previous_session_path =
+      tmp::platform::working_directory + "\\user\\previous_session.txt";
+    std::ofstream previous_session_file(previous_session_path);
+    if (!previous_session_file.is_open())
+    {
+      cleanup();
+      exit(1);
+    }
+
+    previous_session_file << current_song_path.substr(current_song_path.find_last_of("/") + 1)
+                          << std::endl;
+    previous_session_file << current_song_progress << std::endl;
+    previous_session_file << current_song_display_length.replace(
+                               current_song_display_length.find_first_of(" "), 1, "")
+                          << std::endl;
+    previous_session_file.close();
+
     tmp::player::song_playing = false;
     running = false;
   }

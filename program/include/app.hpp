@@ -25,12 +25,14 @@ namespace tmp
     std::string current_song_path;
 
   private:
+    bool remember_previous_session();
     void choose_random_song();
     void choose_song(const char *arg);
     void display_song();
     void resume_or_pause();
     void increase_volume();
     void decrease_volume();
+    void seek_to(char key);
     void quit_app();
 
     std::string init_songs_directory();
@@ -43,6 +45,9 @@ namespace tmp
     std::string volume_path;
     std::vector<std::string> files;
     std::vector<std::string> unused_files;
+    std::string previous_session_song_name;
+    int previous_session_song_progress;
+    std::string previous_session_song_display_length;
     int volume;
 
     int current_song_index;
