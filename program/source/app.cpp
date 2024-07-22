@@ -309,6 +309,7 @@ namespace tmp
     std::remove(previous_session_path.c_str());
 
     cleanup();
+    std::cout << "File cache refreshed." << std::endl;
     exit(0);
   }
 
