@@ -34,7 +34,10 @@ namespace tmp
 
   void App::verify_arguments(int argc, char *argv[])
   {
-    if (argc == 2 && argv[1] == std::string("-c")) return;
+    if (argc == 2 && argv[1] == std::string("-c"))
+      return;
+    else if (argc == 2 && argv[1] == std::string("-r"))
+      return;
 
     std::set<std::string> arguments;
     for (int index = 1; index < argc; index++)
@@ -89,7 +92,7 @@ namespace tmp
     system("color 09");
     tmp::platform::cursor_visible(true);
     tmp::discord::cleanup();
-    exit(1);
+    exit(0);
   }
 
   void App::play_song(int argc, char *argv[])
@@ -106,6 +109,8 @@ namespace tmp
       previous_session_exists = false;
       if (argv[current_song] == std::string("-c"))
         playable_check();
+      else if (argv[current_song] == std::string("-r"))
+        refresh_file_chache();
       else
         choose_song(argv[current_song]);
     }
@@ -292,6 +297,19 @@ namespace tmp
     previous_session_song_display_length = line;
     previous_session_file.close();
     return true;
+  }
+
+  void App::refresh_file_chache()
+  {
+    std::string unused_files_path = tmp::platform::working_directory + "\\user\\unused_files.txt";
+    std::remove(unused_files_path.c_str());
+
+    std::string previous_session_path =
+      tmp::platform::working_directory + "\\user\\previous_session.txt";
+    std::remove(previous_session_path.c_str());
+
+    cleanup();
+    exit(0);
   }
 
   void App::choose_random_song()

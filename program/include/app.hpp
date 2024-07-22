@@ -26,6 +26,7 @@ namespace tmp
 
   private:
     bool remember_previous_session();
+    void refresh_file_chache();
     void choose_random_song();
     void choose_song(const char *arg);
     void display_song();
