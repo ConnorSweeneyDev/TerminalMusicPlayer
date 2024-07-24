@@ -68,7 +68,6 @@ namespace tmp
 
   void App::playable_check()
   {
-    system("color 07");
     int songs_checked = 0;
     for (auto &file : files)
     {
@@ -76,23 +75,20 @@ namespace tmp
       Mix_Music *music = Mix_LoadMUS(app.current_song_path.c_str());
       if (music == nullptr)
       {
+        cleanup();
         std::cout << "Error loading file: " << app.current_song_path << ": " << Mix_GetError()
                   << std::endl;
-        system("color 04");
-        tmp::platform::cursor_visible(true);
-        tmp::discord::cleanup();
+        std::cout << "Songs checked: " << songs_checked << std::endl;
         exit(1);
       }
-      std::cout << "File loaded:   " << app.current_song_path << std::endl;
+      std::cout << "File loaded: " << app.current_song_path << std::endl;
       songs_checked++;
 
       Mix_FreeMusic(music);
       music = nullptr;
     }
-    std::cout << "Songs checked: " << songs_checked << std::endl;
-    system("color 09");
-    tmp::platform::cursor_visible(true);
-    tmp::discord::cleanup();
+    cleanup();
+    std::cout << "Success - Songs checked: " << songs_checked << std::endl;
     exit(0);
   }
 
