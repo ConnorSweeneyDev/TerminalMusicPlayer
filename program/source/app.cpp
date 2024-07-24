@@ -79,7 +79,7 @@ namespace tmp
         std::cout << "Error loading file: " << app.current_song_path << ": " << Mix_GetError()
                   << std::endl;
         std::cout << "Songs checked: " << songs_checked << std::endl;
-        exit(1);
+        refresh_file_chache();
       }
       std::cout << "File loaded: " << app.current_song_path << std::endl;
       songs_checked++;
@@ -89,7 +89,7 @@ namespace tmp
     }
     cleanup();
     std::cout << "Success - Songs checked: " << songs_checked << std::endl;
-    exit(0);
+    refresh_file_chache();
   }
 
   void App::play_song(int argc, char *argv[])
