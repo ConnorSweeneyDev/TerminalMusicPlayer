@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <conio.h>
 #include <cstddef>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -301,12 +302,15 @@ namespace tmp
 
   void App::refresh_file_chache()
   {
+    std::cout << "Refreshing file cache..." << std::endl;
+    Sleep(3000);
+
     std::string unused_files_path = tmp::platform::working_directory + "\\user\\unused_files.txt";
-    std::remove(unused_files_path.c_str());
+    if (std::filesystem::exists(unused_files_path)) std::remove(unused_files_path.c_str());
 
     std::string previous_session_path =
       tmp::platform::working_directory + "\\user\\previous_session.txt";
-    std::remove(previous_session_path.c_str());
+    if (std::filesystem::exists(previous_session_path)) std::remove(previous_session_path.c_str());
 
     cleanup();
     std::cout << "File cache refreshed." << std::endl;
