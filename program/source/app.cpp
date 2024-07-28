@@ -87,7 +87,6 @@ namespace tmp
       Mix_FreeMusic(music);
       music = nullptr;
     }
-    cleanup();
     std::cout << "Success - Songs checked: " << songs_checked << std::endl;
     refresh_file_chache();
   }
