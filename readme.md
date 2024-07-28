@@ -1,10 +1,10 @@
 # TerminalMusicPlayer
 A fast and simple music player for the terminal. 'p' to pause, 'n' to go next, 'u' and 'd' for
-volume up and down, the number keys for 0, 10 etc percent and 'q' to quit. Alternatively, media
-controls for pause, skip and stop work too. Also has discord integration, showing information about
-the song being played, the current session, the status of the player and song progress.
-Additionally, it uses ffmpeg to retrieve the mean decibel level of the current song and normalizes
-around -14dB when calculating the volume level.
+volume up and down, the number keys for 0%, 10% etc and 'q' to quit. Alternatively, media controls
+for pause, skip and stop work too. Also has discord integration, showing information about the song
+being played, the current session, the status of the player and song progress. Additionally, it uses
+ffmpeg to retrieve the mean decibel level of the current song and normalizes around -14dB when
+calculating the volume level.
 
 https://github.com/ConnorSweeneyDev/TerminalMusicPlayer/assets/75945279/b4bbb381-3121-4223-ac8b-b01c84be278a
 
