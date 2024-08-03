@@ -145,18 +145,18 @@ namespace tmp
     {
       char key = (char)_getch();
 
-      if (key == 'p')
+      if (key == 'p' || key == 'P')
         resume_or_pause();
-      else if (key == 'u')
+      else if (key == 'u' || key == 'U')
         increase_volume();
-      else if (key == 'd')
+      else if (key == 'd' || key == 'D')
         decrease_volume();
       else if (key == '0' || key == '1' || key == '2' || key == '3' || key == '4' || key == '5' ||
                key == '6' || key == '7' || key == '8' || key == '9')
         seek_to(key);
-      else if (key == 'n')
+      else if (key == 'n' || key == 'N')
         close_song();
-      else if (key == 'q')
+      else if (key == 'q' || key == 'Q')
         quit_app();
     }
 
