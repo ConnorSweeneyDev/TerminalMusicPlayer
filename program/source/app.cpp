@@ -228,6 +228,7 @@ namespace tmp
 
     current_song_progress = progress_percent;
     tmp::discord::update_progress(current_song_progress);
+    write_previous_session();
   }
 
   void App::close_song()
@@ -293,6 +294,27 @@ namespace tmp
     previous_session_song_display_length = line;
     previous_session_file.close();
     return true;
+  }
+
+  void App::write_previous_session()
+  {
+    std::string previous_session_path =
+      tmp::platform::working_directory + "\\user\\previous_session.txt";
+    std::ofstream previous_session_file(previous_session_path);
+    if (!previous_session_file.is_open())
+    {
+      cleanup();
+      exit(1);
+    }
+
+    previous_session_file << current_song_path.substr(current_song_path.find_last_of("/") + 1)
+                          << std::endl;
+    previous_session_file << current_song_progress << std::endl;
+    std::string length = current_song_display_length;
+    if (length.find_first_of(" ") != std::string::npos)
+      length.replace(length.find_first_of(" "), 1, "");
+    previous_session_file << length << std::endl;
+    previous_session_file.close();
   }
 
   void App::refresh_file_chache()
@@ -479,22 +501,7 @@ namespace tmp
 
   void App::quit_app()
   {
-    std::string previous_session_path =
-      tmp::platform::working_directory + "\\user\\previous_session.txt";
-    std::ofstream previous_session_file(previous_session_path);
-    if (!previous_session_file.is_open())
-    {
-      cleanup();
-      exit(1);
-    }
-
-    previous_session_file << current_song_path.substr(current_song_path.find_last_of("/") + 1)
-                          << std::endl;
-    previous_session_file << current_song_progress << std::endl;
-    previous_session_file << current_song_display_length.replace(
-                               current_song_display_length.find_first_of(" "), 1, "")
-                          << std::endl;
-    previous_session_file.close();
+    write_previous_session();
 
     tmp::player::song_playing = false;
     running = false;
