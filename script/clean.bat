@@ -1,3 +1,3 @@
 @ECHO OFF
 
-make clean
+make -f make/main.mk clean
