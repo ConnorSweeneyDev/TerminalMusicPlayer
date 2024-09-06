@@ -22,7 +22,7 @@ have the limitation of being windows and mp3 only.
   `libssp-0.dll` in the `binary` folder with your own, as long as they are 64-bit and have
   llvm/clang support.
 - Make &rightarrow; Run `winget install make --source winget`.
-- Python &rightarrow; Run `winget install --id Python.Python.3.12`.
+- Python &rightarrow; Run `winget install --id Python.Python.3.10`.
 - ffmpeg &rightarrow; Run `winget install --id Gyan.FFmpeg`.
 - A discord app set up on the [developer portal](https://discord.com/developers/applications). Add a
   new application and enable rich presence for it, and make note of the application id.
