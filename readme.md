@@ -16,11 +16,9 @@ have the limitation of being windows and mp3 only.
 
 ## Dependencies
 - Windows.
+- MinGW 64-bit &rightarrow; Use any 64-bit distribution of [MinGW](https://winlibs.com/) with
+  llvm/clang support and add `[DISTRIBUTION]/bin` to your path.
 - PowerShell (pwsh.exe) &rightarrow; Run `winget install --id Microsoft.Powershell --source winget`.
-- MinGW 64-bit &rightarrow; Use my version of [MinGW](https://winlibs.com/) (look at
-  `external/mingw_version_info.txt`) or replace `libgcc_s_seh-1.dll`, `libstdc++-6.dll` and
-  `libssp-0.dll` in the `binary` folder with your own, as long as they are 64-bit and have
-  llvm/clang support.
 - Make &rightarrow; Run `winget install make --source winget`.
 - Python &rightarrow; Run `winget install --id Python.Python.3.10`.
 - ffmpeg &rightarrow; Run `winget install --id Gyan.FFmpeg`.
