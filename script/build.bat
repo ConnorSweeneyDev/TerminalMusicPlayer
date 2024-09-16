@@ -1,5 +1,9 @@
 @ECHO OFF
 
-for /f %%a in ('powershell -Command "[int](python3 -c 'import multiprocessing as mp; print(int(mp.cpu_count() * 1.5))')"') do set CPU_COUNT_MULTIPLIER=%%a
+for /f %%a in ('powershell -Command "[int](python -c 'import multiprocessing as mp; print(int(mp.cpu_count() * 1.5))')"') do set CPU_COUNT_MULTIPLIER=%%a
+set FLAGS=-s -f make/main.mk -j %CPU_COUNT_MULTIPLIER% DEBUG=0
 
-start pwsh -NoExit -Command "make -f make/main.mk utility -j %CPU_COUNT_MULTIPLIER% && make -f make/main.mk prepare -j %CPU_COUNT_MULTIPLIER% && make -f make/main.mk build -j %CPU_COUNT_MULTIPLIER%"
+set UTILITY=utility %FLAGS%
+set PREPARE=prepare %FLAGS%
+set BUILD=build %FLAGS%
+start pwsh -NoExit -Command "make %UTILITY% && make %PREPARE% && make %BUILD%"

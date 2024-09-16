@@ -1,5 +1,3 @@
-DEBUG := 0
-
 CXX = g++
 ifeq ($(DEBUG), 1)
   CXXFLAGS = -g -MD -MP -O2 -std=c++20 -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2 -fstack-protector-strong
