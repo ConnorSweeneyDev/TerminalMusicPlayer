@@ -21,8 +21,8 @@ namespace tmp::player
   {
     float decibels = -14.0f;
 
-    std::string command =
-      "pwsh -Command \"ffmpeg -i '" + app.current_song_path + "' -af volumedetect -f null / 2>&1\"";
+    std::string command = "pwsh -Command \"ffmpeg -i '" + app.current_song_path +
+                          "' -filter:a volumedetect -f null /dev/null 2>&1\"";
     std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(command.c_str(), "r"), pclose);
     if (!pipe)
     {
