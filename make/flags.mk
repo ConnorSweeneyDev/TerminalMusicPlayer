@@ -1,8 +1,8 @@
 CXX = g++
 ifeq ($(DEBUG), 1)
-  CXXFLAGS = -ggdb3 -MD -MP -O2 -std=c++20 -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2 -fstack-protector-strong
+  CXXFLAGS = -ggdb3 -MD -MP -O2 -std=c++20 -DDEBUG -D_FORTIFY_SOURCE=2 -fno-common -fstack-protector-strong
 else
-  CXXFLAGS = -s -O3 -std=c++20 -DNDEBUG -D_FORTIFY_SOURCE=2 -fstack-protector-strong
+  CXXFLAGS = -s -O3 -std=c++20 -DNDEBUG -fno-common -fstack-protector-strong -ffunction-sections -fdata-sections -flto=auto -Wl,--gc-sections
 endif
 
 WARNINGS = -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Wcast-qual -Wcast-align -Wfloat-equal -Wlogical-op -Wduplicated-cond -Wshift-overflow=2 -Wformat=2
