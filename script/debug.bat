@@ -1,3 +1,9 @@
 @ECHO OFF
 
-wt --window 0 -p "PowerShell" pwsh -Command "cd %cd% && gdb binary/TerminalMusicPlayer.exe"
+IF "%1" == "-wezterm" (
+  SET TERM=wezterm cli spawn --cwd %CD% pwsh -Command
+) ELSE (
+  SET TERM=pwsh -Command
+)
+
+%TERM% "gdb -tui ./binary/TerminalMusicPlayer.exe"
