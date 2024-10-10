@@ -20,7 +20,6 @@ have the limitation of being windows and mp3 only.
   llvm/clang support and add `[DISTRIBUTION]/bin` to your path.
 - PowerShell (pwsh.exe) &rightarrow; Run `winget install --id Microsoft.Powershell --source winget`.
 - Make &rightarrow; Run `winget install make --source winget`.
-- Python &rightarrow; Run `winget install --id Python.Python.3.10`.
 - ffmpeg &rightarrow; Run `winget install --id Gyan.FFmpeg`.
 - A discord app set up on the [developer portal](https://discord.com/developers/applications). Add a
   new application and enable rich presence for it, and make note of the application id.
