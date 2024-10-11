@@ -1,5 +1,5 @@
 @ECHO OFF
 
-SET COMMAND=binary/TerminalMusicPlayer.exe
-IF "%1" == "-wezterm" (wezterm cli spawn --cwd %CD% pwsh -Command "./%COMMAND%")
-IF "%1" == "" (cmd /C "start %COMMAND%")
+SET COMMAND=pwsh -Command "./binary/TerminalMusicPlayer.exe"
+IF "%1" == "-wezterm" (wezterm cli spawn --cwd %CD% %COMMAND%)
+IF "%1" == "" (START %COMMAND%)
