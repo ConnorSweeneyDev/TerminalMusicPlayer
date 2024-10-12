@@ -55,7 +55,6 @@ namespace tmp::player
     else if (real_volume < 0)
       real_volume = 0;
 
-    std::cout << "Volume: " << real_volume << std::endl;
     Mix_VolumeMusic((int)real_volume);
   }
 
