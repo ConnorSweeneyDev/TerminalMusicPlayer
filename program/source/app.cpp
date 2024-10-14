@@ -168,7 +168,7 @@ namespace tmp
     if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &current_song_buffer_info))
     {
       current_song_bar_width =
-        current_song_buffer_info.srWindow.Right - current_song_buffer_info.srWindow.Left - 19;
+        current_song_buffer_info.srWindow.Right - current_song_buffer_info.srWindow.Left - 17;
       current_song_bar_height =
         current_song_buffer_info.srWindow.Bottom - current_song_buffer_info.srWindow.Top - 1;
     }
@@ -185,11 +185,11 @@ namespace tmp
     int progress_percent = int(progress / time * 100.0);
     std::string progress_percent_blank_space;
     if (progress_percent < 10)
-      progress_percent_blank_space = "     ";
-    else if (progress_percent < 100 && progress_percent >= 10)
-      progress_percent_blank_space = "    ";
-    else
       progress_percent_blank_space = "   ";
+    else if (progress_percent < 100 && progress_percent >= 10)
+      progress_percent_blank_space = "  ";
+    else
+      progress_percent_blank_space = " ";
 
     std::string volume_percent_blank_space;
     if (volume < 10)
