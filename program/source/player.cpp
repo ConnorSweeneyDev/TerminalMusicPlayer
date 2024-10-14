@@ -1,3 +1,4 @@
+#include <cmath>
 #include <iostream>
 #include <memory>
 #include <regex>
@@ -55,7 +56,7 @@ namespace tmp::player
     else if (real_volume < 0)
       real_volume = 0;
 
-    Mix_VolumeMusic((int)real_volume);
+    Mix_VolumeMusic((int)std::round(real_volume));
   }
 
   void play() { Mix_PlayMusic(music, 0); }
