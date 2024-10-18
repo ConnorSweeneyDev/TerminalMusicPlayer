@@ -1,3 +1,4 @@
+OUTPUT_FILE = binary/TerminalMusicPlayer.exe
 PROGRAM_SOURCE_DIRECTORY = program/source
 PROGRAM_INCLUDE_DIRECTORY = program/include
 BINARY_DIRECTORY = binary
