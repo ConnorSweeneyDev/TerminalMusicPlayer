@@ -9,4 +9,3 @@ WARNINGS = -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Wcast-qual -Wcast-ali
 INCLUDES = -Iprogram/include
 SYSTEM_INCLUDES = -isystemexternal/include -isystemexternal/include/sdl2 -isystemexternal/include/taglib
 LIBRARIES = -Lexternal/library/sdl2 -Lexternal/library/taglib -static -Wl,-Bstatic -lgcc -lstdc++ -lssp -lwinpthread -lwinmm -lmingw32 -Wl,-Bdynamic -lSDL2main -lSDL2 -lSDL2_mixer -ltag
-OUTPUT = binary/TerminalMusicPlayer.exe
