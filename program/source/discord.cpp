@@ -34,9 +34,8 @@ namespace tmp::discord
 
     id_file.close();
 
-    presence = "[Identifiers]\nClientID=" + client_id +
-               "\n\n[State]\nState=" + std::to_string(app.current_song) + " Song" + optional_s +
-               " This Session | Playing | 0%" + "\nDetails=" + song_name +
+    presence = "[Identifiers]\nClientID=" + client_id + "\n\n[State]\nState=" + std::to_string(app.current_song) +
+               " Song" + optional_s + " This Session | Playing | 0%" + "\nDetails=" + song_name +
                "\nStartTimestamp=\nEndTimestamp=\n\n[Images]\nLargeImage=\"\"\nLargeImageTooltip="
                "\nSmallImage=\"\"\nSmallImageTooltip=";
 
@@ -53,8 +52,7 @@ namespace tmp::discord
     size_t space_pos = presence.rfind(" ", percent_pos);
 
     std::string old_progress = presence.substr(space_pos + 1, percent_pos - space_pos - 1);
-    presence =
-      std::regex_replace(presence, std::regex(old_progress + "%"), std::to_string(progress) + "%");
+    presence = std::regex_replace(presence, std::regex(old_progress + "%"), std::to_string(progress) + "%");
 
     config_file << presence;
     config_file.close();
@@ -112,10 +110,9 @@ namespace tmp::discord
     si.cb = sizeof(si);
     ZeroMemory(&pi, sizeof(pi));
 
-    std::string cmd_line =
-      "pwsh -NoProfile -ExecutionPolicy Bypass -Command \"Start-Process -d \"" +
-      tmp::platform::working_directory + "\" -FilePath \"" + tmp::platform::working_directory +
-      "\\binary\\easyrp.exe\" -Confirm:$false -WindowStyle Hidden\"";
+    std::string cmd_line = "pwsh -NoProfile -ExecutionPolicy Bypass -Command \"Start-Process -d \"" +
+                           tmp::platform::working_directory + "\" -FilePath \"" + tmp::platform::working_directory +
+                           "\\binary\\easyrp.exe\" -Confirm:$false -WindowStyle Hidden\"";
 
     TCHAR cmd_line_tchar[MAX_PATH];
 #ifdef UNICODE

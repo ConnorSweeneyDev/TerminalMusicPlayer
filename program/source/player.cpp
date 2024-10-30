@@ -22,8 +22,7 @@ namespace tmp::player
   {
     float decibels = -14.0f;
 
-    std::string command =
-      "ffmpeg -i \"" + app.current_song_path + "\" -filter:a volumedetect -f null /dev/null 2>&1";
+    std::string command = "ffmpeg -i \"" + app.current_song_path + "\" -filter:a volumedetect -f null /dev/null 2>&1";
     std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(command.c_str(), "r"), pclose);
     if (!pipe)
     {
@@ -42,8 +41,7 @@ namespace tmp::player
 
     std::regex decibels_regex("-?[0-9]+.[0-9]+");
     std::smatch decibels_match;
-    if (std::regex_search(ffmpeg_output, decibels_match, decibels_regex))
-      decibels = std::stof(decibels_match[0]);
+    if (std::regex_search(ffmpeg_output, decibels_match, decibels_regex)) decibels = std::stof(decibels_match[0]);
 
     return decibels;
   }
@@ -70,8 +68,7 @@ namespace tmp::player
     music = Mix_LoadMUS(app.current_song_path.c_str());
     if (music == nullptr)
     {
-      std::cout << "Error loading file: " << app.current_song_path << ": " << Mix_GetError()
-                << std::endl;
+      std::cout << "Error loading file: " << app.current_song_path << ": " << Mix_GetError() << std::endl;
       exit(1);
     }
 

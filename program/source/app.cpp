@@ -25,13 +25,12 @@ namespace tmp
   App app;
 
   std::map<std::string, std::string> replace_chars = {
-    {"“", "\""}, {"”", "\""}, {"’", "'"}, {"–", "-"}, {"á", "a"},  {"å", "a"},  {"é", "e"},
-    {"í", "i"},  {"ó", "o"},  {"Ö", "O"}, {"ú", "u"}, {"ñ", "n"},  {"ç", "c"},  {"ä", "a"},
-    {"ë", "e"},  {"ï", "i"},  {"ö", "o"}, {"ü", "u"}, {"Á", "A"},  {"É", "E"},  {"Í", "I"},
-    {"Ó", "O"},  {"Ú", "U"},  {"Ñ", "N"}, {"Ç", "C"}, {"Ä", "A"},  {"Ë", "E"},  {"Ï", "I"},
-    {"Ü", "U"},  {"ß", "B"},  {"ø", "o"}, {"Ø", "O"}, {"æ", "ae"}, {"Æ", "AE"}, {"œ", "oe"},
-    {"Œ", "CE"}, {"Å", "A"},  {"Þ", "D"}, {"þ", "b"}, {"ð", "d"},  {"Ý", "Y"},  {"ý", "y"},
-    {"ÿ", "y"},  {"Ÿ", "Y"},  {"Š", "S"}, {"š", "s"}, {"Ž", "Z"},  {"ž", "z"}};
+    {"“", "\""}, {"”", "\""}, {"’", "'"},  {"–", "-"},  {"á", "a"}, {"å", "a"}, {"é", "e"}, {"í", "i"},
+    {"ó", "o"},  {"Ö", "O"},  {"ú", "u"},  {"ñ", "n"},  {"ç", "c"}, {"ä", "a"}, {"ë", "e"}, {"ï", "i"},
+    {"ö", "o"},  {"ü", "u"},  {"Á", "A"},  {"É", "E"},  {"Í", "I"}, {"Ó", "O"}, {"Ú", "U"}, {"Ñ", "N"},
+    {"Ç", "C"},  {"Ä", "A"},  {"Ë", "E"},  {"Ï", "I"},  {"Ü", "U"}, {"ß", "B"}, {"ø", "o"}, {"Ø", "O"},
+    {"æ", "ae"}, {"Æ", "AE"}, {"œ", "oe"}, {"Œ", "CE"}, {"Å", "A"}, {"Þ", "D"}, {"þ", "b"}, {"ð", "d"},
+    {"Ý", "Y"},  {"ý", "y"},  {"ÿ", "y"},  {"Ÿ", "Y"},  {"Š", "S"}, {"š", "s"}, {"Ž", "Z"}, {"ž", "z"}};
 
   void App::verify_arguments(int argc, char *argv[])
   {
@@ -76,8 +75,7 @@ namespace tmp
       if (music == nullptr)
       {
         cleanup();
-        std::cout << "Error loading file: " << app.current_song_path << ": " << Mix_GetError()
-                  << std::endl;
+        std::cout << "Error loading file: " << app.current_song_path << ": " << Mix_GetError() << std::endl;
         std::cout << "Songs checked: " << songs_checked << std::endl;
         refresh_file_chache();
       }
@@ -121,8 +119,7 @@ namespace tmp
       int minutes = std::stoi(previous_session_song_display_length.substr(0, colon_pos));
       int seconds = std::stoi(previous_session_song_display_length.substr(colon_pos + 1));
       int time = minutes * 60 + seconds;
-      double previous_session_song_progress_seconds =
-        (previous_session_song_progress * time) / 100.0;
+      double previous_session_song_progress_seconds = (previous_session_song_progress * time) / 100.0;
       tmp::player::seek(previous_session_song_progress_seconds);
       current_song_progress = previous_session_song_progress;
       current_song_display_length = previous_session_song_display_length;
@@ -151,8 +148,8 @@ namespace tmp
         increase_volume();
       else if (key == 'd' || key == 'D')
         decrease_volume();
-      else if (key == '0' || key == '1' || key == '2' || key == '3' || key == '4' || key == '5' ||
-               key == '6' || key == '7' || key == '8' || key == '9')
+      else if (key == '0' || key == '1' || key == '2' || key == '3' || key == '4' || key == '5' || key == '6' ||
+               key == '7' || key == '8' || key == '9')
         seek_to(key);
       else if (key == 'n' || key == 'N')
         close_song();
@@ -167,14 +164,11 @@ namespace tmp
   {
     if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &current_song_buffer_info))
     {
-      current_song_bar_width =
-        current_song_buffer_info.srWindow.Right - current_song_buffer_info.srWindow.Left - 17;
-      current_song_bar_height =
-        current_song_buffer_info.srWindow.Bottom - current_song_buffer_info.srWindow.Top - 1;
+      current_song_bar_width = current_song_buffer_info.srWindow.Right - current_song_buffer_info.srWindow.Left - 17;
+      current_song_bar_height = current_song_buffer_info.srWindow.Bottom - current_song_buffer_info.srWindow.Top - 1;
     }
 
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),
-                             {0, static_cast<short>(current_song)});
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0, static_cast<short>(current_song)});
 
     size_t colon_pos = current_song_display_length.find(':');
     int minutes = std::stoi(current_song_display_length.substr(0, colon_pos));
@@ -202,8 +196,7 @@ namespace tmp
     std::string new_lines_blank_space;
     for (int i = 0; i < current_song_bar_width; ++i) new_lines_blank_space += " ";
     std::string new_lines;
-    for (int i = 0; i < current_song_bar_height - current_song; ++i)
-      new_lines += "\n" + new_lines_blank_space;
+    for (int i = 0; i < current_song_bar_height - current_song; ++i) new_lines += "\n" + new_lines_blank_space;
     if (current_song_bar_height - current_song + 1 > 0) new_lines += "\n";
 
     int pos = (int)(progress / time * current_song_bar_width);
@@ -219,12 +212,11 @@ namespace tmp
     }
     if (progress_percent > 100) progress_percent = 100;
     if (progress_percent < 0) progress_percent = 0;
-    std::cout << "] " << progress_percent << "%" << progress_percent_blank_space
-              << "Vol: " << volume << "%" << volume_percent_blank_space << "\r";
+    std::cout << "] " << progress_percent << "%" << progress_percent_blank_space << "Vol: " << volume << "%"
+              << volume_percent_blank_space << "\r";
     std::cout.flush();
 
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),
-                             {0, static_cast<short>(current_song)});
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0, static_cast<short>(current_song)});
 
     current_song_progress = progress_percent;
     tmp::discord::update_progress(current_song_progress);
@@ -266,8 +258,7 @@ namespace tmp
 
   bool App::remember_previous_session()
   {
-    std::string previous_session_path =
-      tmp::platform::working_directory + "\\user\\previous_session.txt";
+    std::string previous_session_path = tmp::platform::working_directory + "\\user\\previous_session.txt";
     std::ifstream file_check(previous_session_path);
     bool file_exists = file_check.good();
     if (!file_exists)
@@ -298,8 +289,7 @@ namespace tmp
 
   void App::write_previous_session()
   {
-    std::string previous_session_path =
-      tmp::platform::working_directory + "\\user\\previous_session.txt";
+    std::string previous_session_path = tmp::platform::working_directory + "\\user\\previous_session.txt";
     std::ofstream previous_session_file(previous_session_path);
     if (!previous_session_file.is_open())
     {
@@ -307,12 +297,10 @@ namespace tmp
       exit(1);
     }
 
-    previous_session_file << current_song_path.substr(current_song_path.find_last_of("/") + 1)
-                          << std::endl;
+    previous_session_file << current_song_path.substr(current_song_path.find_last_of("/") + 1) << std::endl;
     previous_session_file << current_song_progress << std::endl;
     std::string length = current_song_display_length;
-    if (length.find_first_of(" ") != std::string::npos)
-      length.replace(length.find_first_of(" "), 1, "");
+    if (length.find_first_of(" ") != std::string::npos) length.replace(length.find_first_of(" "), 1, "");
     previous_session_file << length << std::endl;
     previous_session_file.close();
   }
@@ -325,8 +313,7 @@ namespace tmp
     std::string unused_files_path = tmp::platform::working_directory + "\\user\\unused_files.txt";
     if (std::filesystem::exists(unused_files_path)) std::remove(unused_files_path.c_str());
 
-    std::string previous_session_path =
-      tmp::platform::working_directory + "\\user\\previous_session.txt";
+    std::string previous_session_path = tmp::platform::working_directory + "\\user\\previous_session.txt";
     if (std::filesystem::exists(previous_session_path)) std::remove(previous_session_path.c_str());
 
     cleanup();
@@ -368,8 +355,7 @@ namespace tmp
 
     current_song_name = arg;
     current_song_path = songs_directory + "/" + current_song_name;
-    if (current_song_index == (int)unused_files.size() && current_song_name != unused_files.back())
-      return;
+    if (current_song_index == (int)unused_files.size() && current_song_name != unused_files.back()) return;
     unused_files.erase(unused_files.begin() + current_song_index);
 
     std::ofstream unused_files_file(tmp::platform::working_directory + "\\user\\unused_files.txt");
@@ -411,8 +397,7 @@ namespace tmp
 
     int screen_width = 0;
     if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &current_song_buffer_info))
-      screen_width =
-        current_song_buffer_info.srWindow.Right - current_song_buffer_info.srWindow.Left + 1;
+      screen_width = current_song_buffer_info.srWindow.Right - current_song_buffer_info.srWindow.Left + 1;
     std::string blank_space;
     for (int i = 0; i < screen_width - (int)info.size(); ++i) blank_space += " ";
     std::cout << info << blank_space << std::endl;
@@ -509,8 +494,7 @@ namespace tmp
 
   std::string App::init_songs_directory()
   {
-    std::string songs_directory_path =
-      tmp::platform::working_directory + "\\user\\songs_directory.txt";
+    std::string songs_directory_path = tmp::platform::working_directory + "\\user\\songs_directory.txt";
     std::ifstream file_check(songs_directory_path);
     bool file_exists = file_check.good();
     if (!file_exists)
