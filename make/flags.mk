@@ -1,6 +1,6 @@
 CXX = g++
 ifeq ($(DEBUG), 1)
-  CXXFLAGS = -ggdb3 -MD -MP -O2 -std=c++20 -DDEBUG -D_FORTIFY_SOURCE=2 -fno-common -fstack-protector-strong
+  CXXFLAGS = -ggdb3 -Og -MD -MP -std=c++20 -DDEBUG -D_FORTIFY_SOURCE=2 -fno-common -fstack-protector-strong
 else
   CXXFLAGS = -s -O3 -std=c++20 -DNDEBUG -fno-common -fstack-protector-strong -ffunction-sections -fdata-sections -flto=auto -Wl,--gc-sections
 endif
