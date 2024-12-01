@@ -1,3 +1,4 @@
+include make/platform.mk
 include make/flags.mk
 include make/files.mk
 

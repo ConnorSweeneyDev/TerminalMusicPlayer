@@ -14,6 +14,7 @@ being windows and mp3 only.
 
 ## Dependencies
 - Windows.
+- Ensure that you have `[PATH_TO_GIT_INSTALLATION]/bin` in your path.
 - MinGW 64-bit &rightarrow; Use any 64-bit distribution of [MinGW](https://winlibs.com/) with llvm/clang support and add
   `[DISTRIBUTION]/bin` to your path.
 - PowerShell (pwsh.exe) &rightarrow; Run `winget install --id Microsoft.Powershell --source winget`.
