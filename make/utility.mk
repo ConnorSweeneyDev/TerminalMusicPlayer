@@ -27,7 +27,7 @@ TARGET_FORMAT_FILES := $(wildcard $(PROGRAM_SOURCE_DIRECTORY)/*.cpp) $(wildcard 
 
 compile_commands:
 	@echo "[" > $(COMPILE_COMMANDS_FILE)
-	@for source in $(CPP_SOURCE_FILES); do echo -e "\t{ \"directory\": \"$(CURDIR)\", \"command\": \"$(CXX) $(CXXFLAGS) $(WARNINGS) $(INCLUDES) $(SYSTEM_INCLUDES) -c $$source -o $(OBJECT_DIRECTORY)/$$(basename $$source .cpp).o\", \"file\": \"$$source\" },"; done >> $(COMPILE_COMMANDS_FILE)
+	@for source in $(CPP_SOURCE_FILES); do echo -e "\t{ \"directory\": \"$(CURDIR)\", \"command\": \"$(CXX) $(CXXFLAGS) $(WARNINGS) $(INCLUDES) $(SYSTEM_INCLUDES) -c $$source -o $(BINARY_OBJECT_DIRECTORY)/$$(basename $$source .cpp).o\", \"file\": \"$$source\" },"; done >> $(COMPILE_COMMANDS_FILE)
 	@sed -i "$$ s/,$$//" $(COMPILE_COMMANDS_FILE)
 	@echo "]" >> $(COMPILE_COMMANDS_FILE)
 	@echo "WRITE | $(COMPILE_COMMANDS_FILE)"

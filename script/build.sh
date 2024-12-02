@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PROCESSOR_COUNT=$(nproc)
-DEBUG=1
+DEBUG=0
 FLAGS="-s -f make/main.mk -j$PROCESSOR_COUNT DEBUG=$DEBUG"
 
 UTILITY="utility $FLAGS"
