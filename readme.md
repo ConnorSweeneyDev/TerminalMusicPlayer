@@ -17,8 +17,8 @@ being windows and mp3 only.
 - Ensure that you have `[PATH_TO_GIT_INSTALLATION]/bin` in your path.
 - MinGW 64-bit &rightarrow; Use any 64-bit distribution of [MinGW](https://winlibs.com/) with llvm/clang support and add
   `[DISTRIBUTION]/bin` to your path.
-- PowerShell (pwsh.exe) &rightarrow; Run `winget install --id Microsoft.Powershell --source winget`.
 - Make &rightarrow; Run `winget install make --source winget`.
+- PowerShell (pwsh.exe) &rightarrow; Run `winget install --id Microsoft.Powershell --source winget`.
 - ffmpeg &rightarrow; Run `winget install --id Gyan.FFmpeg`.
 - A discord app set up on the [developer portal](https://discord.com/developers/applications). Add a new application and
   enable rich presence for it, and make note of the application id.
@@ -27,7 +27,7 @@ being windows and mp3 only.
 ## Building and Running
 To build and run this successfully, create `user/client_id.txt` and put the application id from the portal in it. After
 that create `user/songs_directory.txt` and put the path to your songs folder in it. Then you can build and run the C++
-code using the batch files in `script/`. Optionally, you can supply specific mp3 files from the selected folder as
+code using the bash scripts in `script/`. Optionally, you can supply specific mp3 files from the selected folder as
 arguments to the program to put them at the top of the play queue. Whenever you change the path to your music folder or
 change the contents of the current one, you will need to run first with the `-r` flag to refresh the song list before
 using it again normally.
