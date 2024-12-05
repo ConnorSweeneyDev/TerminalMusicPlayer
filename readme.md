@@ -14,10 +14,9 @@ being windows and mp3 only.
 
 ## Dependencies
 - Windows.
-- Ensure that you have `[PATH_TO_GIT_INSTALLATION]/bin` in your path.
-- MinGW 64-bit &rightarrow; Use any 64-bit distribution of [MinGW](https://winlibs.com/) with llvm/clang support and add
-  `[DISTRIBUTION]/bin` to your path.
-- Make &rightarrow; Run `winget install make --source winget`.
+- Download a 64-bit [MinGW](https://winlibs.com/) distribution with Clang/LLVM support and put the `[DISTRIBUTION]/bin`
+  directory in your path. Rename the `mingw32-make.exe` file in that directory to `make.exe` if you haven't already.
+- Ensure that you have `[GIT_INSTALLATION]/bin` in your path.
 - PowerShell (pwsh.exe) &rightarrow; Run `winget install --id Microsoft.Powershell --source winget`.
 - ffmpeg &rightarrow; Run `winget install --id Gyan.FFmpeg`.
 - A discord app set up on the [developer portal](https://discord.com/developers/applications). Add a new application and
