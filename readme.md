@@ -41,11 +41,11 @@ using it again normally.
   song because SDL_mixer can't handle them. You can ensure every file is playable by executing the binary with the flag
   `-c` for check which will report any files that contain bad characters.
 
-## Updating SDL
-On top of the having the previous dependencies installed, go to the
-[releases](https://github.com/libsdl-org/SDL/releases) page and download the file ending `mingw.zip`. Extract this and
-go to `x86_64-w64-mingw32` and you will have access to three important folders:
-- `bin` which contains the file that can replace the one in `binary` folder of this project.
+## Updating SDL and SDL_mixer
+On top of the having the previous dependencies installed, go to the [SDL](https://github.com/libsdl-org/SDL/releases)
+and [SDL_mixer](https://github.com/libsdl-org/SDL_mixer/releases) releases pages and download the files ending
+`mingw.zip`. Extract them and go to `x86_64-w64-mingw32` and you will have access to three important folders:
+- `bin` which contains the file that can replace the ones in the `binary` folder of this project.
 - `include/SDL2` which contains files that can replace the contents of the `external/include/sdl2` folder of this
   project.
 - `lib` which contains the files (not the folders) to replace the contents of the `external/library/sdl2` folder of this
