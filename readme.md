@@ -1,3 +1,6 @@
+> [!WARNING]
+> This project has been discontinued. The successor is [TuiMusic](https://github.com/ConnorSweeneyDev/TuiMusic).
+
 # TerminalMusicPlayer
 A fast and simple music player for the terminal. 'p' to pause, 'n' to go next, 'u' and 'd' for volume up and down, the
 number keys for 0%, 10% etc and 'q' to quit. Alternatively, media controls for pause, skip and stop work too. Also has
